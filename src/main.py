@@ -15,31 +15,24 @@ user = os.environ['LOGNAME']
 bucket_name = user + '-assign'
 remote = 'Train/'
 remote1 = 'Test/Edgar_Degas/'
-def downloadDirectoryFroms3(bucketName,remoteDirectoryName):
-    s3_resource = boto3.resource('s3')
-    bucket = s3_resource.Bucket(bucketName)
-    i=0
-    for key in bucket.objects.filter(Prefix = remoteDirectoryName):
-        if i==0:
-            continue
-        else:
-            print(key.key)
-        i+=1
+
+
 
 train = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']
-os.mkdir('/Users/abeldesta531/dsi/repos/Capstone-2/data/Train')
-os.mkdir('/Users/abeldesta531/dsi/repos/Capstone-2/data/Test')
 test_dest = '/Users/abeldesta531/dsi/repos/Capstone-2/data/Test'
 train_dest = '/Users/abeldesta531/dsi/repos/Capstone-2/data/Train'
+os.mkdir('{0}'.format(test_dest))
+os.mkdir('{0}'.format(train_dest))
 for i in train:
     home = '/Users/abeldesta531/dsi/repos/Capstone-2/data/{0}'.format(i)
+    os.mkdir('{0}/{1}'.format(test_dest, i))
+    os.mkdir('{0}/{1}'.format(train_dest, i))
     os.chdir(home)
-    os.mkdir(test_dest + / + i)
-    os.mkdir(train_dest + / + i)
     files = os.listdir()
     test = np.round(len(files)*.2)
-    for idx, file in enumerate(files):
+    os.chdir('/Users/abeldesta531/dsi/repos/Capstone-2/data')
+    for idx in np.arange(len(files)):
         if idx < test:
-            os.rename(home + '/' + file, test_dest + '/' + i)
+            os.rename(home + '/' + files[idx], '{0}/{1}/{2}'.format(test_dest, i, files[idx]))
         else:
-            os.rename(home + '/' + file, train_dest + '/' + i)
+            os.rename(home + '/' + files[idx], '{0}/{1}/{2}'.format(train_dest, i, files[idx]))

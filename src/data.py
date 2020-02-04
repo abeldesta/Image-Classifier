@@ -20,5 +20,11 @@ for artist in artists:
     os.chdir(home)
 
 
+train = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']
+os.mkdir('/Users/abeldesta531/dsi/repos/Capstone-2/data/Train')
+os.mkdir('/Users/abeldesta531/dsi/repos/Capstone-2/data/Test')
+test_dest = '/Users/abeldesta531/dsi/repos/Capstone-2/data/Test'
+train_dest = '/Users/abeldesta531/dsi/repos/Capstone-2/data/Train'
+
 
 
