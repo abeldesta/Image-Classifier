@@ -15,7 +15,7 @@ np.random.seed(1337)  # for reproducibility
 # from tensorflow.keras.datasets import mnist
 # from tensorflow.keras.utils import to_categorical
 
-
+home = os.getcwd()
 
 train_loc = 'data/Train/'
 artist = ['Vincent_Van_Gogh', 'Edgar_Degas', 'Pablo_Picasso']
@@ -24,6 +24,7 @@ for i in artist:
     os.chdir(os.path.abspath(train_loc + i))
     van_gogh = os.listdir()
     train_dict[i] = van_gogh
+    os.chdir(home)
 
 test_loc = 'data/Test/'
 test_dict = {}
@@ -31,8 +32,9 @@ for i in artist:
     os.chdir(os.path.abspath(test_loc + i))
     van_gogh = os.listdir()
     test_dict[i] = van_gogh
+    os.chdir(home)
 
-os.chdir('/tf/dsi/repos/Capstone-2/')
+os.chdir(home)
 
 
 class ImagePipeline(object):
@@ -107,7 +109,7 @@ if __name__ == "__main__":
     for i in artist:
         #Test Images
         test_path = 'data/Test/{0}/'.format(i)
-        test_resize =  ResizeImage(test_dict[i], (100,100,3))
+        test_resize =  ImagePipeline(test_dict[i], (100,100,3))
         test_resize.folder(test_path)
         test_resize.save_folder('Test', i)
         test_resize.save_folder('Keras_Images', i)
@@ -115,7 +117,7 @@ if __name__ == "__main__":
         test_resize.delete_move_folder('data/Keras_Images' , 'data/Test/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
         #Training Images
         train_path = 'data/Train/{0}/'.format(i)
-        train_resize = ResizeImage(train_dict[i], (100,100,3))
+        train_resize = ImagePipeline(train_dict[i], (100,100,3))
         train_resize.folder(train_path)
         train_resize.save_folder('Train', i)
         train_resize.save_folder('Keras_Images', i)
