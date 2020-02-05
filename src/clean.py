@@ -41,7 +41,7 @@ class ImagePipeline(object):
     def __init__(self, files, shape, home, import_path, export_path):
         self.files = files
         self.shape = shape
-        self.num_images = 1000
+        self.num_images = len(files)*10
         self.home = home
         self.export_path = export_path
         self.import_path = import_path
@@ -113,7 +113,7 @@ if __name__ == "__main__":
         test_resize =  ImagePipeline(test_dict[i], (100,100,3), home, import_path, export_path)
         test_resize.folder(test_path)
         test_resize.save_folder('data/Test', i)
-        test_resize.save_folder('Keras_Images', i)
+        test_resize.save_folder('data/Keras_Images', i)
         test_resize.image_augmentation()
         test_resize.delete_move_folder('data/Keras_Images' , 'data/Test/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
         #Training Images
@@ -121,7 +121,7 @@ if __name__ == "__main__":
         train_resize = ImagePipeline(train_dict[i], (100,100,3), home, import_path, export_path)
         train_resize.folder(train_path)
         train_resize.save_folder('data/Train', i)
-        train_resize.save_folder('Keras_Images', i)
+        train_resize.save_folder('data/Keras_Images', i)
         train_resize.image_augmentation()
         train_resize.delete_move_folder('data/Keras_Images', 'data/Train/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
 
