@@ -42,6 +42,7 @@ class ImagePipeline(object):
         self.files = files
         self.shape = shape
         self.num_images = 1000
+        self.home = home
         self.export_path = export_path
         self.import_path = import_path
         self.data_generator()
@@ -61,13 +62,13 @@ class ImagePipeline(object):
         return resize(image = img, output_shape = reshape, mode = mode, anti_aliasing=False)
 
     def save_folder(self, local, name):
-        os.chdir(home)
+        os.chdir(self.home)
         os.mkdir(os.path.abspath(local + '/resize_' + name))
         os.chdir(os.path.abspath(local + '/resize_' + name))
         for img_name, img in zip(self.files, self.resized_img):
             # img_name = img_name.replace('.jpg', '.png')
             skimage.io.imsave('re_' + img_name, img)
-        os.chdir('/tf/dsi/repos/Capstone-2/')
+        os.chdir(self.home)
 
     def delete_move_folder(self, local, dest, rm_dir):
         os.system('rm -rf ' + rm_dir)
