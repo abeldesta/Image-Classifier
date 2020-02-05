@@ -17,18 +17,18 @@ np.random.seed(1337)  # for reproducibility
 
 
 
-train_loc = '/tf/dsi/repos/Capstone-2/data/Train/'
+train_loc = 'data/Train/'
 artist = ['Vincent_Van_Gogh', 'Edgar_Degas', 'Pablo_Picasso']
 train_dict = {}
 for i in artist:
-    os.chdir(train_loc + i)
+    os.chdir(os.path.abspath(train_loc + i))
     van_gogh = os.listdir()
     train_dict[i] = van_gogh
 
-test_loc = '/tf/dsi/repos/Capstone-2/data/Test/'
+test_loc = 'data/Test/'
 test_dict = {}
 for i in artist:
-    os.chdir(test_loc + i)
+    os.chdir(os.path.abspath(test_loc + i))
     van_gogh = os.listdir()
     test_dict[i] = van_gogh
 
