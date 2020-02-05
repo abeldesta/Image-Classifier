@@ -38,7 +38,7 @@ os.chdir(home)
 
 
 class ImagePipeline(object):
-    def __init__(self, files, shape, import_path, export_path):
+    def __init__(self, files, shape, home, import_path, export_path):
         self.files = files
         self.shape = shape
         self.num_images = 1000
@@ -61,7 +61,6 @@ class ImagePipeline(object):
         return resize(image = img, output_shape = reshape, mode = mode, anti_aliasing=False)
 
     def save_folder(self, local, name):
-        home = '/tf/dsi/repos/Capstone-2/data/'
         os.chdir(home)
         os.mkdir(os.path.abspath(local + '/resize_' + name))
         os.chdir(os.path.abspath(local + '/resize_' + name))
@@ -110,7 +109,7 @@ if __name__ == "__main__":
     for i in artist:
         #Test Images
         test_path = 'data/Test/{0}/'.format(i)
-        test_resize =  ImagePipeline(test_dict[i], (100,100,3),import_path, export_path)
+        test_resize =  ImagePipeline(test_dict[i], (100,100,3), home, import_path, export_path)
         test_resize.folder(test_path)
         test_resize.save_folder('Test', i)
         test_resize.save_folder('Keras_Images', i)
@@ -118,7 +117,7 @@ if __name__ == "__main__":
         test_resize.delete_move_folder('data/Keras_Images' , 'data/Test/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
         #Training Images
         train_path = 'data/Train/{0}/'.format(i)
-        train_resize = ImagePipeline(train_dict[i], (100,100,3), import_path, export_path)
+        train_resize = ImagePipeline(train_dict[i], (100,100,3), home, import_path, export_path)
         train_resize.folder(train_path)
         train_resize.save_folder('Train', i)
         train_resize.save_folder('Keras_Images', i)
