@@ -41,7 +41,7 @@ class ImagePipeline(object):
     def __init__(self, files, shape, import_path, export_path):
         self.files = files
         self.shape = shape
-        self.num_images = len(files)*10
+        self.num_images = 1000
         self.export_path = export_path
         self.import_path = import_path
         self.data_generator()
@@ -73,7 +73,7 @@ class ImagePipeline(object):
     def delete_move_folder(self, local, dest, rm_dir):
         os.system('rm -rf ' + rm_dir)
         os.system('mkdir ' + dest)
-        os.system('mv ' + os.path.abspath() + ' ' + os.path.abspath(dest))
+        os.system('mv ' + os.path.abspath(local) + ' ' + os.path.abspath(dest))
         os.mkdir(self.export_path)
 
     def data_generator(self):
@@ -104,12 +104,13 @@ shape = (100, 100, 3)
 
 if __name__ == "__main__":
     shape = (100, 100, 3)
-
+    import_path = 'data/Keras_Images'
+    export_path = 'data/Keras_Images'
     ##Save resized training and test photos into each folder
     for i in artist:
         #Test Images
         test_path = 'data/Test/{0}/'.format(i)
-        test_resize =  ImagePipeline(test_dict[i], (100,100,3))
+        test_resize =  ImagePipeline(test_dict[i], (100,100,3),import_path, export_path)
         test_resize.folder(test_path)
         test_resize.save_folder('Test', i)
         test_resize.save_folder('Keras_Images', i)
@@ -117,12 +118,12 @@ if __name__ == "__main__":
         test_resize.delete_move_folder('data/Keras_Images' , 'data/Test/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
         #Training Images
         train_path = 'data/Train/{0}/'.format(i)
-        train_resize = ImagePipeline(train_dict[i], (100,100,3))
+        train_resize = ImagePipeline(train_dict[i], (100,100,3), import_path, export_path)
         train_resize.folder(train_path)
         train_resize.save_folder('Train', i)
         train_resize.save_folder('Keras_Images', i)
         train_resize.image_augmentation()
-        train_resize.delete_move_folder('data/Keras_Images' , 'data/Train/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
+        train_resize.delete_move_folder('data/Keras_Images', 'data/Train/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
 
 
     # test_path = 'data/Test/Pablo_Picasso/'
