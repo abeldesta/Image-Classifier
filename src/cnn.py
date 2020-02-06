@@ -52,15 +52,6 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
                 metrics=['accuracy'])
     return model
 
-datagen = ImageDataGenerator(
-                            rotation_range = 40,
-                            width_shift_range = 0.2,
-                            height_shift_range = 0.2,
-                            rescale =1/255,
-                            shear_range = 0.2,
-                            zoom_range = 0.2,
-                            horizontal_flip = True,
-                            fill_mode = 'nearest')
 
 
 cat = ['Picasso', 'Vincent', 'Degas']
@@ -78,15 +69,5 @@ if __name__ == "__main__":
     pool_size = (2, 2)
     kernel_size = (4, 4)
 
-    os.mkdir('/tf/dsi/repos/Capstone-2/data/Train/preview')
-
-    img = load_img('data/Train/resize_Vincent_Van_Gogh/re_Vincent_van_Gogh_1.jpg')
-    x = img_to_array(img)  
-    x = x.reshape((1,) + x.shape) 
-    i = 0
-    for batch in datagen.flow(x, batch_size=1,
-                            save_to_dir='data/Train/preview', save_prefix='Vincent_van_Gogh', save_format='jpg'):
-        i += 1
-        if i > 20:
-            break 
+    
 
