@@ -9,9 +9,6 @@ import os
 def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model = Sequential() # model is a linear stack of layers (don't change)
 
-    # note: the convolutional layers and dense layers require an activation function
-    # see https://keras.io/activations/
-    # and https://en.wikipedia.org/wiki/Activation_function
     # options: 'linear', 'sigmoid', 'tanh', 'relu', 'softplus', 'softsign'
 
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
@@ -23,13 +20,13 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size)) # decreases size, helps prevent overfitting
-    model.add(Dropout(0.5)) # zeros out some fraction of inputs, helps prevent overfitting
+    model.add(Dropout(0.1)) # zeros out some fraction of inputs, helps prevent overfitting
 
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) #2nd conv. layer KEEP
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size)) # decreases size, helps prevent overfitting
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.1))
 
     model.add(Flatten()) # necessary to flatten before going into conventional dense layer  KEEP
     print('Model flattened out to ', model.output_shape)
@@ -38,14 +35,12 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Dense(32)) # (only) 32 neurons in this layer, really?   KEEP
     model.add(Activation('relu'))
 
-    model.add(Dropout(0.5)) # zeros out some fraction of inputs, helps prevent overfitting
+    model.add(Dropout(0.1)) # zeros out some fraction of inputs, helps prevent overfitting
 
     model.add(Dense(nb_classes)) # 10 final nodes (one for each class)  KEEP
     model.add(Activation('softmax')) # softmax at end to pick between classes 0-9 KEEP
     
-    # many optimizers available, see https://keras.io/optimizers/#usage-of-optimizers
-    # suggest you KEEP loss at 'categorical_crossentropy' for this multiclass problem,
-    # and KEEP metrics at 'accuracy'
+    
     # suggest limiting optimizers to one of these: 'adam', 'adadelta', 'sgd'
     model.compile(loss='categorical_crossentropy',
                 optimizer='adam',
@@ -61,13 +56,39 @@ cat = ['Picasso', 'Vincent', 'Degas']
 
 
 if __name__ == "__main__":
-    nb_classes = 10  
+    nb_classes = 3 
     nb_epoch = 10    
-    img_rows, img_cols = 28, 28
+    img_rows, img_cols = 100, 100
     input_shape = (img_rows, img_cols, 1)
-    nb_filters = 12
+    nb_filters = 100
     pool_size = (2, 2)
     kernel_size = (4, 4)
+
+    
+    train_loc = os.path.abspath('data/Train/')
+    test_loc = os.path.abspath('data/Test/')
+
+    train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
+                batch_size= 50,
+                class_mode='categorical',
+                color_mode='rgb',
+                target_size=(100,100),
+                shuffle=True))
+    
+
+
+
+
+    model = define_model(nb_filters, kernel_size, input_shape, pool_size)
+
+    model.fit_generator(train_generator,
+                        steps_per_epoch=None,
+                        epochs=nb_epochs, verbose=1,  
+                        class_weight=None,
+                        max_queue_size=10,
+                        workers=-1,
+                        use_multiprocessing=True,
+                        shuffle=True, initial_epoch=0)
 
     
 
