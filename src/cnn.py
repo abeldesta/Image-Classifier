@@ -37,7 +37,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
     model.add(Dropout(0.1)) # zeros out some fraction of inputs, helps prevent overfitting
 
-    model.add(Dense(nb_classes)) # 10 final nodes (one for each class)  KEEP
+    model.add(Dense(3)) 
     model.add(Activation('softmax')) # softmax at end to pick between classes 0-9 KEEP
     
     
@@ -59,7 +59,7 @@ if __name__ == "__main__":
     nb_classes = 3 
     nb_epoch = 10    
     img_rows, img_cols = 100, 100
-    input_shape = (img_rows, img_cols, 1)
+    input_shape = (img_rows, img_cols, 3)
     nb_filters = 100
     pool_size = (2, 2)
     kernel_size = (4, 4)
@@ -73,7 +73,7 @@ if __name__ == "__main__":
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
-                shuffle=True))
+                shuffle=True)
     
 
 
@@ -81,12 +81,12 @@ if __name__ == "__main__":
 
     model = define_model(nb_filters, kernel_size, input_shape, pool_size)
 
-    model.fit_generator(train_generator,
+    model.fit_generator(train_datagen,
                         steps_per_epoch=None,
-                        epochs=nb_epochs, verbose=1,  
+                        epochs=nb_epoch, verbose=1,  
                         class_weight=None,
                         max_queue_size=10,
-                        workers=-1,
+                        workers=1,
                         use_multiprocessing=True,
                         shuffle=True, initial_epoch=0)
 

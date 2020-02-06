@@ -146,7 +146,7 @@ if __name__ == "__main__":
                             horizontal_flip = True,
                             fill_mode = 'nearest')
 
-    datagen.flow_from_directory(    directory='data/Train/resize_Vincent_Van_Gogh',
+    datagen.flow_from_directory(    directory='data/Test/resize_Vincent_Van_Gogh',
                                     save_prefix='keras_',
                                     save_format='jpg',
                                     batch_size=1, color_mode='rgb')
