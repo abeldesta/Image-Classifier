@@ -108,23 +108,31 @@ if __name__ == "__main__":
     import_path = 'data/Keras_Images'
     export_path = 'data/Keras_Images'
     ##Save resized training and test photos into each folder
-    # for i in artist:
-    #     #Test Images
-    #     test_path = 'data/Test/{0}/'.format(i)
-    #     test_resize =  ImagePipeline(test_dict[i], (100,100,3), home, import_path, export_path)
-    #     test_resize.folder(test_path)
-    #     test_resize.save_folder('data/Test', i)
-    #     test_resize.save_folder('data/Keras_Images', i)
-    #     test_resize.image_augmentation()
-    #     test_resize.delete_move_folder('data/Keras_Images' , 'data/Test/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
-    #     #Training Images
-    #     train_path = 'data/Train/{0}/'.format(i)
-    #     train_resize = ImagePipeline(train_dict[i], (100,100,3), home, import_path, export_path)
-    #     train_resize.folder(train_path)
-    #     train_resize.save_folder('data/Train', i)
-    #     train_resize.save_folder('data/Keras_Images', i)
-    #     train_resize.image_augmentation()
-    #     train_resize.delete_move_folder('data/Keras_Images', 'data/Train/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
+    for i in artist:
+        #Test Images
+        test_path = 'data/Test/{0}/'.format(i)
+        test_resize =  ImagePipeline(test_dict[i], (100,100,3), home, import_path, export_path)
+        test_resize.folder(test_path)
+        test_resize.save_folder('data/Test', i)
+        test_resize.save_folder('data/Keras_Images', i)
+        test_resize.image_augmentation()
+        test_resize.delete_move_folder('data/Keras_Images' , 'data/Test/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
+        #Training Images
+        train_path = 'data/Train/{0}/'.format(i)
+        train_resize = ImagePipeline(train_dict[i], (100,100,3), home, import_path, export_path)
+        train_resize.folder(train_path)
+        train_resize.save_folder('data/Train', i)
+        train_resize.save_folder('data/Keras_Images', i)
+        train_resize.image_augmentation()
+        train_resize.delete_move_folder('data/Keras_Images', 'data/Train/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
+        #Holdout Images
+        holdout_path = 'data/Holdout/{0}/'.format(i)
+        holdout_resize = ImagePipeline(train_dict[i], (100,100,3), home, import_path, export_path)
+        holdout_resize.folder(train_path)
+        holdout_resize.save_folder('data/Holdout', i)
+        holdout_resize.save_folder('data/Keras_Images', i)
+        holdout_resize.image_augmentation()
+        holdout_resize.delete_move_folder('data/Keras_Images', 'data/Holdout/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
 
 
     # test_path = 'data/Test/Pablo_Picasso/'
@@ -136,17 +144,17 @@ if __name__ == "__main__":
     # test_resize.save_folder('Keras_Images', 'Pablo_Picasso')
     # test_resize.image_augmentation()
     # test_resize.delete_move_folder('data/Keras_Images' , 'data/Test/resize_Pablo_Picasso/generated_imgs', 'data/Keras_Images/resize_Pablo_Picasso')
-    datagen = ImageDataGenerator(
-                            rotation_range = 30,
-                            width_shift_range = 0.2,
-                            height_shift_range = 0.2,
-                            rescale =1/255,
-                            shear_range = 0.0,
-                            zoom_range = 0.2,
-                            horizontal_flip = True,
-                            fill_mode = 'nearest')
+    # datagen = ImageDataGenerator(
+    #                         rotation_range = 30,
+    #                         width_shift_range = 0.2,
+    #                         height_shift_range = 0.2,
+    #                         rescale =1/255,
+    #                         shear_range = 0.0,
+    #                         zoom_range = 0.2,
+    #                         horizontal_flip = True,
+    #                         fill_mode = 'nearest')
 
-    datagen.flow_from_directory(    directory='data/Test/resize_Vincent_Van_Gogh',
-                                    save_prefix='keras_',
-                                    save_format='jpg',
-                                    batch_size=1, color_mode='rgb')
+    # datagen.flow_from_directory(    directory='data/Test/resize_Vincent_Van_Gogh',
+    #                                 save_prefix='keras_',
+    #                                 save_format='jpg',
+    #                                 batch_size=1, color_mode='rgb')

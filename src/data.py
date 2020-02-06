@@ -6,7 +6,7 @@ import numpy as np
 
 artists = pd.read_csv('data/artists.csv')
 
-home = '/Users/abeldesta531/dsi/repos/Capstone-2/data'
+home = os.path.abspath('resized')
 
 
 os.chdir(home)
@@ -14,17 +14,22 @@ files = os.listdir()
 artists = [x.replace(' ', '_') for x in artists['name']]
 for artist in artists:
     art = [x for x in files if x.startswith(artist)]
-    os.mkdir(home + '/' + artist)
+    os.mkdir(os.path.join(home, artist))
     for i in np.arange(len(art)):
-        os.rename(home +'/'+ art[i], '{0}/{1}/{2}'.format(home,artist, art[i]))
+        os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
     os.chdir(home)
 
+artist = 'Albrecht_Du╠êrer'
+art = [x for x in files if x.startswith(artist)]
+os.mkdir(os.path.join(home, artist))
+for i in np.arange(len(art)):
+    os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
+os.chdir(home)
 
-train = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']
-os.mkdir('/Users/abeldesta531/dsi/repos/Capstone-2/data/Train')
-os.mkdir('/Users/abeldesta531/dsi/repos/Capstone-2/data/Test')
-test_dest = '/Users/abeldesta531/dsi/repos/Capstone-2/data/Test'
-train_dest = '/Users/abeldesta531/dsi/repos/Capstone-2/data/Train'
 
 
-
+artist = 'Albrecht_Dürer'
+art = [x for x in files if x.startswith(artist)]
+for i in np.arange(len(art)):
+    os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
+os.chdir(home)
