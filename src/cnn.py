@@ -4,54 +4,52 @@ from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+import matplotlib.pyplot as plt 
+import numpy as np
 import os
+plt.style.use('ggplot')
+
 
 def define_model(nb_filters, kernel_size, input_shape, pool_size):
-    model = Sequential() # model is a linear stack of layers (don't change)
-
-    # options: 'linear', 'sigmoid', 'tanh', 'relu', 'softplus', 'softsign'
+    model = Sequential() 
 
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
                         padding='valid', 
-                        input_shape=input_shape)) #first conv. layer  KEEP
-    model.add(Activation('relu')) # Activation specification necessary for Conv2D and Dense layers
+                        input_shape=input_shape)) 
+    model.add(Activation('relu')) 
 
-    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) #2nd conv. layer KEEP
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=pool_size)) # decreases size, helps prevent overfitting
-    model.add(Dropout(0.1)) # zeros out some fraction of inputs, helps prevent overfitting
+    model.add(MaxPooling2D(pool_size=pool_size)) 
+    model.add(Dropout(0.1)) 
 
-    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) #2nd conv. layer KEEP
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=pool_size)) # decreases size, helps prevent overfitting
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
+    model.add(Activation('relu'))
+
+    model.add(MaxPooling2D(pool_size=pool_size))
     model.add(Dropout(0.1))
 
-    model.add(Flatten()) # necessary to flatten before going into conventional dense layer  KEEP
+    model.add(Flatten()) 
     print('Model flattened out to ', model.output_shape)
 
-    # now start a typical neural network
-    model.add(Dense(32)) # (only) 32 neurons in this layer, really?   KEEP
+    
+    model.add(Dense(100)) 
     model.add(Activation('relu'))
 
-    model.add(Dropout(0.1)) # zeros out some fraction of inputs, helps prevent overfitting
+    model.add(Dropout(0.1)) 
 
     model.add(Dense(3)) 
-    model.add(Activation('softmax')) # softmax at end to pick between classes 0-9 KEEP
+    model.add(Activation('softmax'))
     
     
-    # suggest limiting optimizers to one of these: 'adam', 'adadelta', 'sgd'
     model.compile(loss='categorical_crossentropy',
                 optimizer='adam',
                 metrics=['accuracy'])
     return model
-
-
-
-cat = ['Picasso', 'Vincent', 'Degas']
-
-# def create_labels(img, cat):
 
 
 
@@ -109,6 +107,40 @@ if __name__ == "__main__":
                         shuffle=True, initial_epoch=0)
 
     model.evaluate(holdout_datagen, verbose=0)
+
+    ##PLOTTING RESULTS
+
+    acc = hist.history['accuracy']
+    test_acc = hist.history['val_accuracy']
+    loss = hist.history['loss']
+    val_loss = hist.history['val_loss']
+    epochs = np.arange(1, nb_epoch+1)
+
+    fig, ax = plt.subplots(1,1)
+    ax.plot(epochs, acc, label = 'Training Acc')
+    ax.plot(epochs, val_loss, label = 'Test Acc')
+    ax.set_xlabels('Epochs')
+    ax.set_ylabels('Epochs')
+    ax.set_title('Model Accuracy')
+    plt.legend()
+    plt.savefig('CNN_acc.png')
+
+    fig, ax = plt.subplots(1,1)
+    ax.plot(epochs, acc, label = 'Training Loss')
+    ax.plot(epochs, val_loss, label = 'Test Loss')
+    ax.set_xlabels('Epochs')
+    ax.set_ylabels('Epochs')
+    ax.set_title('Model Loss')
+    plt.legend()
+    plt.savefig('CNN_loss.png')
+
+
+
+
+
+
+
+
 
     
 
