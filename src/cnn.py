@@ -35,7 +35,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     print('Model flattened out to ', model.output_shape)
 
     
-    model.add(Dense(64)) 
+    model.add(Dense(32)) 
     model.add(Activation('relu'))
 
     model.add(Dropout(0.3)) 
@@ -53,10 +53,10 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
 if __name__ == "__main__":
     nb_classes = 3 
-    nb_epoch = 5    
+    nb_epoch = 10    
     img_rows, img_cols = 100, 100
     input_shape = (img_rows, img_cols, 3)
-    nb_filters = 100
+    nb_filters = 128
     pool_size = (2, 2)
     kernel_size = (4, 4)
 
@@ -116,18 +116,18 @@ if __name__ == "__main__":
 
     fig, ax = plt.subplots(1,1)
     ax.plot(epochs, acc, label = 'Training Acc')
-    ax.plot(epochs, val_loss, label = 'Test Acc')
+    ax.plot(epochs, val_acc, label = 'Test Acc')
     ax.set_xlabel('Epochs')
-    ax.set_ylabel('Epochs')
+    ax.set_ylabel('Accuracy')
     ax.set_title('Model Accuracy')
     plt.legend()
     plt.savefig('CNN_acc.png')
 
     fig, ax = plt.subplots(1,1)
-    ax.plot(epochs, acc, label = 'Training Loss')
+    ax.plot(epochs, loss, label = 'Training Loss')
     ax.plot(epochs, val_loss, label = 'Test Loss')
     ax.set_xlabel('Epochs')
-    ax.set_ylabel('Epochs')
+    ax.set_ylabel('Loss')
     ax.set_title('Model Loss')
     plt.legend()
     plt.savefig('CNN_loss.png')
