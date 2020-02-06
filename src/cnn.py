@@ -3,6 +3,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.metrics import Precision, Recall
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 import matplotlib.pyplot as plt 
 import numpy as np
@@ -22,7 +23,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size)) 
-    model.add(Dropout(0.3)) 
+    model.add(Dropout(0.5)) 
 
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
     model.add(Activation('relu'))
@@ -45,7 +46,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     
     model.compile(loss='categorical_crossentropy',
                 optimizer='adam',
-                metrics=['accuracy'])
+                metrics=['accuracy', Precision(), Recall()])
     return model
 
 
@@ -65,7 +66,7 @@ if __name__ == "__main__":
     holdout_loc = os.path.abspath('data/Holdout/')
 
     train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
-                batch_size= 5,
+                batch_size= 10,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -73,7 +74,7 @@ if __name__ == "__main__":
     
     validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 test_loc,
-                batch_size= 5,
+                batch_size= 10,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -81,7 +82,7 @@ if __name__ == "__main__":
 
     holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 holdout_loc,
-                batch_size= 5,
+                batch_size= 10,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -116,8 +117,8 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(1,1)
     ax.plot(epochs, acc, label = 'Training Acc')
     ax.plot(epochs, val_loss, label = 'Test Acc')
-    ax.set_xlabels('Epochs')
-    ax.set_ylabels('Epochs')
+    ax.set_xlabel('Epochs')
+    ax.set_ylabel('Epochs')
     ax.set_title('Model Accuracy')
     plt.legend()
     plt.savefig('CNN_acc.png')
@@ -125,8 +126,8 @@ if __name__ == "__main__":
     fig, ax = plt.subplots(1,1)
     ax.plot(epochs, acc, label = 'Training Loss')
     ax.plot(epochs, val_loss, label = 'Test Loss')
-    ax.set_xlabels('Epochs')
-    ax.set_ylabels('Epochs')
+    ax.set_xlabel('Epochs')
+    ax.set_ylabel('Epochs')
     ax.set_title('Model Loss')
     plt.legend()
     plt.savefig('CNN_loss.png')
