@@ -8,14 +8,6 @@ import os
 import PIL
 np.random.seed(1337)  # for reproducibility
 
-#scp -i ~/.ssh/capstone_2.pem -r mydir ubuntu@ec2-52-204-200-237.compute-1.amazonaws.com:
-#/Users/abeldesta531/dsi/repos/Capstone-2/data/Test/resize_Vincent_Van_Gogh/generated_imgs/Keras_Images
-# from tensorflow import keras
-# from tensorflow.keras.models import Sequential
-# from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
-# from tensorflow.keras.layers import Conv2D, MaxPooling2D
-# from tensorflow.keras.datasets import mnist
-# from tensorflow.keras.utils import to_categorical
 
 home = os.getcwd()
 
@@ -143,27 +135,3 @@ if __name__ == "__main__":
         holdout_resize.image_augmentation()
         holdout_resize.delete_move_folder('data/Keras_Images', 'data/Holdout/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
 
-
-    # test_path = 'data/Test/Pablo_Picasso/'
-    # import_path = 'data/Keras_Images'
-    # export_path = 'data/Keras_Images'
-    # test_resize =  ImagePipeline(test_dict['Pablo_Picasso'], (100,100,3), export_path, export_path)
-    # test_resize.folder(test_path)
-    # test_resize.save_folder('Test', 'Pablo_Picasso')
-    # test_resize.save_folder('Keras_Images', 'Pablo_Picasso')
-    # test_resize.image_augmentation()
-    # test_resize.delete_move_folder('data/Keras_Images' , 'data/Test/resize_Pablo_Picasso/generated_imgs', 'data/Keras_Images/resize_Pablo_Picasso')
-    # datagen = ImageDataGenerator(
-    #                         rotation_range = 30,
-    #                         width_shift_range = 0.2,
-    #                         height_shift_range = 0.2,
-    #                         rescale =1/255,
-    #                         shear_range = 0.0,
-    #                         zoom_range = 0.2,
-    #                         horizontal_flip = True,
-    #                         fill_mode = 'nearest')
-
-    # datagen.flow_from_directory(    directory='data/Test/resize_Vincent_Van_Gogh',
-    #                                 save_prefix='keras_',
-    #                                 save_format='jpg',
-    #                                 batch_size=1, color_mode='rgb')

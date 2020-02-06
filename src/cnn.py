@@ -67,6 +67,7 @@ if __name__ == "__main__":
     
     train_loc = os.path.abspath('data/Train/')
     test_loc = os.path.abspath('data/Test/')
+    holdout_loc = os.path.abspath('data/Holdout/')
 
     train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
                 batch_size= 50,
@@ -75,20 +76,39 @@ if __name__ == "__main__":
                 target_size=(100,100),
                 shuffle=True)
     
+    validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
+                test_loc,
+                batch_size= 50,
+                class_mode='categorical',
+                color_mode='rgb',
+                target_size=(100,100),
+                shuffle=True)
 
+    holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
+                holdout_loc,
+                batch_size= 50,
+                class_mode='categorical',
+                color_mode='rgb',
+                target_size=(100,100),
+                shuffle=True)
 
 
 
     model = define_model(nb_filters, kernel_size, input_shape, pool_size)
 
-    model.fit_generator(train_datagen,
+    hist = model.fit_generator(train_datagen,
                         steps_per_epoch=None,
                         epochs=nb_epoch, verbose=1,  
+                        validation_data=validation_datagen,
+                        validation_steps=None,
+                        validation_freq=1,
                         class_weight=None,
                         max_queue_size=10,
                         workers=1,
                         use_multiprocessing=True,
                         shuffle=True, initial_epoch=0)
+
+    model.evaluate(holdout_datagen, verbose=0)
 
     
 
