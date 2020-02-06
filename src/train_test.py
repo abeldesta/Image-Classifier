@@ -3,12 +3,12 @@ import os
 import numpy as np
 boto3_connection = boto3.resource('s3')
 
-home = os.path.abspath('resized')
+home = os.path.abspath('data')
 
 train = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']
-test_dest = os.path.abspath('resized/Test')
-train_dest = os.path.abspath('resized/Train')
-holdout = os.path.abspath('resized/Holdout')
+test_dest = os.path.abspath('data/Test')
+train_dest = os.path.abspath('data/Train')
+holdout = os.path.abspath('data/Holdout')
 
 os.mkdir(test_dest)
 os.mkdir(train_dest)

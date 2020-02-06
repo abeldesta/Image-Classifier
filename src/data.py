@@ -6,7 +6,7 @@ import numpy as np
 
 artists = pd.read_csv('data/artists.csv')
 
-home = os.path.abspath('resized')
+home = os.path.abspath('data')
 
 
 os.chdir(home)

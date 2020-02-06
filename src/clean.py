@@ -8,6 +8,8 @@ import os
 import PIL
 np.random.seed(1337)  # for reproducibility
 
+#scp -i ~/.ssh/capstone_2.pem -r mydir ubuntu@ec2-52-204-200-237.compute-1.amazonaws.com:
+#/Users/abeldesta531/dsi/repos/Capstone-2/data/Test/resize_Vincent_Van_Gogh/generated_imgs/Keras_Images
 # from tensorflow import keras
 # from tensorflow.keras.models import Sequential
 # from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
@@ -32,6 +34,14 @@ for i in artist:
     os.chdir(os.path.abspath(test_loc + i))
     van_gogh = os.listdir()
     test_dict[i] = van_gogh
+    os.chdir(home)
+
+holdout_loc = 'data/Holdout/'
+hold_dict = {}
+for i in artist:
+    os.chdir(os.path.abspath(holdout_loc + i))
+    van_gogh = os.listdir()
+    hold_dict[i] = van_gogh
     os.chdir(home)
 
 os.chdir(home)
@@ -74,7 +84,6 @@ class ImagePipeline(object):
         os.system('rm -rf ' + rm_dir)
         os.system('mkdir ' + dest)
         os.system('mv ' + os.path.abspath(local) + ' ' + os.path.abspath(dest))
-        os.rename(dest + '/Keras_Images', dest)
         os.mkdir(self.export_path)
 
     def data_generator(self):
@@ -127,8 +136,8 @@ if __name__ == "__main__":
         train_resize.delete_move_folder('data/Keras_Images', 'data/Train/resize_{0}/generated_imgs'.format(i), 'data/Keras_Images/resize_{0}'.format(i))
         #Holdout Images
         holdout_path = 'data/Holdout/{0}/'.format(i)
-        holdout_resize = ImagePipeline(train_dict[i], (100,100,3), home, import_path, export_path)
-        holdout_resize.folder(train_path)
+        holdout_resize = ImagePipeline(hold_dict[i], (100,100,3), home, import_path, export_path)
+        holdout_resize.folder(holdout_path)
         holdout_resize.save_folder('data/Holdout', i)
         holdout_resize.save_folder('data/Keras_Images', i)
         holdout_resize.image_augmentation()
