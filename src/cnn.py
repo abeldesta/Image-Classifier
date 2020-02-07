@@ -11,42 +11,73 @@ import os
 plt.style.use('ggplot')
 
 
+# def define_model(nb_filters, kernel_size, input_shape, pool_size):
+    # model = Sequential() 
+
+    # model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
+    #                     padding='valid', 
+    #                     input_shape=input_shape)) 
+    # model.add(Activation('relu')) 
+
+    # model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
+    # model.add(Activation('relu'))
+
+    # model.add(MaxPooling2D(pool_size=pool_size)) 
+    # model.add(Dropout(0.5)) 
+
+    # model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
+    # model.add(Activation('relu'))
+
+    # model.add(MaxPooling2D(pool_size=pool_size))
+    # model.add(Dropout(0.3))
+
+    # model.add(Flatten()) 
+    # print('Model flattened out to ', model.output_shape)
+
+    
+    # model.add(Dense(32)) 
+    # model.add(Activation('relu'))
+
+    # model.add(Dropout(0.3)) 
+
+    # model.add(Dense(3)) 
+    # model.add(Activation('softmax'))
+    
+    
+    # model.compile(loss='categorical_crossentropy',
+    #             optimizer='adam',
+    #             metrics=['accuracy', Precision(), Recall()])
+    # return model
+
 def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model = Sequential() 
 
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
                         padding='valid', 
-                        input_shape=input_shape)) 
-    model.add(Activation('relu')) 
-
-    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
+                        input_shape=input_shape))
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=pool_size)) 
-    model.add(Dropout(0.5)) 
-
-    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid'))
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size))
-    model.add(Dropout(0.3))
+    model.add(Dropout(0.5))
 
-    model.add(Flatten()) 
+    model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
 
     
-    model.add(Dense(32)) 
+    model.add(Dense(35)) 
     model.add(Activation('relu'))
 
-    model.add(Dropout(0.3)) 
+    model.add(Dropout(0.5))
 
-    model.add(Dense(3)) 
+    model.add(Dense(nb_classes))
     model.add(Activation('softmax'))
-    
     
     model.compile(loss='categorical_crossentropy',
                 optimizer='adam',
-                metrics=['accuracy', Precision(), Recall()])
+                metrics=['accuracy',tf.keras.metrics.categorical_accuracy, tf.keras.metrics.Precision(), tf.keras.metrics.Recall()])
     return model
 
 
@@ -56,7 +87,7 @@ if __name__ == "__main__":
     nb_epoch = 10    
     img_rows, img_cols = 100, 100
     input_shape = (img_rows, img_cols, 3)
-    nb_filters = 128
+    nb_filters = 100
     pool_size = (2, 2)
     kernel_size = (4, 4)
 
@@ -66,7 +97,7 @@ if __name__ == "__main__":
     holdout_loc = os.path.abspath('data/Holdout/')
 
     train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
-                batch_size= 10,
+                batch_size= 25,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -74,7 +105,7 @@ if __name__ == "__main__":
     
     validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 test_loc,
-                batch_size= 10,
+                batch_size= 25,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -82,7 +113,7 @@ if __name__ == "__main__":
 
     holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 holdout_loc,
-                batch_size= 10,
+                batch_size= 25,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -109,7 +140,7 @@ if __name__ == "__main__":
     ##PLOTTING RESULTS
 
     acc = hist.history['acc']
-    test_acc = hist.history['val_acc']
+    val_acc = hist.history['val_acc']
     loss = hist.history['loss']
     val_loss = hist.history['val_loss']
     epochs = np.arange(1, nb_epoch+1)
