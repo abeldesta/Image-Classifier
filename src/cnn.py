@@ -65,14 +65,14 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer2'))
-    model.add(Dropout(0.3))
+    model.add(Dropout(0.5))
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), 
                         padding='valid', 
                         name = 'conv_layer3'))
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer3'))
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.8))
 
     model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
@@ -81,7 +81,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Dense(64)) 
     model.add(Activation('relu'))
 
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.6))
 
     model.add(Dense(nb_classes))
     model.add(Activation('softmax'))
@@ -181,10 +181,10 @@ if __name__ == "__main__":
     plt.legend()
     plt.savefig('img/CNN_loss.png')
 
-
-
-
-
+    print('Model Score: {0}'.format(score[0]))
+    print('Holdout Accuracy Score: {0}'.format(score[1]))
+    print('Holdout Precision Score: {0}'.format(score[2]))
+    print('Holdout Recall Score: {0}'.format(score[2]))
 
 
 
