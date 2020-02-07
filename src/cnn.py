@@ -66,7 +66,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer2'))
     model.add(Dropout(0.5))
-    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), 
+    model.add(Conv2D(nb_filters*2, (kernel_size[0], kernel_size[1]), 
                         padding='valid', 
                         name = 'conv_layer3'))
     model.add(Activation('relu'))

@@ -15,13 +15,15 @@ The images came resized but still high resolution. Also, most images came in a v
 My goal for this capstone is to build a convolution neural network to be able to take an image of artists' artwork and classify the piece to the correct artists. To start, I will try to correctly classify the three artists out the 50 in the dataset.
 
 ## EDA
+There are 31 different genres in the dataset. Some artists belonged in more than one genre.
+
 |Genres |  Number of Artists|Genres |  Number of Artists|
 |--------|----------------|------------|--------|      
 |Northern Renaissance|  4| Post-Impressionism   |  4|
-|Impressionism        |    4| Baroque    |   4| Romanticism|     3|
-|High Renaissance     |                      3| Surrealism|      2|
-|Impressionism,Post-Impressionism|           2| Primitivism |    2|
-|Proto Renaissance    |                  1| Early Renaissance |  1|
+|Impressionism        |    4| Baroque    |   4|
+ Romanticism|     3| High Renaissance     |                      3|
+ Surrealism|      2|Primitivism |    2|
+|Impressionism,Post-Impressionism|           2| Early Renaissance |  1|
 |Symbolism,Art Nouveau |                     1| Symbolism     |  1|
 |Realism                 |       1| Social Realism,Muralism  |   1|
 |Pop Art      |                 1| Neoplasticism            |    1|
@@ -32,6 +34,21 @@ My goal for this capstone is to build a convolution neural network to be able to
 |Symbolism,Post-Impressionism |             1 | Abstract Expressionism |            1|
 |Mannerism                    |           1| Primitivism,Surrealism       |        1|
 |Expressionism,Abstractionism |              1| Byzantine Art                |      1|
+|Proto Renaissance    |                  1|
+
+**Table 1. The number of artist in each genre.**
+
+The number of paintings from each artist varied greatly. Which might come from artist productivity or from difficult finding an artists artwork when the data was collected. Since my goal is to classify artist based on images, the class imbalances will be a problem that needs to be handled. 
+
+
+
+
+<p align="center">
+    <img src="img/paintings.png" />
+<p/>
+
+**Figure 1. This bar chart shows severe discrepancy in images for artists.**
+
 
 
 # Building the Artist CNN
