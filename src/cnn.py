@@ -54,20 +54,31 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
                         padding='valid', 
-                        input_shape=input_shape))
+                        input_shape=input_shape, name = 'conv_layer1'))
     model.add(Activation('relu'))
 
-    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid'))
+    model.add(MaxPooling2D(pool_size=pool_size), name = 'pool_layer1')
+
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), 
+                        padding='valid', 
+                        name = 'conv_layer2'))
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=pool_size))
-    model.add(Dropout(0.1))
+    model.add(MaxPooling2D(pool_size=pool_size), name = 'pool_layer2')
+
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), 
+                        padding='valid', 
+                        name = 'conv_layer3'))
+    model.add(Activation('relu'))
+
+    model.add(MaxPooling2D(pool_size=pool_size), name = 'pool_layer3')
+    model.add(Dropout(0.2))
 
     model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
 
     
-    model.add(Dense(32)) 
+    model.add(Dense(128)) 
     model.add(Activation('relu'))
 
     model.add(Dropout(0.5))
@@ -84,12 +95,12 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
 if __name__ == "__main__":
     nb_classes = 3 
-    nb_epoch = 10    
+    nb_epoch = 20    
     img_rows, img_cols = 100, 100
     input_shape = (img_rows, img_cols, 3)
-    nb_filters = 100
+    nb_filters = 32
     pool_size = (2, 2)
-    kernel_size = (4, 4)
+    kernel_size = (3, 3)
 
     
     train_loc = os.path.abspath('data/Train/')
@@ -97,7 +108,7 @@ if __name__ == "__main__":
     holdout_loc = os.path.abspath('data/Holdout/')
 
     train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
-                batch_size= 25,
+                batch_size= 15,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -105,7 +116,7 @@ if __name__ == "__main__":
     
     validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 test_loc,
-                batch_size= 25,
+                batch_size= 15,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -113,7 +124,7 @@ if __name__ == "__main__":
 
     holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 holdout_loc,
-                batch_size= 25,
+                batch_size= 15,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -152,7 +163,7 @@ if __name__ == "__main__":
     ax.set_ylabel('Accuracy')
     ax.set_title('Model Accuracy')
     plt.legend()
-    plt.savefig('CNN_acc.png')
+    plt.savefig('img/CNN_acc.png')
 
     fig, ax = plt.subplots(1,1)
     ax.plot(epochs, loss, label = 'Training Loss')
@@ -161,7 +172,7 @@ if __name__ == "__main__":
     ax.set_ylabel('Loss')
     ax.set_title('Model Loss')
     plt.legend()
-    plt.savefig('CNN_loss.png')
+    plt.savefig('img/CNN_loss.png')
 
 
 
