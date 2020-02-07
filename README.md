@@ -15,6 +15,24 @@ The images came resized but still high resolution. Also, most images came in a v
 My goal for this capstone is to build a convolution neural network to be able to take an image of artists' artwork and classify the piece to the correct artists. To start, I will try to correctly classify the three artists out the 50 in the dataset.
 
 ## EDA
+|Genres |  Number of Artists|Genres |  Number of Artists|
+|--------|----------------|------------|--------|      
+|Northern Renaissance|  4| Post-Impressionism   |  4|
+|Impressionism        |    4| Baroque    |   4| Romanticism|     3|
+|High Renaissance     |                      3| Surrealism|      2|
+|Impressionism,Post-Impressionism|           2| Primitivism |    2|
+|Proto Renaissance    |                  1| Early Renaissance |  1|
+|Symbolism,Art Nouveau |                     1| Symbolism     |  1|
+|Realism                 |       1| Social Realism,Muralism  |   1|
+|Pop Art      |                 1| Neoplasticism            |    1|
+|Expressionism,Abstractionism,Surrealism|    1| Symbolism,Expressionism   |    1|
+|High Renaissance,Mannerism |   1| Surrealism,Impressionism    |               1|
+|Cubism        |  1|Suprematism                   |             1|
+|Realism,Impressionism        |              1| Expressionism   |        1|
+|Symbolism,Post-Impressionism |             1 | Abstract Expressionism |            1|
+|Mannerism                    |           1| Primitivism,Surrealism       |        1|
+|Expressionism,Abstractionism |              1| Byzantine Art                |      1|
+
 
 # Building the Artist CNN
 

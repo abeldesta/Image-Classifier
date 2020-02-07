@@ -72,7 +72,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer3'))
-    model.add(Dropout(0.3))
+    model.add(Dropout(0.5))
 
     model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
@@ -95,7 +95,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
 if __name__ == "__main__":
     nb_classes = 3 
-    nb_epoch = 10    
+    nb_epoch = 50   
     img_rows, img_cols = 100, 100
     input_shape = (img_rows, img_cols, 3)
     nb_filters = 32
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     holdout_loc = os.path.abspath('data/Holdout/')
 
     train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
-                batch_size= 15,
+                batch_size= 50,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     
     validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 test_loc,
-                batch_size= 15,
+                batch_size= 50,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
     holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 holdout_loc,
-                batch_size= 15,
+                batch_size= 50,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
