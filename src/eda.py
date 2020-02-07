@@ -34,15 +34,5 @@ if __name__ == "__main__":
     data = nation.values 
     bar_chart(labels, data, 'nationality', 'Nationality', 'Number of Artist', 'Frequency of Nationality')
 
-    # fig, ax = plt.subplots(1,1, figsize = (9, 6))
-    # ax.bar(xtickLocations, counts, width)
-    # ax.set_xticks(xtickLocations)
-    # ax.set_xticklabels(labels)
-    # ax.set_title('Number of Paintings Per Artist')
-    # ax.set_xlabel('Artist')
-    # ax.set_ylabel('Image Count')
-    # plt.xticks(rotation= 85)
-    # plt.tight_layout()
-    # plt.savefig('img/paintings.png')
 
 

@@ -12,43 +12,6 @@ import os
 plt.style.use('ggplot')
 
 
-# def define_model(nb_filters, kernel_size, input_shape, pool_size):
-    # model = Sequential() 
-
-    # model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
-    #                     padding='valid', 
-    #                     input_shape=input_shape)) 
-    # model.add(Activation('relu')) 
-
-    # model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
-    # model.add(Activation('relu'))
-
-    # model.add(MaxPooling2D(pool_size=pool_size)) 
-    # model.add(Dropout(0.5)) 
-
-    # model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), padding='valid')) 
-    # model.add(Activation('relu'))
-
-    # model.add(MaxPooling2D(pool_size=pool_size))
-    # model.add(Dropout(0.3))
-
-    # model.add(Flatten()) 
-    # print('Model flattened out to ', model.output_shape)
-
-    
-    # model.add(Dense(32)) 
-    # model.add(Activation('relu'))
-
-    # model.add(Dropout(0.3)) 
-
-    # model.add(Dense(3)) 
-    # model.add(Activation('softmax'))
-    
-    
-    # model.compile(loss='categorical_crossentropy',
-    #             optimizer='adam',
-    #             metrics=['accuracy', Precision(), Recall()])
-    # return model
 
 def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model = Sequential() 
@@ -189,17 +152,17 @@ if __name__ == "__main__":
 
 
 
-    cm = confusion_matrix(holdout_datagen.classes, y_pred)
-    sns.set(font_scale=2.5)
-    fig, ax = plt.subplots(figsize=(15,15))
-    ax= plt.subplot()
-    sns.heatmap(cm, annot=True, ax = ax, fmt='g');
+    # cm = confusion_matrix(holdout_datagen.classes, y_pred)
+    # sns.set(font_scale=2.5)
+    # fig, ax = plt.subplots(figsize=(15,15))
+    # ax= plt.subplot()
+    # sns.heatmap(cm, annot=True, ax = ax, fmt='g');
 
-    # labels, title and ticks
-    ax.set_xlabel('Predicted labels');
-    ax.set_ylabel('True labels'); 
-    ax.set_title('Confusion Matrix'); 
-    ax.xaxis.set_ticklabels(class_labels); 
-    ax.yaxis.set_ticklabels(class_labels);
+    # # labels, title and ticks
+    # ax.set_xlabel('Predicted labels');
+    # ax.set_ylabel('True labels'); 
+    # ax.set_title('Confusion Matrix'); 
+    # ax.xaxis.set_ticklabels(class_labels); 
+    # ax.yaxis.set_ticklabels(class_labels);
     
 
