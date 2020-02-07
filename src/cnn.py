@@ -95,7 +95,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
 if __name__ == "__main__":
     nb_classes = 3 
-    nb_epoch = 20    
+    nb_epoch = 10    
     img_rows, img_cols = 100, 100
     input_shape = (img_rows, img_cols, 3)
     nb_filters = 32
