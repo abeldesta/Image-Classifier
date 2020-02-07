@@ -57,21 +57,21 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
                         input_shape=input_shape, name = 'conv_layer1'))
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=pool_size), name = 'pool_layer1')
+    model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer1'))
 
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), 
                         padding='valid', 
                         name = 'conv_layer2'))
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=pool_size), name = 'pool_layer2')
+    model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer2'))
 
     model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]), 
                         padding='valid', 
                         name = 'conv_layer3'))
     model.add(Activation('relu'))
 
-    model.add(MaxPooling2D(pool_size=pool_size), name = 'pool_layer3')
+    model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer3'))
     model.add(Dropout(0.2))
 
     model.add(Flatten())
@@ -147,6 +147,13 @@ if __name__ == "__main__":
                         shuffle=True, initial_epoch=0)
 
     score = model.evaluate(holdout_datagen, verbose=0)
+
+    y_pred = model.predict_generator(holdout_datagen,
+                                        workers = 1,
+                                        use_multiprocessing = True,
+                                        verbose = 1)
+
+    summary = model.summary
 
     ##PLOTTING RESULTS
 
