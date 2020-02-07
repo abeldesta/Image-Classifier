@@ -70,7 +70,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Dense(32)) 
     model.add(Activation('relu'))
 
-    model.add(Dropout(0.1))
+    model.add(Dropout(0.5))
 
     model.add(Dense(nb_classes))
     model.add(Activation('softmax'))
