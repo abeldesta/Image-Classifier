@@ -93,6 +93,16 @@ In this model, you see the results are much better than my first model. This ite
 
 My final model is mostly the same as the previous, 3 convolution layer, but this time I increased the dropout from .3 to .8 and doubled the number of filters in the last convolution layer. I trained the model for 50 epochs. If you look at the model accuracy and loss at the 10th epoch, the training accuracy and test accuracy are 76 and 74 percent, respectively. From that perspective the model performed better but not by as much as I expected and we start to see that the model overfit to the training set as the epochs increase.
 
-### 
+| Holdout Metric | Score | 
+|-----------|-----|
+| Model Score | 0.544|
+| Accuracy Score | 0.789|
+| Precision Score | 0.823|
+| Recall Score | 0.824|
+
 
 ## Future Work
+
+* Better treatment for imbalance classes and/or try 3 artists with relative the same amount of images 
+* Work more on the model architeture and tuning
+* After achieving good score on 3 artists, start adding artists, i.e. increase classes.
