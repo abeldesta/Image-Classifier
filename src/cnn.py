@@ -77,7 +77,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     
     model.compile(loss='categorical_crossentropy',
                 optimizer='adam',
-                metrics=['accuracy',tf.keras.metrics.categorical_accuracy, tf.keras.metrics.Precision(), tf.keras.metrics.Recall()])
+                metrics=['accuracy', Precision(), Recall()])
     return model
 
 
