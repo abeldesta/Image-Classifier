@@ -5,7 +5,7 @@ boto3_connection = boto3.resource('s3')
 
 home = os.path.abspath('data')
 
-train = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']
+train = ['new_Edgar_Degas', 'new_Pablo_Picasso', 'new_Vincent_Van_Gogh']
 test_dest = os.path.abspath('data/Test')
 train_dest = os.path.abspath('data/Train')
 holdout = os.path.abspath('data/Holdout')

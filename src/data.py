@@ -19,7 +19,7 @@ for artist in artists:
         os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
     os.chdir(home)
 
-artist = 'Albrecht_Du╠êrer'
+artist = 'Albrecht_Du╠êrer'
 art = [x for x in files if x.startswith(artist)]
 os.mkdir(os.path.join(home, artist))
 for i in np.arange(len(art)):
@@ -33,3 +33,14 @@ art = [x for x in files if x.startswith(artist)]
 for i in np.arange(len(art)):
     os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
 os.chdir(home)
+
+num = 439
+classes = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']
+for i in classes:
+    os.mkdir(os.path.abspath('new_' + i))
+    os.chdir(os.path.abspath(i))
+    files = os.listdir()
+    short_list = files[:439]
+    for j in np.arange(len(short_list)):
+        os.rename(os.path.join(os.path.abspath(short_list[j])), os.path.join(home, 'new_' + i, short_list[j]))
+    os.chdir(home)
