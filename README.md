@@ -69,19 +69,21 @@ The problems dealt with the in the pipline were resizing becasue the images vari
 
 For my model, I decided to classify three artists to start. I picked the three artist with the most images in the dataset, Vincent Van Gogh, Edagr Degas, and Pablo Picasso. 
 
-### Original Image vs Resized 
+### Pipeline Flow
 
-<p align="center"> 
-    <img src="img/Pablo_Picasso_3.jpg" width = '400'/> 
-    <img src="img/resize_Pablo_Picasso_3.jpg" width = '300' /> 
-<p/> 
+<p align="center">
+    <img src="img/pipline_creation.png" />
+<p/>
+
+**Figure 2. The pipeline process.**
+
 
 ## CNN 
 <p align="center">
     <img src="img/cnn_model_dark.png" width ='500'/>
 <p/>
 
-**Figure 2. My final convolution neural network model.**
+**Figure 3. My final convolution neural network model.**
 
 
 # Results 
