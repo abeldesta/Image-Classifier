@@ -44,7 +44,7 @@ The number of paintings from each artist varied greatly. Which might come from a
 
 
 <p align="center">
-    <img src="img/paintings.png" />
+    <img src="img/paintings.png" width ='700'/>
 <p/>
 
 **Figure 1. This bar chart shows severe discrepancy in images for artists.**
@@ -55,10 +55,44 @@ The number of paintings from each artist varied greatly. Which might come from a
 
 ## Pipeline 
 
-The problem with the images I got from kaggle was that all the images varied in pixel size and shape. So I made a pipeline that would be able to take in a list of an artist's work and resize the images to 100 x 100 x 3. 
+The problems dealt with the in the pipline were resizing becasue the images varied in pixel size and shape. So the pipeline would take in a folder of an artists images and resize all the image to the desired shape, which in this case was 100 x 100 x 3. Then to increase number of images the cnn would train on it would take those images and create 10 augmented images per image. 
+
+For my model, I decided to classify three artists to start. I picked the three artist with the most images in the dataset, Vincent Van Gogh, Edagr Degas, and Pablo Picasso. 
 
 ## CNN 
+<p align="center">
+    <img src="img/cnn_model_dark.png" width ='500'/>
+<p/>
+
+**Figure 2. My final convolution neural network model.**
+
 
 # Results 
+### Initial Results
+<p align="center">
+    <img src="img/OG_CNN_acc.png" width ='400'/>
+    <img src="img/OG_CNN_loss.png" width ='400'/>
+<p/>
+
+In my inital results, I ran the images on a 4 convolution layer model with no dropout. You can see that this model overfitted to the training set based on the large descrepancy in and loss, which can indicate the model could be too complex.
+
+### Some Improvement
+<p align="center">
+    <img src="img/CNN_acc1.png" width ='400'/>
+    <img src="img/CNN_loss1.png" width ='400'/>
+<p/>
+
+In this model, you see the results are much better than my first model. This iteration od my model 3 convolution layers with low dropout. This interation of my model was only able to get up to 70 percent accuracy on the training set and 65 percent accuracy on the test. 
+
+### Final model 
+
+<p align="center">
+    <img src="img/CNN_acc2.png" width ='400'/>
+    <img src="img/CNN_loss2.png" width ='400'/>
+<p/>
+
+My final model is mostly the same as the previous, 3 convolution layer, but this time I increased the dropout from .3 to .8 and doubled the number of filters in the last convolution layer. I trained the model for 50 epochs. If you look at the model accuracy and loss at the 10th epoch, the training accuracy and test accuracy are 76 and 74 percent, respectively. From that perspective the model performed better but not by as much as I expected and we start to see that the model overfit to the training set as the epochs increase.
+
+### 
 
 ## Future Work

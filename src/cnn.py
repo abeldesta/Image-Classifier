@@ -7,6 +7,7 @@ from tensorflow.keras.metrics import Precision, Recall
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 import matplotlib.pyplot as plt 
 import numpy as np
+import seaborn as sns 
 import os
 plt.style.use('ggplot')
 
@@ -95,7 +96,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
 if __name__ == "__main__":
     nb_classes = 3 
-    nb_epoch = 50   
+    nb_epoch = 1   
     img_rows, img_cols = 100, 100
     input_shape = (img_rows, img_cols, 3)
     nb_filters = 32
@@ -188,6 +189,17 @@ if __name__ == "__main__":
 
 
 
+    cm = confusion_matrix(holdout_datagen.classes, y_pred)
+    sns.set(font_scale=2.5)
+    fig, ax = plt.subplots(figsize=(15,15))
+    ax= plt.subplot()
+    sns.heatmap(cm, annot=True, ax = ax, fmt='g');
 
+    # labels, title and ticks
+    ax.set_xlabel('Predicted labels');
+    ax.set_ylabel('True labels'); 
+    ax.set_title('Confusion Matrix'); 
+    ax.xaxis.set_ticklabels(class_labels); 
+    ax.yaxis.set_ticklabels(class_labels);
     
 
