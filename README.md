@@ -3,7 +3,16 @@ Capstone 1 project for Galvanize Data Science Immersive, Week 4
 
 *By Abel Desta*
 
+<p align="center">
+    <img src="img/starry_night.png" width ='700' height ='400'/>
+<p/>
+
 # Introduction
+My capstone is an image classifier using a Convolution Neural Network to classify which artist made the painting. 
+
+        Tools: [Python, Pandas, Numpy, Sci-kit Image, Tensorflow Keras, AWS EC2]
+
+
 ## Data
 I found a dataset on kaggle that contains most of the artwork from the 50 influential artist ranging from everytime period. The data came with a csv file that contains information about each artist, such as a small bio, genre and nationality of the artist. The artwork was scraped from [artchallenge](http://artchallenge.ru/?lang=en) website. 
 
@@ -11,8 +20,9 @@ There is around 8500 images scaped. All the images in the files are RGB images i
 
 The images came resized but still high resolution. Also, most images came in a various different pixel size and shape.
 
+
 ## Goal
-My goal for this capstone is to build a convolution neural network to be able to take an image of artists' artwork and classify the piece to the correct artists. To start, I will try to correctly classify the three artists out the 50 in the dataset.
+My goal for this capstone is to build a convolution neural network to be able to take an image of artists' artwork and classify the piece to the correct artists. To start, I will try to correctly classify the three artists out the 50 in the dataset. Since my computer would be very slow to train CNNs. I decided to run a gpu instance that would be able to train on CNNs much better, p2.xlarge instance.
 
 ## EDA
 There are 31 different genres in the dataset. Some artists belonged in more than one genre.
@@ -58,6 +68,13 @@ The number of paintings from each artist varied greatly. Which might come from a
 The problems dealt with the in the pipline were resizing becasue the images varied in pixel size and shape. So the pipeline would take in a folder of an artists images and resize all the image to the desired shape, which in this case was 100 x 100 x 3. Then to increase number of images the cnn would train on it would take those images and create 10 augmented images per image. 
 
 For my model, I decided to classify three artists to start. I picked the three artist with the most images in the dataset, Vincent Van Gogh, Edagr Degas, and Pablo Picasso. 
+
+### Original Image vs Resized 
+
+<p align="center"> 
+    <img src="img/Pablo_Picasso_3.jpg" width = '400'/> 
+    <img src="img/resize_Pablo_Picasso_3.jpg" width = '300' /> 
+<p/> 
 
 ## CNN 
 <p align="center">
