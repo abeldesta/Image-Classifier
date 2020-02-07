@@ -1,5 +1,5 @@
 # Whose the Artist?
-Capstone 1 project for Galvanize Data Science Immersive, Week 4
+Capstone 1 project for Galvanize Data Science Immersive, Week 8
 
 *By Abel Desta*
 
