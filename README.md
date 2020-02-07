@@ -16,4 +16,14 @@ My goal for this capstone is to build a convolution neural network to be able to
 
 ## EDA
 
-## Pipline 
+# Building the Artist CNN
+
+## Pipeline 
+
+The problem with the images I got from kaggle was that all the images varied in pixel size and shape. So I made a pipeline that would be able to take in a list of an artist's work and resize the images to 100 x 100 x 3. 
+
+## CNN 
+
+# Results 
+
+## Future Work

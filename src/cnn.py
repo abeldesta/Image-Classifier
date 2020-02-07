@@ -61,16 +61,16 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size))
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.1))
 
     model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
 
     
-    model.add(Dense(35)) 
+    model.add(Dense(32)) 
     model.add(Activation('relu'))
 
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.1))
 
     model.add(Dense(nb_classes))
     model.add(Activation('softmax'))
