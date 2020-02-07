@@ -20,6 +20,10 @@ There is around 8500 images scaped. All the images in the files are RGB images i
 
 The images came resized but still high resolution. Also, most images came in a various different pixel size and shape.
 
+<p align="center">
+    <img src="img/Pablo_Picasso_3.jpg" width ='400'/>
+    <img src="img/resize_Pablo_Picasso_3.jpg" width ='300'/>
+<p/>
 
 ## Goal
 My goal for this capstone is to build a convolution neural network to be able to take an image of artists' artwork and classify the piece to the correct artists. To start, I will try to correctly classify the three artists out the 50 in the dataset. Since my computer would be very slow to train CNNs. I decided to run a gpu instance that would be able to train on CNNs much better, p2.xlarge instance.
