@@ -20,8 +20,13 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
                         padding='valid', 
                         input_shape=input_shape, name = 'conv_layer1'))
     model.add(Activation('relu'))
-
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer1'))
+
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
+                        padding='valid', 
+                        input_shape=input_shape, name = 'conv_layer2'))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer2'))
     model.add(Dropout(0.8))
     
     model.add(Flatten())
@@ -30,6 +35,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Dense(128)) 
     model.add(Activation('relu'))
 
+    model.add(Dropout(0.6))
 
     model.add(Dense(nb_classes))
     model.add(Activation('softmax'))
@@ -150,3 +156,4 @@ if __name__ == "__main__":
     # ax.yaxis.set_ticklabels(class_labels);
     
 
+    # scp -i /.ssh/capstone_2.pem ~/Capstone-2/data/artists.csv ubuntu@ec2-34-227-223-16.compute-1.amazonaws.com
