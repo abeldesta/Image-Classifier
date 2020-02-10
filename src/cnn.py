@@ -22,7 +22,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Activation('relu'))
 
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer1'))
-    model.add(Dropout(0.5))
+    model.add(Dropout(0.8))
     
     model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
