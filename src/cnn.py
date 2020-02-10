@@ -76,7 +76,7 @@ if __name__ == "__main__":
     holdout_loc = os.path.abspath('data/Holdout/')
 
     train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
-                batch_size= 50,
+                batch_size= 5,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     
     validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 test_loc,
-                batch_size= 50,
+                batch_size= 5,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
     holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                 holdout_loc,
-                batch_size= 50,
+                batch_size= 5,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
