@@ -46,7 +46,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
 
-    model.add(Dense(64)) 
+    model.add(Dense(128)) 
     model.add(Activation('relu'))
 
     model.add(Dropout(0.6))
