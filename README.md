@@ -1,5 +1,5 @@
 # Whose the Artist?
-Capstone 2 project for Galvanize Data Science Immersive, Week 8
+Image Classification - Convolution Neural Network project 
 
 *By Abel Desta*
 
