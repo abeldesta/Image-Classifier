@@ -16,7 +16,7 @@ plt.style.use('ggplot')
 def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model = Sequential() 
 
-    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
+    model.add(Conv2D(nb_filters*2, (kernel_size[0], kernel_size[1]),
                         padding='valid', 
                         input_shape=input_shape, name = 'conv_layer1'))
     model.add(Activation('relu'))
@@ -28,11 +28,25 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer2'))
     model.add(Dropout(0.8))
-    
+
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
+                        padding='valid', 
+                        input_shape=input_shape, name = 'conv_layer3'))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer3'))
+    model.add(Dropout(0.7))
+
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
+                        padding='valid', 
+                        input_shape=input_shape, name = 'conv_layer4'))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer4'))
+    model.add(Dropout(0.6))
+
     model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
 
-    model.add(Dense(128)) 
+    model.add(Dense(64)) 
     model.add(Activation('relu'))
 
     model.add(Dropout(0.6))
@@ -49,7 +63,7 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
 
 if __name__ == "__main__":
     nb_classes = 3 
-    nb_epoch = 20
+    nb_epoch = 30
     img_rows, img_cols = 100, 100
     input_shape = (img_rows, img_cols, 3)
     nb_filters = 32
