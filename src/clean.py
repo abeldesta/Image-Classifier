@@ -43,7 +43,7 @@ class ImagePipeline(object):
     def __init__(self, files, shape, home, import_path, export_path):
         self.files = files
         self.shape = shape
-        self.num_images = len(files)*10
+        self.num_images = len(files)*20
         self.home = home
         self.export_path = export_path
         self.import_path = import_path
