@@ -5,6 +5,10 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.metrics import Precision, Recall
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.callbacks import TensorBoard
+from keras.models import load_model
+
 import matplotlib.pyplot as plt 
 import numpy as np
 import seaborn as sns 
@@ -52,6 +56,28 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
                 metrics=['accuracy', Precision(), Recall()])
     return model
 
+def create_transfer_model(input_size, n_categories, weights = 'imagenet'):
+    base_model = Xception(weights=weights,
+                        include_top=False,
+                        input_shape=input_size)
+    
+    model = base_model.output
+    model = GlobalAveragePooling2D()(model)
+    predictions = Dense(n_categories, activation='softmax')(model)
+    model = Model(inputs=base_model.input, outputs=predictions)
+    
+    return model
+
+def change_trainable_layers(model, trainable_index):
+    for layer in model.layers[:trainable_index]:
+        layer.trainable = False
+    for layer in model.layers[trainable_index:]:
+        layer.trainable = True
+
+def print_model_properties(model, indices = 0):
+    for i, layer in enumerate(model.layers[indices:]):
+        print(f"Layer {i+indices} | Name: {layer.name} | Trainable: {layer.trainable}")
+
 
 
 if __name__ == "__main__":
@@ -67,6 +93,20 @@ if __name__ == "__main__":
     train_loc = os.path.abspath('data/Train/')
     test_loc = os.path.abspath('data/Test/')
     holdout_loc = os.path.abspath('data/Holdout/')
+
+    filepath = os.path.abspath('src/best_model.pb')
+
+    checkpoint = ModelCheckpoint(filepath, 
+                    monitor='val_loss', 
+                    verbose=0, 
+                    save_best_only=True, 
+                    save_weights_only=False, 
+                    mode='auto', period=1)
+    
+    tbCallBack = TensorBoard(log_dir='./Graph', 
+                            histogram_freq=0, 
+                            write_graph=True, 
+                            write_images=True)
 
     train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
                 batch_size= 5,
