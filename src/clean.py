@@ -39,6 +39,7 @@ for i in artist:
 os.chdir(home)
 
 
+
 class ImagePipeline(object):
     '''
     Pipeline with methods to resize images, create datagens, move/delete necessary 

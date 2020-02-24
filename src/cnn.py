@@ -1,13 +1,16 @@
 from tensorflow import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
-from tensorflow.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.metrics import Precision, Recall
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.optimizers import Adam
 from keras.models import load_model
+from tensorflow.keras.applications import Xception
+
 
 import matplotlib.pyplot as plt 
 import numpy as np
@@ -20,7 +23,7 @@ plt.style.use('ggplot')
 def define_model(nb_filters, kernel_size, input_shape, pool_size):
     model = Sequential() 
 
-    model.add(Conv2D(nb_filters*2, (kernel_size[0], kernel_size[1]),
+    model.add(Conv2D(nb_filters, (kernel_size[0], kernel_size[1]),
                         padding='valid', 
                         input_shape=input_shape, name = 'conv_layer1'))
     model.add(Activation('relu'))
@@ -31,52 +34,49 @@ def define_model(nb_filters, kernel_size, input_shape, pool_size):
                         input_shape=input_shape, name = 'conv_layer2'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer2'))
-    model.add(Dropout(0.5))
 
     model.add(Conv2D(nb_filters*2, (kernel_size[0], kernel_size[1]),
                         padding='valid', 
                         input_shape=input_shape, name = 'conv_layer4'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer4'))
-    model.add(Dropout(0.8))
 
     model.add(Flatten())
     print('Model flattened out to ', model.output_shape)
 
     model.add(Dense(128)) 
     model.add(Activation('relu'))
-
-    model.add(Dropout(0.6))
-
+    model.add(Dropout(0.5))
     model.add(Dense(nb_classes))
+    model.add(Dropout(0.5))
     model.add(Activation('softmax'))
-    
+    opt = keras.optimizers.Adam(learning_rate = .0001)
     model.compile(loss='categorical_crossentropy',
-                optimizer='adam',
+                optimizer=opt,
                 metrics=['accuracy', Precision(), Recall()])
     return model
 
-def create_transfer_model(input_size, n_categories, weights = 'imagenet'):
-    base_model = Xception(weights=weights,
-                        include_top=False,
-                        input_shape=input_size)
+# def create_transfer_model(input_size, n_categories, weights = ''):
+#     base_model = Xception(weights=weights,
+#                         include_top=False,
+#                         input_shape=input_size)
     
-    model = base_model.output
-    model = GlobalAveragePooling2D()(model)
-    predictions = Dense(n_categories, activation='softmax')(model)
-    model = Model(inputs=base_model.input, outputs=predictions)
+#     model = base_model.output
+#     model = GlobalAveragePooling2D()(model)
+#     predictions = Dense(n_categories, activation='softmax')(model)
+#     model = Model(inputs=base_model.input, outputs=predictions)
     
-    return model
+#     return model
 
-def change_trainable_layers(model, trainable_index):
-    for layer in model.layers[:trainable_index]:
-        layer.trainable = False
-    for layer in model.layers[trainable_index:]:
-        layer.trainable = True
+# def change_trainable_layers(model, trainable_index):
+#     for layer in model.layers[:trainable_index]:
+#         layer.trainable = False
+#     for layer in model.layers[trainable_index:]:
+#         layer.trainable = True
 
-def print_model_properties(model, indices = 0):
-    for i, layer in enumerate(model.layers[indices:]):
-        print(f"Layer {i+indices} | Name: {layer.name} | Trainable: {layer.trainable}")
+# def print_model_properties(model, indices = 0):
+#     for i, layer in enumerate(model.layers[indices:]):
+#         print(f"Layer {i+indices} | Name: {layer.name} | Trainable: {layer.trainable}")
 
 
 
