@@ -31,12 +31,10 @@ try:
 except:
     print('No images with Albrecht_Du╠êrer')
 
-try:
-    artist = 'Albrecht_Dürer'
-    art = [x for x in files if x.startswith(artist)]
-    for i in np.arange(len(art)):
-        os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
-    os.chdir(home)
-except:
-    print('No images with Albrecht_Dürer')
+artist = 'Albrecht_Dürer'
+art = [x for x in files if x.startswith(artist)]
+for i in np.arange(len(art)):
+	os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
+os.chdir(home)
+
 
