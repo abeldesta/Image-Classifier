@@ -6,6 +6,8 @@ from skimage.transform import resize
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 import os
 import PIL
+from train_test import main 
+    raise NotImplementedError
 np.random.seed(1337)  # for reproducibility
 
 
@@ -166,51 +168,52 @@ shape = (100, 100, 3)
 
 
 if __name__ == "__main__":
+    main()
     shape = (100, 100, 3)
     import_path = 'data/Keras_Images'
     export_path = 'data/Keras_Images'
-    ##Save resized training and test photos into each folder
-    # for i in artist:
-    #     #Test Images
-    #     test_path = 'data/Test/{0}/'.format(i)
-    #     test_resize =  ImagePipeline(test_dict[i], 
-    #                                     (100,100,3), 
-    #                                     home, 
-    #                                     import_path, 
-    #                                     export_path)
-    #     test_resize.image_folder(test_path)
-    #     test_resize.save_folder('data/Test', i)
-    #     test_resize.save_folder('data/Keras_Images', i)
-    #     test_resize.image_augmentation()
-    #     test_resize.delete_move_folder('data/Keras_Images' , 
-    #                                     'data/Test/resize_{0}/generated_imgs'.format(i), 
-    #                                     'data/Keras_Images/resize_{0}'.format(i))
-    #     #Training Images
-    #     train_path = 'data/Train/{0}/'.format(i)
-    #     train_resize = ImagePipeline(train_dict[i], 
-    #                                     (100,100,3), 
-    #                                     home, 
-    #                                     import_path, 
-    #                                     export_path)
-    #     train_resize.image_folder(train_path)
-    #     train_resize.save_folder('data/Train', i)
-    #     train_resize.save_folder('data/Keras_Images', i)
-    #     train_resize.image_augmentation()
-    #     train_resize.delete_move_folder('data/Keras_Images', 
-    #                                         'data/Train/resize_{0}/generated_imgs'.format(i), 
-    #                                         'data/Keras_Images/resize_{0}'.format(i))
-    #     #Holdout Images
-    #     holdout_path = 'data/Holdout/{0}/'.format(i)
-    #     holdout_resize = ImagePipeline(hold_dict[i], 
-    #                                         (100,100,3), 
-    #                                         home, 
-    #                                         import_path, 
-    #                                         export_path)
-    #     holdout_resize.image_folder(holdout_path)
-    #     holdout_resize.save_folder('data/Holdout', i)
-    #     holdout_resize.save_folder('data/Keras_Images', i)
-    #     holdout_resize.image_augmentation()
-    #     holdout_resize.delete_move_folder('data/Keras_Images', 
-    #                                         'data/Holdout/resize_{0}/generated_imgs'.format(i), 
-    #                                         'data/Keras_Images/resize_{0}'.format(i))
+    #Save resized training and test photos into each folder
+    for i in artist:
+        #Test Images
+        test_path = 'data/Test/{0}/'.format(i)
+        test_resize =  ImagePipeline(test_dict[i], 
+                                        (100,100,3), 
+                                        home, 
+                                        import_path, 
+                                        export_path)
+        test_resize.image_folder(test_path)
+        test_resize.save_folder('data/Test', i)
+        test_resize.save_folder('data/Keras_Images', i)
+        test_resize.image_augmentation()
+        test_resize.delete_move_folder('data/Keras_Images' , 
+                                        'data/Test/resize_{0}/generated_imgs'.format(i), 
+                                        'data/Keras_Images/resize_{0}'.format(i))
+        #Training Images
+        train_path = 'data/Train/{0}/'.format(i)
+        train_resize = ImagePipeline(train_dict[i], 
+                                        (100,100,3), 
+                                        home, 
+                                        import_path, 
+                                        export_path)
+        train_resize.image_folder(train_path)
+        train_resize.save_folder('data/Train', i)
+        train_resize.save_folder('data/Keras_Images', i)
+        train_resize.image_augmentation()
+        train_resize.delete_move_folder('data/Keras_Images', 
+                                            'data/Train/resize_{0}/generated_imgs'.format(i), 
+                                            'data/Keras_Images/resize_{0}'.format(i))
+        #Holdout Images
+        holdout_path = 'data/Holdout/{0}/'.format(i)
+        holdout_resize = ImagePipeline(hold_dict[i], 
+                                            (100,100,3), 
+                                            home, 
+                                            import_path, 
+                                            export_path)
+        holdout_resize.image_folder(holdout_path)
+        holdout_resize.save_folder('data/Holdout', i)
+        holdout_resize.save_folder('data/Keras_Images', i)
+        holdout_resize.image_augmentation()
+        holdout_resize.delete_move_folder('data/Keras_Images', 
+                                            'data/Holdout/resize_{0}/generated_imgs'.format(i), 
+                                            'data/Keras_Images/resize_{0}'.format(i))
 
