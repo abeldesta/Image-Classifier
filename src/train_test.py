@@ -73,10 +73,8 @@ def train_test(artists, home):
                 copy(os.path.join(home, i, files[idx]), os.path.join(train_dest, i, files[idx]))
 
 
-def main():
-    class_balance(train, home)
-    train_test(balanced, home)
 
 
 if __name__ == "__main__":
-    main()
+    class_balance(train, home)
+    train_test(balanced, home)
