@@ -7,14 +7,13 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_im
 import os
 import PIL
 from train_test import main 
-    raise NotImplementedError
 np.random.seed(1337)  # for reproducibility
 
 
 home = os.getcwd()
 
 train_loc = 'data/Train/'
-artist = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']
+artist = ['balanced_Edgar_Degas', 'balanced_Pablo_Picasso', 'balanced_Vincent_Van_Gogh']
 train_dict = {}
 for i in artist:
     os.chdir(os.path.abspath(train_loc + i))

@@ -2,6 +2,7 @@ import os
 import numpy as np
 from shutil import copytree, copy
 
+
 home = os.path.abspath('data')
 
 train = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']

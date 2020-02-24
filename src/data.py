@@ -23,14 +23,13 @@ for artist in artists:
 
 artist = 'Albrecht_Du╠êrer'
 art = [x for x in files if x.startswith(artist)]
-try:
-        
+try:  
     os.mkdir(os.path.join(home, artist))
     for i in np.arange(len(art)):
         os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
     os.chdir(home)
 except:
-    pass
+    print('No images with Albrecht_Du╠êrer')
 
 try:
     artist = 'Albrecht_Dürer'
@@ -39,5 +38,5 @@ try:
         os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
     os.chdir(home)
 except:
-    pass
+    print('No images with Albrecht_Dürer')
 
