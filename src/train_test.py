@@ -5,7 +5,7 @@ from shutil import copytree, copy
 
 home = os.path.abspath('data')
 
-train = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_Van_Gogh']
+train = ['Edgar_Degas', 'Pablo_Picasso', 'Vincent_van_Gogh']
 balanced = ['balanced_Edgar_Degas', 'balanced_Pablo_Picasso', 'balanced_Vincent_Van_Gogh']
 test_dest = os.path.abspath('data/Test')
 train_dest = os.path.abspath('data/Train')
