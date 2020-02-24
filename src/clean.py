@@ -84,7 +84,7 @@ class ImagePipeline(object):
         for i in self.folder:
             new_path = path + i
             img = skimage.io.imread(new_path)
-            self.resized_img.append(self.resize_image(img, self.shape))
+            self.resized_img.append(self.resize_image(img))
 
     def resize_image(self, img, mode = 'constant'):
         '''
@@ -97,10 +97,7 @@ class ImagePipeline(object):
         Returns:
             array: array of pixel intensity for resized image
         '''
-        return resize(image = img, 
-                        output_shape = self.shape, 
-                        mode = mode, 
-                        anti_aliasing=False)
+        return resize(image = img, output_shape = self.shape, mode = mode, anti_aliasing=False)
 
     def save_folder(self, local, name):
         '''
@@ -168,6 +165,7 @@ shape = (100, 100, 3)
 
 if __name__ == "__main__":
     main()
+    os.chdir(home)
     shape = (100, 100, 3)
     import_path = 'data/Keras_Images'
     export_path = 'data/Keras_Images'
