@@ -46,6 +46,7 @@ if __name__ == "__main__":
     rmse = cross_val_score(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = scoring)
     print('Mean MSE: {0}'.format(rmse))
     print('MSE: {0}'.format(rmse))
-    y_pred = rf.predict(holdout_feats)
-    # print('Holdout MSE: {0}'.format(mse))
+    acc = rf.score(holdout_feats, holdout_labels)
+    print('Holdout Accuracy: {0}'.format(acc))
+
 
