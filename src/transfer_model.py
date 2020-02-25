@@ -11,11 +11,12 @@ import os
 from glob import glob
 
 class TransferModel:
-    def __init__(self, modelname, input_size, n_categories):
+    def __init__(self, modelname, input_size, n_categories, workers):
         self.savename = modelname
         self.input_shape = input_size
         self.n_categories = n_categories
         self.model = self.create_transfer_model(self.input_shape, 3)
+        self.workers = workers
 
     def _init_data(self, train_folder, validation_folder, holdout_folder):
         """
@@ -78,8 +79,7 @@ class TransferModel:
 
         x = base_model.output
         x = GlobalAveragePooling2D()(x)
-        predictions = Dense(2000, activation='softmax')(x)
-        model = Model(inputs=base_model.input, outputs=predictions)
+        model = Model(inputs=base_model.input, outputs=x)
         return model
 
     def create_transfer_model(self, input_size, n_categories, weights = 'imagenet', model=Xception):
@@ -101,7 +101,8 @@ class TransferModel:
         self.model.compile(loss='categorical_crossentropy',
                     optimizer=opt,
                     metrics=['accuracy', Precision(), Recall()])
-        return self.model._change_trainable_layers()
+        self._change_trainable_layers()
+        return self.model
 
     def _change_trainable_layers(self):
         """
@@ -115,41 +116,51 @@ class TransferModel:
             None
             """
 
-        for layer in self.model.layers[:249]:
+        for layer in self.model.layers[:131]:
             layer.trainable = False
-        for layer in self.model.layers[249:]:
+        for layer in self.model.layers[131:]:
             layer.trainable = True
+
+    def print_model_layers(self, indices=0):
+        """
+        prints model layers and whether or not they are trainable
+
+        Args:
+            model (keras classifier model): model to describe
+            indices(int): layer indices to print from
+        Returns:
+            None
+            """
+
+        for i, layer in enumerate(self.model.layers[indices:]):
+            print("Layer {} | Name: {} | Trainable: {}".format(i+indices, layer.name, layer.trainable))
+
 
     def fit(self, train_loc, validation_loc, holdout_loc, epochs):
         self._init_data(train_loc, validation_loc, holdout_loc)
         print(self.class_names)
         self._create_generators()
 
-        filepath = 'models/{0}.hdf5'.format(self.savename)
-        checkpoint = ModelCheckpoint(filepath, 
-                    monitor='val_loss', 
-                    verbose=0, 
-                    save_best_only=True, 
-                    save_weights_only=False, 
-                    mode='auto', period=1)
+        self.train_labels = self.train_datagen.classes
+        self.test_labels  = self.validation_datagen.classes
+        self.holdout_labels = self.holdout_datagen.classes
 
-        self.history = self.model.fit_generator(self.train_datagen,
-                                                steps_per_epoch=None,
-                                                epochs=epochs, verbose=1,  
-                                                validation_data=self.validation_datagen,
-                                                validation_steps=None,
-                                                validation_freq=1,
-                                                callbacks = [checkpoint],
-                                                class_weight=None,
-                                                max_queue_size=10,
-                                                workers=3,
-                                                use_multiprocessing=True,
-                                                shuffle=True, initial_epoch=0)
+        self.train_features = self.model.predict_generator(self.train_datagen,
+                                        workers=self.workers, 
+                                        use_multiprocessing=True, 
+                                        verbose=1)
 
-        best_model = load_model(filepath)
-        print('evaluating simple model')
-        accuracy = self.evaluate_model(best_model, self.holdout_datagen)
-        return filepath 
+        self.test_features = self.model.predict_generator(self.validation_datagen,
+                                        workers=self.workers, 
+                                        use_multiprocessing=True, 
+                                        verbose=1)
+
+        self.holdout_features = self.model.predict_generator(self.holdout_datagen,
+                                        workers=self.workers, 
+                                        use_multiprocessing=True, 
+                                        verbose=1)
+
+
 
     def evaluate_model(self, model, holdout_gen):
         """
@@ -179,8 +190,10 @@ def main():
     train = 'data/Train'
     holdout = 'data/Holdout'
     test = 'data/Test'
-    transfer = TransferModel('transfer', (100,100,3), 3)
-    print(transfer.model.summary())
+    transfer = TransferModel('transfer', (100,100,3), 3, 5)
+    transfer.fit(train,test,holdout,1)
+    print(len(transfer.train_features))
+    
     
 
 if __name__ == "__main__":
