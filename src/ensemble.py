@@ -35,10 +35,10 @@ if __name__ == "__main__":
     
     train_labels, train_feats = transfer.train_labels.reshape(-1,1), transfer.train_features 
     test_labels, test_feats = transfer.test_labels.reshape(-1,1), transfer.test_features
-    holdout_labels, holdout_feats = transfer.holdout_labels.reshape(-1,1), transfer.holdout_features
+    holdout_labels, holdout_feats = transfer.holdout_labels, transfer.holdout_features
 
     train_df = np.vstack([train_feats, test_feats])
-    train_labels = np.vstack([train_labels, test_labels])
+    train_labels = np.vstack([train_labels, test_labels]).reshape(-1,)
 
     rf.fit(train_df, train_labels)
 
