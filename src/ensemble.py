@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score
 from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_validate
 
 
 rf = RandomForestClassifier(n_estimators=100,
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     rf.fit(train_df, train_labels)
     scoring = ['accuracy', 'precision', 'recall', 'f1']
-    rmse = cross_val_score(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = scoring)
+    rmse = cross_validate(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = scoring)
     print('Mean MSE: {0}'.format(rmse))
     print('MSE: {0}'.format(rmse))
     acc = rf.score(holdout_feats, holdout_labels)
