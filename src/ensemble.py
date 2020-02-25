@@ -3,7 +3,7 @@ from transfer_model import TransferModel
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score
+from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score, mean_squared_error
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
 
@@ -42,7 +42,10 @@ if __name__ == "__main__":
 
     rf.fit(train_feats, train_labels)
 
-    rmse = cross_val_score(rf, train_feats, train_labels, n_jobs=-1, cv = 10, scoring = 'neg_mean_squared_error')
-    print('Mean RMSE: {0}'.format(-np.mean(rmse)))
-    print('RMSE: {0}'.format(rmse))
+    rmse = cross_val_score(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = 'neg_mean_squared_error')
+    print('Mean MSE: {0}'.format(-np.mean(rmse)))
+    print('MSE: {0}'.format(rmse))
     y_pred = rf.predict_proba(holdout_feats)
+    mse = mean_squared_error(holdout_labels, y_pred)
+    print('Holdout MSE: {0}'.format(mse))
+
