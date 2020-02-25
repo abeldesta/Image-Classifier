@@ -4,13 +4,65 @@ from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from tensorflow.keras.applications.xception import preprocess_input
 from tensorflow.keras.callbacks import ModelCheckpoint
+from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+from tensorflow.keras.metrics import Precision, Recall
+from tensorflow.keras.optimizers import Adam
 import os
 from glob import glob
 
 class TransferModel:
-    def __init__(self, modelname, train_folder):
+    def __init__(self, modelname, input_size, n_categories):
         self.savename = modelname
+        self.input_shape = input_size
+        self.n_categories = n_categories
+        self.model = self.create_transfer_model(self.input_shape, 3)
+
+    def _init_data(self, train_folder, validation_folder, holdout_folder):
+        """
+        Initializes class data
+
+        Args:
+            train_folder(str): folder containing train data
+            validation_folder(str): folder containing validation data
+            holdout_folder(str): folder containing holdout data
+            """
         self.train_folder = train_folder
+        self.validation_folder = validation_folder
+        self.holdout_folder = holdout_folder
+
+        self.nTrain = sum(len(files) for _, _, files in os.walk(self.train_folder)) 
+        self.nVal = sum(len(files) for _, _, files in os.walk(self.validation_folder))
+        self.nHoldout = sum(len(files) for _, _, files in os.walk(self.holdout_folder))
+        self.n_categories = sum(len(dirnames) for _, dirnames, _ in os.walk(self.train_folder))
+        self.class_names = self.set_class_names()
+    
+    def _create_generators(self):
+        '''
+        Creates generators to create augmented images from directed
+        '''
+
+        self.train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(self.train_folder,
+                batch_size= 5,
+                class_mode='categorical',
+                color_mode='rgb',
+                target_size=(100,100),
+                shuffle=True)
+    
+        self.validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
+                    self.validation_folder,
+                    batch_size= 5,
+                    class_mode='categorical',
+                    color_mode='rgb',
+                    target_size=(100,100),
+                    shuffle=True)
+
+        self.holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
+                    self.holdout_folder,
+                    batch_size= 5,
+                    class_mode='categorical',
+                    color_mode='rgb',
+                    target_size=(100,100),
+                    shuffle=True)
 
     def add_model_head(self, base_model, n_categories):
         """
@@ -26,7 +78,7 @@ class TransferModel:
 
         x = base_model.output
         x = GlobalAveragePooling2D()(x)
-        predictions = Dense(n_categories, activation='softmax')(x)
+        predictions = Dense(2000, activation='softmax')(x)
         model = Model(inputs=base_model.input, outputs=predictions)
         return model
 
@@ -45,9 +97,34 @@ class TransferModel:
                         include_top=False,
                         input_shape=input_size)
         self.model = self.add_model_head(base_model, n_categories)
-        return self.model
+        opt = Adam(learning_rate = .0001)
+        self.model.compile(loss='categorical_crossentropy',
+                    optimizer=opt,
+                    metrics=['accuracy', Precision(), Recall()])
+        return self.model._change_trainable_layers()
 
-    def fit(self, train_gen, validation_gen, holdout_gen, epochs):
+    def _change_trainable_layers(self):
+        """
+        unfreezes model layers after passed index, freezes all before
+
+        Args:
+        model (keras Sequential model): model to change layers
+        trainable_index(int): layer to split frozen /  unfrozen at
+
+        Returns:
+            None
+            """
+
+        for layer in self.model.layers[:249]:
+            layer.trainable = False
+        for layer in self.model.layers[249:]:
+            layer.trainable = True
+
+    def fit(self, train_loc, validation_loc, holdout_loc, epochs):
+        self._init_data(train_loc, validation_loc, holdout_loc)
+        print(self.class_names)
+        self._create_generators()
+
         filepath = 'models/{0}.hdf5'.format(self.savename)
         checkpoint = ModelCheckpoint(filepath, 
                     monitor='val_loss', 
@@ -56,13 +133,13 @@ class TransferModel:
                     save_weights_only=False, 
                     mode='auto', period=1)
 
-        self.history = self.model.fit_generator(train_gen,
+        self.history = self.model.fit_generator(self.train_datagen,
                                                 steps_per_epoch=None,
                                                 epochs=epochs, verbose=1,  
-                                                validation_data=validation_gen,
+                                                validation_data=self.validation_datagen,
                                                 validation_steps=None,
                                                 validation_freq=1,
-                                                callbacks = checkpoint,
+                                                callbacks = [checkpoint],
                                                 class_weight=None,
                                                 max_queue_size=10,
                                                 workers=3,
@@ -71,7 +148,7 @@ class TransferModel:
 
         best_model = load_model(filepath)
         print('evaluating simple model')
-        accuracy = self.evaluate_model(best_model, holdout_gen)
+        accuracy = self.evaluate_model(best_model, self.holdout_datagen)
         return filepath 
 
     def evaluate_model(self, model, holdout_gen):
@@ -100,9 +177,11 @@ class TransferModel:
 
 def main():
     train = 'data/Train'
-    transfer = TransferModel('transfer', train)
-    classes = transfer.set_class_names()
-    return classes
+    holdout = 'data/Holdout'
+    test = 'data/Test'
+    transfer = TransferModel('transfer', (100,100,3), 3)
+    print(transfer.model.summary())
+    
 
 if __name__ == "__main__":
     main()

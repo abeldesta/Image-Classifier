@@ -23,7 +23,7 @@ class SimpleCNN:
     '''
     Simple Convolution Neural Network class with methods to create generators, fit, and evaluate model
     '''
-    def __init__(self, nb_classes, modelname, nb_epoch = 10, nb_filters = 32, kernel_size = (3,3), input_shape = (100,100,3), pool_size = (2,2)):
+    def __init__(self, nb_classes, modelname, workers = 1, nb_epoch = 10, nb_filters = 32, kernel_size = (3,3), input_shape = (100,100,3), pool_size = (2,2)):
         self.nb_classes = nb_classes
         self.nb_epoch = nb_epoch
         self.img_rows, self.img_cols = 100, 100
@@ -32,6 +32,7 @@ class SimpleCNN:
         self.pool_size = pool_size
         self.kernel_size = kernel_size
         self.savename = modelname 
+        self.workers = workers
         self.model = self.define_model()
 
     def _init_data(self, train_folder, validation_folder, holdout_folder):
@@ -154,7 +155,7 @@ class SimpleCNN:
                         callbacks = [checkpoint],
                         class_weight=None,
                         max_queue_size=10,
-                        workers=1,
+                        workers=self.workers,
                         use_multiprocessing=True,
                         shuffle=True, initial_epoch=0)
 
@@ -211,61 +212,8 @@ if __name__ == "__main__":
     cnn.fit(train_loc, test_loc, holdout_loc)
 
 
-    # filepath = os.path.abspath('src/best_model.pb')
-
-    # checkpoint = ModelCheckpoint(filepath, 
-    #                 monitor='val_loss', 
-    #                 verbose=0, 
-    #                 save_best_only=True, 
-    #                 save_weights_only=False, 
-    #                 mode='auto', period=1)
     
-    # tbCallBack = TensorBoard(log_dir='./Graph', 
-    #                         histogram_freq=0, 
-    #                         write_graph=True, 
-    #                         write_images=True)
-
-    # train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(train_loc,
-    #             batch_size= 5,
-    #             class_mode='categorical',
-    #             color_mode='rgb',
-    #             target_size=(100,100),
-    #             shuffle=True)
     
-    # validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
-    #             test_loc,
-    #             batch_size= 5,
-    #             class_mode='categorical',
-    #             color_mode='rgb',
-    #             target_size=(100,100),
-    #             shuffle=True)
-
-    # holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
-    #             holdout_loc,
-    #             batch_size= 5,
-    #             class_mode='categorical',
-    #             color_mode='rgb',
-    #             target_size=(100,100),
-    #             shuffle=True)
-
-
-
-    # model = define_model(nb_filters, kernel_size, input_shape, pool_size)
-
-    # hist = model.fit_generator(train_datagen,
-    #                     steps_per_epoch=None,
-    #                     epochs=nb_epoch, verbose=1,  
-    #                     validation_data=validation_datagen,
-    #                     validation_steps=None,
-    #                     validation_freq=1,
-    #                     class_weight=None,
-    #                     max_queue_size=10,
-    #                     workers=1,
-    #                     use_multiprocessing=True,
-    #                     shuffle=True, initial_epoch=0)
-
-    # score = model.evaluate(holdout_datagen, verbose=0)
-
     # y_pred = model.predict_generator(holdout_datagen,
     #                                     workers = 1,
     #                                     use_multiprocessing = True,
