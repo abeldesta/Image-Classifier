@@ -3,9 +3,10 @@ from transfer_model import TransferModel
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score, mean_squared_error
+from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score
 from sklearn.model_selection import KFold
 from sklearn.model_selection import cross_val_score
+
 
 rf = RandomForestClassifier(n_estimators=100,
                         criterion="gini",
@@ -41,11 +42,10 @@ if __name__ == "__main__":
     train_labels = np.vstack([train_labels, test_labels]).reshape(-1,)
 
     rf.fit(train_df, train_labels)
-
-    rmse = cross_val_score(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = 'neg_mean_squared_error')
-    print('Mean MSE: {0}'.format(-np.mean(rmse)))
+    scoring = ['accuracy', 'precision', 'recall', 'f1']
+    rmse = cross_val_score(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = scoring)
+    print('Mean MSE: {0}'.format(rmse))
     print('MSE: {0}'.format(rmse))
-    y_pred = rf.predict_proba(holdout_feats)
-    mse = mean_squared_error(holdout_labels, y_pred)
-    print('Holdout MSE: {0}'.format(mse))
+    y_pred = rf.predict(holdout_feats)
+    # print('Holdout MSE: {0}'.format(mse))
 
