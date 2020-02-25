@@ -38,4 +38,4 @@ if __name__ == "__main__":
     holdout_labels, holdout_feats = transfer.holdout_labels, transfer.holdout_features
 
 
-    rf.fit(train_feats, train_labels)
+    # rf.fit(train_feats, train_labels)
