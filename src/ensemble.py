@@ -5,15 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score
 from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
-from multiscorer import MultiScorer
 
-
-scorer = MultiScorer({
-    'Accuracy'  : (accuracy_score , {}),
-    'Precision' : (precision_score, {'pos_label': 3, 'average':'macro'}),
-    'Recall'    : (recall_score   , {'pos_label': 3, 'average':'macro'})
-})
 
 rf = RandomForestClassifier(n_estimators=100,
                         criterion="gini",
@@ -33,6 +25,20 @@ rf = RandomForestClassifier(n_estimators=100,
                         warm_start=False, 
                         class_weight=None)
 
+def cross_val(X_train, y_train, k, model):
+    kf = KFold(n_splits=k, shuffle = True, random_state=0)
+    accs = []
+    prec = []
+    recall = []
+    for train, test in kf.split(X_train):
+        X_tr, X_test = X_train[train], X_train[test]
+        y_tr, y_test = y_train[train], y_train[test]
+        model.fit(X_tr, y_tr)
+        y_pred = model.predict(X_test)
+        accs.append(accuracy_score(y_test, y_pred))
+        prec.append(precision_score(y_test, y_pred,average = 'macro'))
+        recall.append(recall_score(y_test, y_pred, average = 'macro'))
+    return [np.mean(accs), np.mean(prec), np.mean(recall)]
 
 if __name__ == "__main__":
     train_loc = 'data/Train'
@@ -48,11 +54,13 @@ if __name__ == "__main__":
     train_df = np.vstack([train_feats, test_feats])
     train_labels = np.vstack([train_labels, test_labels]).reshape(-1,)
 
-    rf.fit(train_df, train_labels)
+
+    # rf.fit(train_df, train_labels)
     # scoring = [accuracy_score(), precision_score('macro'), recall_score('macro')]
-    rmse = cross_validate(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = scorer)
-    print('Mean MSE: {0}'.format(rmse))
-    print('MSE: {0}'.format(rmse))
+    scores = cross_val(train_df, train_labels, 10, rf)
+    print('Mean Accuracy: {0}'.format(scores[0]))
+    print('Mean Precision: {0}'.format(scores[1]))
+    print('Mean Recall: {0}'.format(scores[2]))
     acc = rf.score(holdout_feats, holdout_labels)
     print('Holdout Accuracy: {0}'.format(acc))
 
