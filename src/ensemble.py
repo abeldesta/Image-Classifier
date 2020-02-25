@@ -40,7 +40,7 @@ if __name__ == "__main__":
     train_df = np.vstack([train_feats, test_feats])
     train_labels = np.vstack([train_labels, test_labels])
 
-    rf.fit(train_feats, train_labels)
+    rf.fit(train_df, train_labels)
 
     rmse = cross_val_score(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = 'neg_mean_squared_error')
     print('Mean MSE: {0}'.format(-np.mean(rmse)))
