@@ -31,11 +31,18 @@ if __name__ == "__main__":
     holdout_loc = 'data/Holdout'
     test_loc = 'data/Test'
     transfer = TransferModel('transfer', (100,100,3), 3, 10)
-    transfer.fit(train_loc,test_loc,holdout_loc,1)
+    transfer.fit(train_loc,test_loc,holdout_loc)
     
-    train_labels, train_feats = transfer.train_labels, transfer.train_features 
-    test_labels, test_feats = transfer.test_labels, transfer.test_features
-    holdout_labels, holdout_feats = transfer.holdout_labels, transfer.holdout_features
+    train_labels, train_feats = transfer.train_labels.reshape(-1,1), transfer.train_features 
+    test_labels, test_feats = transfer.test_labels.reshape(-1,1), transfer.test_features
+    holdout_labels, holdout_feats = transfer.holdout_labels.reshape(-1,1), transfer.holdout_features
 
+    train_df = np.vstack([train_feats, test_feats])
+    train_labels = np.vstack([train_labels, test_labels])
 
-    # rf.fit(train_feats, train_labels)
+    rf.fit(train_feats, train_labels)
+
+    rmse = cross_val_score(rf, train_feats, train_labels, n_jobs=-1, cv = 10, scoring = 'neg_mean_squared_error')
+    print('Mean RMSE: {0}'.format(-np.mean(rmse)))
+    print('RMSE: {0}'.format(rmse))
+    y_pred = rf.predict_proba(holdout_feats)

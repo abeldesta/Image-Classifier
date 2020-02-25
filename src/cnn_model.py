@@ -64,7 +64,7 @@ class SimpleCNN:
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
-                shuffle=True)
+                shuffle=False)
     
         self.validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                     self.validation_folder,
@@ -72,7 +72,7 @@ class SimpleCNN:
                     class_mode='categorical',
                     color_mode='rgb',
                     target_size=(100,100),
-                    shuffle=True)
+                    shuffle=False)
 
         self.holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                     self.holdout_folder,
@@ -80,7 +80,7 @@ class SimpleCNN:
                     class_mode='categorical',
                     color_mode='rgb',
                     target_size=(100,100),
-                    shuffle=True)
+                    shuffle=False)
 
     def define_model(self):
         '''

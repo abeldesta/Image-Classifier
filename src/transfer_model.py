@@ -11,7 +11,7 @@ import os
 from glob import glob
 
 class TransferModel:
-    def __init__(self, modelname, input_size, n_categories, workers):
+    def __init__(self, modelname, input_size, n_categories, workers = -1):
         self.savename = modelname
         self.input_shape = input_size
         self.n_categories = n_categories
@@ -47,7 +47,7 @@ class TransferModel:
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
-                shuffle=True)
+                shuffle=False)
     
         self.validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                     self.validation_folder,
@@ -55,7 +55,7 @@ class TransferModel:
                     class_mode='categorical',
                     color_mode='rgb',
                     target_size=(100,100),
-                    shuffle=True)
+                    shuffle=False)
 
         self.holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                     self.holdout_folder,
@@ -63,7 +63,7 @@ class TransferModel:
                     class_mode='categorical',
                     color_mode='rgb',
                     target_size=(100,100),
-                    shuffle=True)
+                    shuffle=False)
 
     def add_model_head(self, base_model, n_categories):
         """
@@ -136,7 +136,7 @@ class TransferModel:
             print("Layer {} | Name: {} | Trainable: {}".format(i+indices, layer.name, layer.trainable))
 
 
-    def fit(self, train_loc, validation_loc, holdout_loc, epochs):
+    def fit(self, train_loc, validation_loc, holdout_loc):
         self._init_data(train_loc, validation_loc, holdout_loc)
         print(self.class_names)
         self._create_generators()
