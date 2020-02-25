@@ -5,8 +5,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score
 from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_validate
+from sklearn.model_selection import cross_val_score
+from multiscorer import MultiScorer
 
+
+scorer = MultiScorer({
+    'Accuracy'  : (accuracy_score , {}),
+    'Precision' : (precision_score, {'pos_label': 3, 'average':'macro'}),
+    'Recall'    : (recall_score   , {'pos_label': 3, 'average':'macro'})
+})
 
 rf = RandomForestClassifier(n_estimators=100,
                         criterion="gini",
@@ -42,8 +49,8 @@ if __name__ == "__main__":
     train_labels = np.vstack([train_labels, test_labels]).reshape(-1,)
 
     rf.fit(train_df, train_labels)
-    scoring = ['accuracy', 'precision', 'recall', 'f1']
-    rmse = cross_validate(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = scoring)
+    # scoring = [accuracy_score(), precision_score('macro'), recall_score('macro')]
+    rmse = cross_validate(rf, train_df, train_labels, n_jobs=-1, cv = 10, scoring = scorer)
     print('Mean MSE: {0}'.format(rmse))
     print('MSE: {0}'.format(rmse))
     acc = rf.score(holdout_feats, holdout_labels)
