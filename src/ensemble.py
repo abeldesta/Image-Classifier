@@ -123,9 +123,9 @@ if __name__ == "__main__":
 
 
     scores_gdbc, gdbc_model = cross_val(train_df, train_labels, 10, gdbc)
-    print('Mean Gradient Boosting Accuracy: {0}'.format(scores[0]))
-    print('Mean Adaboosting Precision: {0}'.format(scores[1]))
-    print('Mean Adaboosting Recall: {0}'.format(scores[2]))
+    print('Mean Gradient Boosting Accuracy: {0}'.format(scores_gdbc[0]))
+    print('Mean Adaboosting Precision: {0}'.format(scores_gdbc[1]))
+    print('Mean Adaboosting Recall: {0}'.format(scores_gdbc[2]))
     pred = gdbc_model.predict(holdout_feats)
     acc = accuracy_score(holdout_labels, pred)
     p = precision_score(holdout_labels, pred, average='macro')
@@ -136,9 +136,9 @@ if __name__ == "__main__":
 
 
     scores_abc, abc_model = cross_val(train_df, train_labels, 10, abc)
-    print('Mean Adaboosting Accuracy: {0}'.format(scores[0]))
-    print('Mean Adaboosting Precision: {0}'.format(scores[1]))
-    print('Mean Adaboosting Recall: {0}'.format(scores[2]))
+    print('Mean Adaboosting Accuracy: {0}'.format(scores_abc[0]))
+    print('Mean Adaboosting Precision: {0}'.format(scores_abc[1]))
+    print('Mean Adaboosting Recall: {0}'.format(scores_abc[2]))
     pred = abc_model.predict(holdout_feats)
     acc = accuracy_score(holdout_labels, pred)
     p = precision_score(holdout_labels, pred, average='macro')
