@@ -6,11 +6,23 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score
 from sklearn.model_selection import KFold
 from numpy.random import seed
+from sklearn.model_selection import GridSearchCV
 seed(1217)
+
+def evaluate(model, test_features, test_labels):
+    predictions = model.predict(test_features)
+    errors = abs(predictions - test_labels)
+    mape = 100 * np.mean(errors / test_labels)
+    accuracy = 100 - mape
+    print('Model Performance')
+    print('Average Error: {:0.4f} degrees.'.format(np.mean(errors)))
+    print('Accuracy = {:0.2f}%.'.format(accuracy))
+    
+    return accuracy
 
 rf = RandomForestClassifier(n_estimators=100,
                         criterion="gini",
-                        max_depth=25,
+                        max_depth=None,
                         min_samples_split=2, 
                         min_samples_leaf=1, 
                         min_weight_fraction_leaf=0., 
@@ -25,6 +37,9 @@ rf = RandomForestClassifier(n_estimators=100,
                         verbose=0, 
                         warm_start=False, 
                         class_weight=None)
+
+
+
 
 def cross_val(X_train, y_train, k, model):
     kf = KFold(n_splits=k, shuffle = True, random_state=0)
@@ -67,6 +82,10 @@ if __name__ == "__main__":
 
     train_df = np.vstack([train_feats, test_feats])
     train_labels = np.vstack([train_labels, test_labels]).reshape(-1,)
+
+    base_model = RandomForestClassifier(n_estimators = 100, random_state = 42)
+    base_model.fit(train_df, train_labels)
+    base_accuracy = evaluate(base_model, holdout_feats, holdout_labels)
 
     grid_search.fit(train_df, train_labels)
     best_grid = grid_search.best_estimator_
