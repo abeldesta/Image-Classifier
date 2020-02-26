@@ -21,7 +21,7 @@ rf = RandomForestClassifier(n_estimators=100,
                         bootstrap=True, 
                         oob_score=False, 
                         n_jobs=-1, 
-                        random_state=531, 
+                        random_state=513, 
                         verbose=0, 
                         warm_start=False, 
                         class_weight=None)
