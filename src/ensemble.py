@@ -23,7 +23,7 @@ def evaluate(model, test_features, test_labels):
     
     return accuracy
 
-rf = RandomForestClassifier(n_estimators=100,
+rf = RandomForestClassifier(n_estimators=300,
                         criterion="gini",
                         max_depth=None,
                         min_samples_split=2, 
@@ -96,13 +96,13 @@ if __name__ == "__main__":
 
     gdbc = GradientBoostingClassifier(learning_rate=0.1,
                                   loss='deviance',
-                                  n_estimators=100,
-                                  random_state=1)
+                                  n_estimators=300,
+                                  random_state=1217)
 
     abc = AdaBoostClassifier(DecisionTreeClassifier(),
                             learning_rate=0.1,
-                            n_estimators=100,
-                            random_state=1)
+                            n_estimators=300,
+                            random_state=1217)
 
     
 
