@@ -58,9 +58,9 @@ def cross_val(X_train, y_train, k, model):
 
 # Create the parameter grid based on the results of random search 
 param_grid = {
-    'bootstrap': [True],
-    'max_depth': [80, 90, 100, 110],
-    'max_features': [2, 3],
+    'bootstrap': [True, False],
+    'max_depth': [20, 30, 40, 80, 90, 100, 110, None],
+    'max_features': [2, 3, 4, 5, 6],
     'min_samples_leaf': [3, 4, 5],
     'min_samples_split': [8, 10, 12],
     'n_estimators': [100, 200, 300, 1000]

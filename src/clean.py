@@ -166,7 +166,7 @@ shape = (100, 100, 3)
 if __name__ == "__main__":
     main()
     os.chdir(home)
-    shape = (100, 100, 3)
+    shape = (299, 299, 3)
     import_path = 'data/Keras_Images'
     export_path = 'data/Keras_Images'
     #Save resized training and test photos into each folder
@@ -174,7 +174,7 @@ if __name__ == "__main__":
         #Test Images
         test_path = 'data/Test/{0}/'.format(i)
         test_resize =  ImagePipeline(test_dict[i], 
-                                        (100,100,3), 
+                                        shape, 
                                         home, 
                                         import_path, 
                                         export_path)
@@ -188,7 +188,7 @@ if __name__ == "__main__":
         #Training Images
         train_path = 'data/Train/{0}/'.format(i)
         train_resize = ImagePipeline(train_dict[i], 
-                                        (100,100,3), 
+                                        shape, 
                                         home, 
                                         import_path, 
                                         export_path)
@@ -202,7 +202,7 @@ if __name__ == "__main__":
         #Holdout Images
         holdout_path = 'data/Holdout/{0}/'.format(i)
         holdout_resize = ImagePipeline(hold_dict[i], 
-                                            (100,100,3), 
+                                            shape, 
                                             home, 
                                             import_path, 
                                             export_path)

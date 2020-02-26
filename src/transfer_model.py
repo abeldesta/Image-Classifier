@@ -46,7 +46,7 @@ class TransferModel:
                 batch_size= 5,
                 class_mode='categorical',
                 color_mode='rgb',
-                target_size=(100,100),
+                target_size=(299,299,3),
                 shuffle=False)
     
         self.validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
@@ -54,7 +54,7 @@ class TransferModel:
                     batch_size= 5,
                     class_mode='categorical',
                     color_mode='rgb',
-                    target_size=(100,100),
+                    target_size=(299,299,3),
                     shuffle=False)
 
         self.holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
@@ -62,7 +62,7 @@ class TransferModel:
                     batch_size= 5,
                     class_mode='categorical',
                     color_mode='rgb',
-                    target_size=(100,100),
+                    target_size=(299,299,3),
                     shuffle=False)
 
     def add_model_head(self, base_model, n_categories):
@@ -97,7 +97,7 @@ class TransferModel:
                         include_top=False,
                         input_shape=input_size)
         self.model = self.add_model_head(base_model, n_categories)
-        opt = Adam(learning_rate = .0001)
+        opt = Adam(learning_rate = .01)
         self.model.compile(loss='categorical_crossentropy',
                     optimizer=opt,
                     metrics=['accuracy', Precision(), Recall()])
