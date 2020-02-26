@@ -1,4 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.tree import DecisionTreeClassifier
 from transfer_model import TransferModel
 import pandas as pd 
 import numpy as np
@@ -54,7 +57,7 @@ def cross_val(X_train, y_train, k, model):
         accs.append(accuracy_score(y_test, y_pred))
         prec.append(precision_score(y_test, y_pred,average = 'macro'))
         recall.append(recall_score(y_test, y_pred, average = 'macro'))
-    return [np.mean(accs), np.mean(prec), np.mean(recall)]
+    return [np.mean(accs), np.mean(prec), np.mean(recall)], model
 
 # Create the parameter grid based on the results of random search 
 param_grid = {
@@ -83,24 +86,63 @@ if __name__ == "__main__":
     train_df = np.vstack([train_feats, test_feats])
     train_labels = np.vstack([train_labels, test_labels]).reshape(-1,)
 
-    base_model = RandomForestClassifier(n_estimators = 100, random_state = 42)
-    base_model.fit(train_df, train_labels)
-    base_accuracy = evaluate(base_model, holdout_feats, holdout_labels)
+    # base_model = RandomForestClassifier(n_estimators = 100, random_state = 42)
+    # base_model.fit(train_df, train_labels)
+    # base_accuracy = evaluate(base_model, holdout_feats, holdout_labels)
 
-    grid_search.fit(train_df, train_labels)
-    best_grid = grid_search.best_estimator_
-    grid_accuracy = evaluate(best_grid, holdout_feats, holdout_labels)
+    # grid_search.fit(train_df, train_labels)
+    # best_grid = grid_search.best_estimator_
+    # grid_accuracy = evaluate(best_grid, holdout_feats, holdout_labels)
+
+    gdbc = GradientBoostingClassifier(learning_rate=0.1,
+                                  loss='deviance',
+                                  n_estimators=100,
+                                  random_state=1)
+
+    abc = AdaBoostClassifier(DecisionTreeClassifier(),
+                            learning_rate=0.1,
+                            n_estimators=100,
+                            random_state=1)
+
+    
+
+    
     # rf.fit(train_df, train_labels)
     # scoring = [accuracy_score(), precision_score('macro'), recall_score('macro')]
-    # scores = cross_val(train_df, train_labels, 10, rf)
-    # print('Mean Accuracy: {0}'.format(scores[0]))
-    # print('Mean Precision: {0}'.format(scores[1]))
-    # print('Mean Recall: {0}'.format(scores[2]))
-    # pred = rf.predict(holdout_feats)
-    # acc = accuracy_score(holdout_labels, pred)
-    # p = precision_score(holdout_labels, pred, average='macro')
-    # r = recall_score(holdout_labels, pred, average = 'macro')
-    # print('Holdout Accuracy: {0}'.format(acc))
-    # print('Holdout Precision: {0}'.format(p))
-    # print('Holdout Recall: {0}'.format(r))
+    scores, rf_model = cross_val(train_df, train_labels, 10, rf)
+    print('Mean Accuracy: {0}'.format(scores[0]))
+    print('Mean Precision: {0}'.format(scores[1]))
+    print('Mean Recall: {0}'.format(scores[2]))
+    pred = rf_model.predict(holdout_feats)
+    acc = accuracy_score(holdout_labels, pred)
+    p = precision_score(holdout_labels, pred, average='macro')
+    r = recall_score(holdout_labels, pred, average = 'macro')
+    print('Holdout Accuracy: {0}'.format(acc))
+    print('Holdout Precision: {0}'.format(p))
+    print('Holdout Recall: {0}'.format(r))
 
+
+    scores_gdbc, gdbc_model = cross_val(train_df, train_labels, 10, gdbc)
+    print('Mean Gradient Boosting Accuracy: {0}'.format(scores[0]))
+    print('Mean Adaboosting Precision: {0}'.format(scores[1]))
+    print('Mean Adaboosting Recall: {0}'.format(scores[2]))
+    pred = gdbc_model.predict(holdout_feats)
+    acc = accuracy_score(holdout_labels, pred)
+    p = precision_score(holdout_labels, pred, average='macro')
+    r = recall_score(holdout_labels, pred, average = 'macro')
+    print('Holdout Adaboosting Accuracy: {0}'.format(acc))
+    print('Holdout Adaboosting Precision: {0}'.format(p))
+    print('Holdout Adaboosting Recall: {0}'.format(r))
+
+
+    scores_abc, abc_model = cross_val(train_df, train_labels, 10, abc)
+    print('Mean Adaboosting Accuracy: {0}'.format(scores[0]))
+    print('Mean Adaboosting Precision: {0}'.format(scores[1]))
+    print('Mean Adaboosting Recall: {0}'.format(scores[2]))
+    pred = abc_model.predict(holdout_feats)
+    acc = accuracy_score(holdout_labels, pred)
+    p = precision_score(holdout_labels, pred, average='macro')
+    r = recall_score(holdout_labels, pred, average = 'macro')
+    print('Holdout Adaboosting Accuracy: {0}'.format(acc))
+    print('Holdout Adaboosting Precision: {0}'.format(p))
+    print('Holdout Adaboosting Recall: {0}'.format(r))
