@@ -41,6 +41,19 @@ def cross_val(X_train, y_train, k, model):
         recall.append(recall_score(y_test, y_pred, average = 'macro'))
     return [np.mean(accs), np.mean(prec), np.mean(recall)]
 
+# Create the parameter grid based on the results of random search 
+param_grid = {
+    'bootstrap': [True],
+    'max_depth': [80, 90, 100, 110],
+    'max_features': [2, 3],
+    'min_samples_leaf': [3, 4, 5],
+    'min_samples_split': [8, 10, 12],
+    'n_estimators': [100, 200, 300, 1000]
+}
+
+grid_search = GridSearchCV(estimator = rf, param_grid = param_grid, 
+                          cv = 3, n_jobs = -1, verbose = 2)
+
 if __name__ == "__main__":
     train_loc = 'data/Train'
     holdout_loc = 'data/Holdout'
@@ -55,18 +68,20 @@ if __name__ == "__main__":
     train_df = np.vstack([train_feats, test_feats])
     train_labels = np.vstack([train_labels, test_labels]).reshape(-1,)
 
-
+    grid_search.fit(train_df, train_labels)
+    best_grid = grid_search.best_estimator_
+    grid_accuracy = evaluate(best_grid, holdout_feats, holdout_labels)
     # rf.fit(train_df, train_labels)
     # scoring = [accuracy_score(), precision_score('macro'), recall_score('macro')]
-    scores = cross_val(train_df, train_labels, 10, rf)
-    print('Mean Accuracy: {0}'.format(scores[0]))
-    print('Mean Precision: {0}'.format(scores[1]))
-    print('Mean Recall: {0}'.format(scores[2]))
-    pred = rf.predict(holdout_feats)
-    acc = accuracy_score(holdout_labels, pred)
-    p = precision_score(holdout_labels, pred, average='macro')
-    r = recall_score(holdout_labels, pred, average = 'macro')
-    print('Holdout Accuracy: {0}'.format(acc))
-    print('Holdout Precision: {0}'.format(p))
-    print('Holdout Recall: {0}'.format(r))
+    # scores = cross_val(train_df, train_labels, 10, rf)
+    # print('Mean Accuracy: {0}'.format(scores[0]))
+    # print('Mean Precision: {0}'.format(scores[1]))
+    # print('Mean Recall: {0}'.format(scores[2]))
+    # pred = rf.predict(holdout_feats)
+    # acc = accuracy_score(holdout_labels, pred)
+    # p = precision_score(holdout_labels, pred, average='macro')
+    # r = recall_score(holdout_labels, pred, average = 'macro')
+    # print('Holdout Accuracy: {0}'.format(acc))
+    # print('Holdout Precision: {0}'.format(p))
+    # print('Holdout Recall: {0}'.format(r))
 
