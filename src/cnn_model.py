@@ -197,7 +197,7 @@ class SimpleCNN:
 if __name__ == "__main__":
     nb_classes = 3 
     nb_epoch = 30
-    img_rows, img_cols = 100, 100
+    img_rows, img_cols = 250, 250
     input_shape = (img_rows, img_cols, 3)
     nb_filters = 32
     pool_size = (2, 2)
