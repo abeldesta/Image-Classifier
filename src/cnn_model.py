@@ -26,7 +26,7 @@ class SimpleCNN:
     def __init__(self, nb_classes, modelname, workers = 1, nb_epoch = 10, nb_filters = 32, kernel_size = (3,3), input_shape = (100,100,3), pool_size = (2,2)):
         self.nb_classes = nb_classes
         self.nb_epoch = nb_epoch
-        self.img_rows, self.img_cols = 100, 100
+        self.img_rows, self.img_cols = input_shape[0], input_shape[1] 
         self.input_shape = input_shape
         self.nb_filters = nb_filters
         self.pool_size = pool_size
@@ -63,7 +63,7 @@ class SimpleCNN:
                 batch_size= 1,
                 class_mode='categorical',
                 color_mode='rgb',
-                target_size=(100,100),
+                target_size=(self.img_rows, self.img_cols),
                 shuffle=False)
     
         self.validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
@@ -71,7 +71,7 @@ class SimpleCNN:
                     batch_size= 1,
                     class_mode='categorical',
                     color_mode='rgb',
-                    target_size=(100,100),
+                    target_size=(self.img_rows, self.img_cols),
                     shuffle=False)
 
         self.holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
@@ -79,7 +79,7 @@ class SimpleCNN:
                     batch_size= 1,
                     class_mode='categorical',
                     color_mode='rgb',
-                    target_size=(100,100),
+                    target_size=(self.img_rows, self.img_cols),
                     shuffle=False)
 
     def define_model(self):
