@@ -73,7 +73,7 @@ if __name__ == "__main__":
     train_loc = 'data/Train'
     holdout_loc = 'data/Holdout'
     test_loc = 'data/Test'
-    transfer = TransferModel('transfer', (100,100,3), 3, 10)
+    transfer = TransferModel('transfer', (299,299,3), 3, 10)
     transfer.fit(train_loc,test_loc,holdout_loc)
     
     train_labels, train_feats = transfer.train_labels.reshape(-1,1), transfer.train_features 
