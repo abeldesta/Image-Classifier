@@ -42,14 +42,14 @@ class TransferModel:
         Creates generators to create augmented images from directed
         '''
 
-        self.train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(self.train_folder,
+        self.train_datagen = ImageDataGenerator().flow_from_directory(self.train_folder,
                 batch_size= 5,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=self.input_shape,
                 shuffle=False)
     
-        self.validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
+        self.validation_datagen = ImageDataGenerator().flow_from_directory(
                     self.validation_folder,
                     batch_size= 5,
                     class_mode='categorical',
@@ -57,7 +57,7 @@ class TransferModel:
                     target_size=self.input_shape,
                     shuffle=False)
 
-        self.holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
+        self.holdout_datagen = ImageDataGenerator().flow_from_directory(
                     self.holdout_folder,
                     batch_size= 5,
                     class_mode='categorical',
