@@ -7,7 +7,7 @@ from tensorflow.keras.metrics import Precision, Recall
 from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras.callbacks import TensorBoard
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam, RMSprop
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications import Xception
 from transfer_model import main
@@ -116,7 +116,7 @@ class SimpleCNN:
         model.add(Dense(self.nb_classes))
         model.add(Dropout(0.5))
         model.add(Activation('softmax'))
-        opt = keras.optimizers.Adam(learning_rate = .0005)
+        opt = RMSprop(lr = .0001)
         model.compile(loss='categorical_crossentropy',
                     optimizer=opt,
                     metrics=['accuracy', Precision(), Recall()])
