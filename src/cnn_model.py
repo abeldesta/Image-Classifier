@@ -116,7 +116,7 @@ class SimpleCNN:
         model.add(Dense(self.nb_classes))
         model.add(Dropout(0.5))
         model.add(Activation('softmax'))
-        opt = Adam(lr = .01)
+        opt = Adam(lr = .001)
         model.compile(loss='categorical_crossentropy',
                     optimizer=opt,
                     metrics=['accuracy', Precision(), Recall()])
