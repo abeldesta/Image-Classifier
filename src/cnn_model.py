@@ -60,7 +60,7 @@ class SimpleCNN:
         '''
 
         self.train_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(self.train_folder,
-                batch_size= 5,
+                batch_size= 1,
                 class_mode='categorical',
                 color_mode='rgb',
                 target_size=(100,100),
@@ -68,7 +68,7 @@ class SimpleCNN:
     
         self.validation_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                     self.validation_folder,
-                    batch_size= 5,
+                    batch_size= 1,
                     class_mode='categorical',
                     color_mode='rgb',
                     target_size=(100,100),
@@ -76,7 +76,7 @@ class SimpleCNN:
 
         self.holdout_datagen = ImageDataGenerator(rescale =1./255).flow_from_directory(
                     self.holdout_folder,
-                    batch_size= 5,
+                    batch_size= 1,
                     class_mode='categorical',
                     color_mode='rgb',
                     target_size=(100,100),
