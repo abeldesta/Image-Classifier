@@ -64,7 +64,7 @@ if __name__ == "__main__":
     pred = rf.predict(holdout_feats)
     acc = accuracy_score(holdout_labels, pred)
     p = precision_score(holdout_labels, pred, average='macro')
-    r = recall_score(holdout_labels, pred)
+    r = recall_score(holdout_labels, pred, average = 'macro')
     print('Holdout Accuracy: {0}'.format(acc))
     print('Holdout Precision: {0}'.format(p))
     print('Holdout Recall: {0}'.format(r))
