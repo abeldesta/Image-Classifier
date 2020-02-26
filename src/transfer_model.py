@@ -46,7 +46,7 @@ class TransferModel:
                 batch_size= 5,
                 class_mode='categorical',
                 color_mode='rgb',
-                target_size=self.input_shape,
+                target_size=(self.input_shape[0], self.input_shape[1]),
                 shuffle=False)
     
         self.validation_datagen = ImageDataGenerator().flow_from_directory(
@@ -54,7 +54,7 @@ class TransferModel:
                     batch_size= 5,
                     class_mode='categorical',
                     color_mode='rgb',
-                    target_size=self.input_shape,
+                    target_size=(self.input_shape[0], self.input_shape[1]),
                     shuffle=False)
 
         self.holdout_datagen = ImageDataGenerator().flow_from_directory(
@@ -62,7 +62,7 @@ class TransferModel:
                     batch_size= 5,
                     class_mode='categorical',
                     color_mode='rgb',
-                    target_size=self.input_shape,
+                    target_size=(self.input_shape[0], self.input_shape[1]),
                     shuffle=False)
 
     def add_model_head(self, base_model, n_categories):
@@ -190,7 +190,7 @@ def main():
     train = 'data/Train'
     holdout = 'data/Holdout'
     test = 'data/Test'
-    transfer = TransferModel('transfer', (100,100,3), 3, 5)
+    transfer = TransferModel('transfer', (299,299,3), 3, 5)
     transfer.fit(train,test,holdout)
     print(len(transfer.train_features))
     
