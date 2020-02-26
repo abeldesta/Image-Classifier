@@ -16,7 +16,7 @@ for artist in artists:
     try:
         os.mkdir(os.path.join(home, artist))
         for i in np.arange(len(art)):
-            os.rename(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
+            os.renampye(os.path.join(home,art[i]), os.path.join(home, artist, art[i]))
         os.chdir(home)
     except:
         continue

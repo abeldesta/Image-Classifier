@@ -60,7 +60,7 @@ class ImagePipeline(object):
         '''
         self.folder = folder
         self.shape = shape
-        self.num_images = len(folder)*20
+        self.num_images = len(folder)
         self.home = home
         self.export_path = export_path
         self.import_path = import_path
