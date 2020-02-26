@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, recall_score
 from sklearn.model_selection import KFold
 from numpy.random import seed
-seed(531)
+seed(513)
 
 rf = RandomForestClassifier(n_estimators=100,
                         criterion="gini",
