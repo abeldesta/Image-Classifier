@@ -23,7 +23,7 @@ class SimpleCNN:
     '''
     Simple Convolution Neural Network class with methods to create generators, fit, and evaluate model
     '''
-    def __init__(self, nb_classes, modelname, workers = -1, nb_epoch = 10, nb_filters = 32, kernel_size = (3,3), input_shape = (100,100,3), pool_size = (2,2)):
+    def __init__(self, nb_classes, modelname, workers = 1, nb_epoch = 10, nb_filters = 32, kernel_size = (3,3), input_shape = (100,100,3), pool_size = (2,2)):
         self.nb_classes = nb_classes
         self.nb_epoch = nb_epoch
         self.img_rows, self.img_cols = 100, 100
