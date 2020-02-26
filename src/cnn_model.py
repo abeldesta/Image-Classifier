@@ -159,7 +159,7 @@ class SimpleCNN:
                         use_multiprocessing=True,
                         shuffle=True, initial_epoch=0)
 
-        best_model = load_model(self.savename)
+        best_model = load_model(filepath)
         print('evaluating simple model')
         accuracy = self.evaluate_model(best_model, self.holdout_datagen)
         return self.savename
