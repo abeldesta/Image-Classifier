@@ -11,9 +11,7 @@ seed(1217)
 
 def evaluate(model, test_features, test_labels):
     predictions = model.predict(test_features)
-    errors = abs(predictions - test_labels)
-    mape = 100 * np.mean(errors / test_labels)
-    accuracy = 100 - mape
+    accuracy = model.score(test_features, test_labels)
     print('Model Performance')
     print('Average Error: {:0.4f} degrees.'.format(np.mean(errors)))
     print('Accuracy = {:0.2f}%.'.format(accuracy))
