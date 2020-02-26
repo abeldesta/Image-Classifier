@@ -7,11 +7,11 @@ from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, r
 from sklearn.model_selection import KFold
 
 
-rf = RandomForestClassifier(n_estimators=100,
+rf = RandomForestClassifier(n_estimators=200,
                         criterion="gini",
                         max_depth=None,
-                        min_samples_split=2, 
-                        min_samples_leaf=1, 
+                        min_samples_split=4, 
+                        min_samples_leaf=2, 
                         min_weight_fraction_leaf=0., 
                         max_features="auto", 
                         max_leaf_nodes=None, 
