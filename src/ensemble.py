@@ -80,11 +80,11 @@ if __name__ == "__main__":
     transfer.fit(train_loc,test_loc,holdout_loc)
     
     train_labels, train_feats = transfer.train_labels.reshape(-1,1), transfer.train_features 
-    test_labels, test_feats = transfer.test_labels.reshape(-1,1), transfer.test_features
-    holdout_labels, holdout_feats = transfer.holdout_labels, transfer.holdout_features
+    test_labels, test_feats = transfer.test_labels, transfer.test_features
+    holdout_labels, holdout_feats = transfer.holdout_labels.reshape(-1,1), transfer.holdout_features
 
-    train_df = np.vstack([train_feats, test_feats])
-    train_labels = np.vstack([train_labels, test_labels]).reshape(-1,)
+    train_df = np.vstack([train_feats, holdout_feats])
+    train_labels = np.vstack([train_labels, holdout_labels]).reshape(-1,)
 
     # base_model = RandomForestClassifier(n_estimators = 100, random_state = 42)
     # base_model.fit(train_df, train_labels)
@@ -109,17 +109,17 @@ if __name__ == "__main__":
     
     # rf.fit(train_df, train_labels)
     # scoring = [accuracy_score(), precision_score('macro'), recall_score('macro')]
-    scores, rf_model = cross_val(train_df, train_labels, 10, rf)
-    print('Mean Accuracy: {0}'.format(scores[0]))
-    print('Mean Precision: {0}'.format(scores[1]))
-    print('Mean Recall: {0}'.format(scores[2]))
-    pred = rf_model.predict(holdout_feats)
-    acc = accuracy_score(holdout_labels, pred)
-    p = precision_score(holdout_labels, pred, average='macro')
-    r = recall_score(holdout_labels, pred, average = 'macro')
-    print('Holdout Accuracy: {0}'.format(acc))
-    print('Holdout Precision: {0}'.format(p))
-    print('Holdout Recall: {0}'.format(r))
+    # scores, rf_model = cross_val(train_df, train_labels, 10, rf)
+    # print('Mean Accuracy: {0}'.format(scores[0]))
+    # print('Mean Precision: {0}'.format(scores[1]))
+    # print('Mean Recall: {0}'.format(scores[2]))
+    # pred = rf_model.predict(holdout_feats)
+    # acc = accuracy_score(holdout_labels, pred)
+    # p = precision_score(holdout_labels, pred, average='macro')
+    # r = recall_score(holdout_labels, pred, average = 'macro')
+    # print('Holdout Accuracy: {0}'.format(acc))
+    # print('Holdout Precision: {0}'.format(p))
+    # print('Holdout Recall: {0}'.format(r))
 
 
     scores_gdbc, gdbc_model = cross_val(train_df, train_labels, 10, gdbc)
@@ -135,14 +135,14 @@ if __name__ == "__main__":
     print('Holdout Adaboosting Recall: {0}'.format(r))
 
 
-    scores_abc, abc_model = cross_val(train_df, train_labels, 10, abc)
-    print('Mean Adaboosting Accuracy: {0}'.format(scores_abc[0]))
-    print('Mean Adaboosting Precision: {0}'.format(scores_abc[1]))
-    print('Mean Adaboosting Recall: {0}'.format(scores_abc[2]))
-    pred = abc_model.predict(holdout_feats)
-    acc = accuracy_score(holdout_labels, pred)
-    p = precision_score(holdout_labels, pred, average='macro')
-    r = recall_score(holdout_labels, pred, average = 'macro')
-    print('Holdout Adaboosting Accuracy: {0}'.format(acc))
-    print('Holdout Adaboosting Precision: {0}'.format(p))
-    print('Holdout Adaboosting Recall: {0}'.format(r))
+    # scores_abc, abc_model = cross_val(train_df, train_labels, 10, abc)
+    # print('Mean Adaboosting Accuracy: {0}'.format(scores_abc[0]))
+    # print('Mean Adaboosting Precision: {0}'.format(scores_abc[1]))
+    # print('Mean Adaboosting Recall: {0}'.format(scores_abc[2]))
+    # pred = abc_model.predict(holdout_feats)
+    # acc = accuracy_score(holdout_labels, pred)
+    # p = precision_score(holdout_labels, pred, average='macro')
+    # r = recall_score(holdout_labels, pred, average = 'macro')
+    # print('Holdout Adaboosting Accuracy: {0}'.format(acc))
+    # print('Holdout Adaboosting Precision: {0}'.format(p))
+    # print('Holdout Adaboosting Recall: {0}'.format(r))
