@@ -190,7 +190,7 @@ def main():
     train = 'data/Train'
     holdout = 'data/Holdout'
     test = 'data/Test'
-    transfer = TransferModel('transfer', (299,299,3), 3, 5)
+    transfer = TransferModel('transfer', (250,250,3), 3, 5)
     transfer.fit(train,test,holdout)
     print(len(transfer.train_features))
     
