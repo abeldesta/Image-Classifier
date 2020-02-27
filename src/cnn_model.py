@@ -148,7 +148,7 @@ class SimpleCNN:
                     save_weights_only=False, 
                     mode='auto', period=1)
 
-        hist = self.model.fit_generator(self.train_datagen,
+        self.hist = self.model.fit_generator(self.train_datagen,
                         steps_per_epoch=None,
                         epochs=self.nb_epoch, verbose=1,  
                         validation_data=self.validation_datagen,
@@ -224,43 +224,39 @@ if __name__ == "__main__":
 
     holdout_labels = cnn.holdout_datagen.classes 
 
-    
+
     print(summary = cnn.model.summary)
 
     # ##PLOTTING RESULTS
 
-    # acc = hist.history['acc']
-    # val_acc = hist.history['val_acc']
-    # loss = hist.history['loss']
-    # val_loss = hist.history['val_loss']
-    # epochs = np.arange(1, nb_epoch+1)
+    acc = cnn.hist.history['acc']
+    val_acc = cnn.hist.history['val_acc']
+    loss = cnn.hist.history['loss']
+    val_loss = cnn.hist.history['val_loss']
+    epochs = np.arange(1, nb_epoch+1)
 
-    # fig, ax = plt.subplots(1,1)
-    # ax.plot(epochs, acc, label = 'Training Acc')
-    # ax.plot(epochs, val_acc, label = 'Test Acc')
-    # ax.set_xlabel('Epochs')
-    # ax.set_ylabel('Accuracy')
-    # ax.set_title('Model Accuracy')
-    # plt.legend()
-    # plt.savefig('img/CNN_acc.png')
+    fig, ax = plt.subplots(1,1)
+    ax.plot(epochs, acc, label = 'Training Acc')
+    ax.plot(epochs, val_acc, label = 'Test Acc')
+    ax.set_xlabel('Epochs')
+    ax.set_ylabel('Accuracy')
+    ax.set_title('Model Accuracy')
+    plt.legend()
+    plt.savefig('img/CNN_acc.png')
 
-    # fig, ax = plt.subplots(1,1)
-    # ax.plot(epochs, loss, label = 'Training Loss')
-    # ax.plot(epochs, val_loss, label = 'Test Loss')
-    # ax.set_xlabel('Epochs')
-    # ax.set_ylabel('Loss')
-    # ax.set_title('Model Loss')
-    # plt.legend()
-    # plt.savefig('img/CNN_loss.png')
-
-    # print('Model Score: {0}'.format(score[0]))
-    # print('Holdout Accuracy Score: {0}'.format(score[1]))
-    # print('Holdout Precision Score: {0}'.format(score[2]))
-    # print('Holdout Recall Score: {0}'.format(score[2]))
+    fig, ax = plt.subplots(1,1)
+    ax.plot(epochs, loss, label = 'Training Loss')
+    ax.plot(epochs, val_loss, label = 'Test Loss')
+    ax.set_xlabel('Epochs')
+    ax.set_ylabel('Loss')
+    ax.set_title('Model Loss')
+    plt.legend()
+    plt.savefig('img/CNN_loss.png')
 
 
 
-    # cm = confusion_matrix(holdout_datagen.classes, y_pred)
+    cm = confusion_matrix(cnn.holdout_datagen.classes, y_pred)
+    print(cm)
     # sns.set(font_scale=2.5)
     # fig, ax = plt.subplots(figsize=(15,15))
     # ax= plt.subplot()
