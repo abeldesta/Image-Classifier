@@ -11,6 +11,7 @@ from sklearn.metrics import confusion_matrix, f1_score, recall_score
 from sklearn.model_selection import KFold
 from numpy.random import seed
 from sklearn.model_selection import GridSearchCV
+import os
 seed(1217)
 
 def evaluate(model, test_features, test_labels):
@@ -85,6 +86,7 @@ if __name__ == "__main__":
     train_labels, train_feats = transfer.train_labels.reshape(-1,1), transfer.train_features 
     test_labels, test_feats = transfer.test_labels, transfer.test_features
     holdout_labels, holdout_feats = transfer.holdout_labels.reshape(-1,1), transfer.holdout_features
+    class_names = transfer.class_names
 
     train_df = np.vstack([train_feats, holdout_feats])
     train_labels = np.vstack([train_labels, holdout_labels]).reshape(-1,)
@@ -173,4 +175,13 @@ if __name__ == "__main__":
 
     predictions = np.array(test_labels == y_pred_abc)
     misclass_ada = np.where(predictions == False)[0]
+
+
+    home = os.getcwd()
+    imgs = []
+    for i in class_names:
+        os.chdir(os.path.abspath(test_loc + '/' + i))
+        files = os.listdir()
+        imgs.append(files)
+        os.chdir(home)
 
