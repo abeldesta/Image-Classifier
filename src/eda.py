@@ -20,13 +20,13 @@ def bar_chart(labels, data, fig_name, xlabel = None, ylabel = None, title = None
 
 if __name__ == "__main__":
     print(artists.head())
-    paint = artists.sort_values('paintings')[::-1]
+    paint = artists[artists['paintings'] > 120].sort_values('paintings')[::-1]
     labels = paint.name
     xtickLocations = np.arange(len(labels))
     counts = paint.paintings 
     width = 0.3
 
-    bar_chart(labels, counts, 'paintings', 'Artist', 'Image Count', 
+    bar_chart(labels, counts, 'paintings_2', 'Artist', 'Image Count', 
                     'Number of Paintings Per Artist')
 
     nation = artists.nationality.value_counts()
