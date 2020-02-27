@@ -141,8 +141,8 @@ class SimpleCNN:
         print(self.class_names)
         self._create_generators()
 
-        filepath = 'models/{0}.hdf5'.format(self.savename)
-        checkpoint = ModelCheckpoint(filepath, 
+        self.filepath = 'models/{0}.hdf5'.format(self.savename)
+        checkpoint = ModelCheckpoint(self.filepath, 
                     monitor='val_loss', 
                     verbose=0, 
                     save_best_only=True, 
@@ -162,10 +162,10 @@ class SimpleCNN:
                         use_multiprocessing=True,
                         shuffle=True, initial_epoch=0)
 
-        best_model = load_model(filepath)
+        best_model = load_model(self.filepath)
         print('evaluating simple model')
         accuracy = self.evaluate_model(best_model, self.holdout_datagen)
-        return self.savename
+        return self.filepath
     
     def evaluate_model(self, model, holdout_gen):
         """
@@ -216,8 +216,8 @@ if __name__ == "__main__":
 
 
     
-    
-    y_pred = cnn.model.predict_generator(cnn.holdout_datagen,
+    model = load_model(cnn.filepath)
+    y_pred = model.predict_generator(cnn.holdout_datagen,
                                         workers = 1,
                                         use_multiprocessing = True,
                                         verbose = 1)

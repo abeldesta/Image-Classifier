@@ -126,7 +126,7 @@ if __name__ == "__main__":
     print('Holdout Precision: {0}'.format(p))
     print('Holdout Recall: {0}'.format(r))
     print('Holdout F1 Score: {0}'.format(f_score))
-    cm = confusion_matrix(holdout_labels, y_pred)
+    cm = confusion_matrix(test_labels, y_pred)
     print('Confusion Matrix: {}'.format(cm))
 
     scores_gdbc, gdbc_model = cross_val(train_df, train_labels, 5, gdbc)
@@ -143,7 +143,7 @@ if __name__ == "__main__":
     print('Holdout Gradient Boosting Precision: {0}'.format(p))
     print('Holdout Gradient Boosting Recall: {0}'.format(r))
     print('Holdout Gradient Boosting F1 Score: {0}'.format(f_score))
-    cm = confusion_matrix(holdout_labels, y_pred_gdbc)
+    cm = confusion_matrix(test_labels, y_pred_gdbc)
     print('Confusion Matrix: {}'.format(cm))
 
 
@@ -162,5 +162,5 @@ if __name__ == "__main__":
     print('Holdout Adaboosting Precision: {0}'.format(p))
     print('Holdout Adaboosting Recall: {0}'.format(r))
     print('Holdout Adaboosting F1 Score: {0}'.format(f_score))
-    cm = confusion_matrix(holdout_labels, y_pred_abc)
+    cm = confusion_matrix(test_labels, y_pred_abc)
     print('Confusion Matrix: {}'.format(cm))
