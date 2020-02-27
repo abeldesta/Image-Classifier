@@ -210,18 +210,22 @@ if __name__ == "__main__":
     test_loc = os.path.abspath('data/Test/')
     holdout_loc = os.path.abspath('data/Holdout/')
 
-    cnn = SimpleCNN(nb_classes = nb_classes, modelname = 'simpleCNN', nb_epoch=10)
+    cnn = SimpleCNN(nb_classes = nb_classes, modelname = 'simpleCNN', nb_epoch=50)
     cnn.fit(train_loc, test_loc, holdout_loc)
 
 
     
     
-    # y_pred = model.predict_generator(holdout_datagen,
-    #                                     workers = 1,
-    #                                     use_multiprocessing = True,
-    #                                     verbose = 1)
+    y_pred = cnn.model.predict_generator(cnn.holdout_datagen,
+                                        workers = 1,
+                                        use_multiprocessing = True,
+                                        verbose = 1)
 
-    # summary = model.summary
+
+    holdout_labels = cnn.holdout_datagen.classes 
+
+    
+    print(summary = cnn.model.summary)
 
     # ##PLOTTING RESULTS
 
