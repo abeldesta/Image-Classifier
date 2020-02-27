@@ -10,6 +10,7 @@ from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.optimizers import Adam, RMSprop
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications import Xception
+from sklearn.metrics import confusion_matrix
 from transfer_model import main
 import matplotlib.pyplot as plt 
 from glob import glob
