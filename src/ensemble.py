@@ -50,7 +50,7 @@ def cross_val(X_train, y_train, k, model):
     accs = []
     prec = []
     recall = []
-    f1 = []
+    f_score = []
     for train, test in kf.split(X_train):
         X_tr, X_test = X_train[train], X_train[test]
         y_tr, y_test = y_train[train], y_train[test]
@@ -59,7 +59,7 @@ def cross_val(X_train, y_train, k, model):
         accs.append(accuracy_score(y_test, y_pred))
         prec.append(precision_score(y_test, y_pred,average = 'macro'))
         recall.append(recall_score(y_test, y_pred, average = 'macro'))
-        f1.append(f1_score(y_test, y_pred, average = 'macro'))
+        f_score.append(f1_score(y_test, y_pred, average = 'macro'))
     return [np.mean(accs), np.mean(prec), np.mean(recall), np.mean(f1)], model
 
 # Create the parameter grid based on the results of random search 
@@ -121,11 +121,11 @@ if __name__ == "__main__":
     acc = accuracy_score(test_labels, y_pred)
     p = precision_score(test_labels, y_pred, average='macro')
     r = recall_score(test_labels, y_pred, average = 'macro')
-    f1 = f1_score(test_labels, y_pred)
+    f_score = f1_score(test_labels, y_pred)
     print('Holdout Accuracy: {0}'.format(acc))
     print('Holdout Precision: {0}'.format(p))
     print('Holdout Recall: {0}'.format(r))
-    print('Holdout F1 Score: {0}'.format(f1))
+    print('Holdout F1 Score: {0}'.format(f_score))
 
     scores_gdbc, gdbc_model = cross_val(train_df, train_labels, 5, gdbc)
     print('Mean Gradient Boosting Accuracy: {0}'.format(scores_gdbc[0]))
@@ -135,12 +135,12 @@ if __name__ == "__main__":
     pred = gdbc_model.predict(test_feats)
     acc = accuracy_score(test_labels, y_pred)
     p = precision_score(test_labels, y_pred, average='macro')
-    r = recall_score(test_labels, y_pred, average = 'macro'
-    f1 = f1_score(test_labels, y_pred)
+    r = recall_score(test_labels, y_pred, average = 'macro')
+    f_score = f1_score(test_labels, y_pred)
     print('Holdout Gradient Boosting Accuracy: {0}'.format(acc))
     print('Holdout Gradient Boosting Precision: {0}'.format(p))
     print('Holdout Gradient Boosting Recall: {0}'.format(r))
-    print('Holdout Gradient Boosting F1 Score: {0}'.format(f1))
+    print('Holdout Gradient Boosting F1 Score: {0}'.format(f_score))
 
 
     scores_abc, abc_model = cross_val(train_df, train_labels, 5, abc)
@@ -151,9 +151,9 @@ if __name__ == "__main__":
     pred = abc_model.predict(test_feats)
     acc = accuracy_score(test_labels, y_pred)
     p = precision_score(test_labels, y_pred, average='macro')
-    r = recall_score(test_labels, y_pred, average = 'macro'
-    f1 = f1_score(test_labels, y_pred)
+    r = recall_score(test_labels, y_pred, average = 'macro')
+    f_score = f1_score(test_labels, y_pred)
     print('Holdout Adaboosting Accuracy: {0}'.format(acc))
     print('Holdout Adaboosting Precision: {0}'.format(p))
     print('Holdout Adaboosting Recall: {0}'.format(r))
-    print('Holdout Adaboosting F1 Score: {0}'.format(f1))
+    print('Holdout Adaboosting F1 Score: {0}'.format(f_score))
