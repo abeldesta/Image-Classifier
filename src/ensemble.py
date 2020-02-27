@@ -60,7 +60,7 @@ def cross_val(X_train, y_train, k, model):
         prec.append(precision_score(y_test, y_pred,average = 'macro'))
         recall.append(recall_score(y_test, y_pred, average = 'macro'))
         f_score.append(f1_score(y_test, y_pred, average = 'macro'))
-    return [np.mean(accs), np.mean(prec), np.mean(recall), np.mean(f1)], model
+    return [np.mean(accs), np.mean(prec), np.mean(recall), np.mean(f_score)], model
 
 # Create the parameter grid based on the results of random search 
 param_grid = {
