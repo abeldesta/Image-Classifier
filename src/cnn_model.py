@@ -210,7 +210,7 @@ if __name__ == "__main__":
     test_loc = os.path.abspath('data/Test/')
     holdout_loc = os.path.abspath('data/Holdout/')
 
-    cnn = SimpleCNN(nb_classes = nb_classes, modelname = 'simpleCNN', nb_epoch=20)
+    cnn = SimpleCNN(nb_classes = nb_classes, modelname = 'simpleCNN', nb_epoch=30)
     cnn.fit(train_loc, test_loc, holdout_loc)
 
 
