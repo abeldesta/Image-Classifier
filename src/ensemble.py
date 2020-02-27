@@ -119,7 +119,7 @@ if __name__ == "__main__":
     print('Mean F1 Score: {0}'.format(scores[3]))
     pred = rf_model.predict(test_feats)
     acc = accuracy_score(test_labels, y_pred)
-    p = precision_score(test_labels, y_pred average='macro')
+    p = precision_score(test_labels, y_pred, average='macro')
     r = recall_score(test_labels, y_pred, average = 'macro')
     f1 = f1_score(test_labels, y_pred)
     print('Holdout Accuracy: {0}'.format(acc))
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     print('Mean Gradient Boosting F1 Score: {0}'.format(scores[3]))
     pred = gdbc_model.predict(test_feats)
     acc = accuracy_score(test_labels, y_pred)
-    p = precision_score(test_labels, y_pred average='macro')
+    p = precision_score(test_labels, y_pred, average='macro')
     r = recall_score(test_labels, y_pred, average = 'macro'
     f1 = f1_score(test_labels, y_pred)
     print('Holdout Gradient Boosting Accuracy: {0}'.format(acc))
@@ -150,7 +150,7 @@ if __name__ == "__main__":
     print('Mean Adaboosting F1 Score: {0}'.format(scores[3]))
     pred = abc_model.predict(test_feats)
     acc = accuracy_score(test_labels, y_pred)
-    p = precision_score(test_labels, y_pred average='macro')
+    p = precision_score(test_labels, y_pred, average='macro')
     r = recall_score(test_labels, y_pred, average = 'macro'
     f1 = f1_score(test_labels, y_pred)
     print('Holdout Adaboosting Accuracy: {0}'.format(acc))
