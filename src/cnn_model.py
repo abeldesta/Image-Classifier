@@ -16,6 +16,8 @@ from glob import glob
 import numpy as np
 # import seaborn as sns 
 import os
+from numpy.random import seed
+seed(1217)
 plt.style.use('ggplot')
 
 class SimpleCNN:
