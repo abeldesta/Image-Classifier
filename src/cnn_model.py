@@ -109,15 +109,13 @@ class SimpleCNN:
                             input_shape=self.input_shape, name = 'conv_layer4'))
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer4'))
-
+        model.add(Dropout(0.5))
         model.add(Flatten())
         print('Model flattened out to ', model.output_shape)
-
         model.add(Dense(128)) 
         model.add(Activation('relu'))
-        model.add(Dropout(0.5))
+        model.add(Dropout(0.6))
         model.add(Dense(self.nb_classes))
-        model.add(Dropout(0.5))
         model.add(Activation('softmax'))
         opt = Adam(lr = .0001)
         model.compile(loss='categorical_crossentropy',
@@ -226,38 +224,38 @@ if __name__ == "__main__":
     holdout_labels = cnn.holdout_datagen.classes 
 
 
-    print(model.summary)
+    print(model.summary())
 
     # ##PLOTTING RESULTS
 
-    acc = cnn.hist.history['acc']
-    val_acc = cnn.hist.history['val_acc']
-    loss = cnn.hist.history['loss']
-    val_loss = cnn.hist.history['val_loss']
-    epochs = np.arange(1, nb_epoch+1)
+    # acc = cnn.hist.history['acc']
+    # val_acc = cnn.hist.history['val_acc']
+    # loss = cnn.hist.history['loss']
+    # val_loss = cnn.hist.history['val_loss']
+    # epochs = np.arange(1, nb_epoch+1)
 
-    fig, ax = plt.subplots(1,1)
-    ax.plot(epochs, acc, label = 'Training Acc')
-    ax.plot(epochs, val_acc, label = 'Test Acc')
-    ax.set_xlabel('Epochs')
-    ax.set_ylabel('Accuracy')
-    ax.set_title('Model Accuracy')
-    plt.legend()
-    plt.savefig('img/CNN_acc.png')
+    # fig, ax = plt.subplots(1,1)
+    # ax.plot(epochs, acc, label = 'Training Acc')
+    # ax.plot(epochs, val_acc, label = 'Test Acc')
+    # ax.set_xlabel('Epochs')
+    # ax.set_ylabel('Accuracy')
+    # ax.set_title('Model Accuracy')
+    # plt.legend()
+    # plt.savefig('img/CNN_acc.png')
 
-    fig, ax = plt.subplots(1,1)
-    ax.plot(epochs, loss, label = 'Training Loss')
-    ax.plot(epochs, val_loss, label = 'Test Loss')
-    ax.set_xlabel('Epochs')
-    ax.set_ylabel('Loss')
-    ax.set_title('Model Loss')
-    plt.legend()
-    plt.savefig('img/CNN_loss.png')
+    # fig, ax = plt.subplots(1,1)
+    # ax.plot(epochs, loss, label = 'Training Loss')
+    # ax.plot(epochs, val_loss, label = 'Test Loss')
+    # ax.set_xlabel('Epochs')
+    # ax.set_ylabel('Loss')
+    # ax.set_title('Model Loss')
+    # plt.legend()
+    # plt.savefig('img/CNN_loss.png')
 
 
 
-    cm = confusion_matrix(cnn.holdout_datagen.classes, y_pred)
-    print(cm)
+    # cm = confusion_matrix(cnn.holdout_datagen.classes, y_pred)
+    # print(cm)
     # sns.set(font_scale=2.5)
     # fig, ax = plt.subplots(figsize=(15,15))
     # ax= plt.subplot()
