@@ -1,4 +1,4 @@
-# Whose the Artist?
+# Who's the Artist?
 Image Classification - Convolution Neural Network project 
 
 *By Abel Desta*
