@@ -5,6 +5,8 @@ from sklearn.tree import DecisionTreeClassifier
 from transfer_model import TransferModel
 import pandas as pd 
 import numpy as np
+import skimage.io
+import skimage.transform
 import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, accuracy_score
 from sklearn.metrics import confusion_matrix, f1_score, recall_score
@@ -13,6 +15,7 @@ from numpy.random import seed
 from sklearn.model_selection import GridSearchCV
 import os
 import itertools
+plt.style.use('ggplot')
 seed(1217)
 
 def evaluate(model, test_features, test_labels):
@@ -165,7 +168,7 @@ if __name__ == "__main__":
     print('Mean Adaboosting Recall: {0}'.format(scores_abc[2]))
     print('Mean Adaboosting F1 Score: {0}'.format(scores[3]))
     y_pred_abc = abc_model.predict(test_feats)
-    pred_prob_abc = abc_model.predict_proba(test_feats)
+    pred_prob_abc = gdbc_model.predict_proba(test_feats)
     acc = accuracy_score(test_labels, y_pred_abc)
     p = precision_score(test_labels, y_pred_abc, average='macro')
     r = recall_score(test_labels, y_pred_abc, average = 'macro')
@@ -189,6 +192,17 @@ if __name__ == "__main__":
         imgs.append(files)
         os.chdir(home)
 
-    images = list(itertools.chain.from_iterable(imgs))
+    images = np.array(list(itertools.chain.from_iterable(imgs)))
+    wrong_class = test_labels[misclass]
+
+    fig, axs = plt.subplots(8,8)
+    for i, ax in enumerate(axs.flatten()):
+        file = class_names[wrong_class[i]]
+        path_img = os.path.join(home, test_loc, file, images[i])
+        img = skimage.io.imread(path_img)
+        ax.imshow(img)
+        ax.set_title(file)
+        ax.set_xlabel(images[i])
+    plt.savefig('img/misclassified.png')
 
 
