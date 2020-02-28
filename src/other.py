@@ -79,7 +79,7 @@ for i in class_names:
 images = np.array(list(itertools.chain.from_iterable(imgs)))[misclass]
 wrong_class = test_labels[misclass]
 wrong_pred = y_pred[misclass]
-img_class = pd.DataFrame(np.vstack((images, wrong_class)).T, columns = ['image', 'pred_class', 'actual_class'])
+img_class = pd.DataFrame(np.vstack((images, wrong_pred, wrong_class)).T, columns = ['image', 'pred_class', 'actual_class'])
 plot_img = img_class.loc[[24,25,58],].reset_index(drop=True)
 plot_probs = pred_prob[misclass][[24,25,58]]
 labels = ['Degas', 'Picasso', 'Van Gogh']
