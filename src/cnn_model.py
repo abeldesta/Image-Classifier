@@ -226,7 +226,7 @@ if __name__ == "__main__":
     holdout_labels = cnn.holdout_datagen.classes 
 
 
-    print(summary = cnn.model.summary)
+    print(model.summary)
 
     # ##PLOTTING RESULTS
 
@@ -271,4 +271,4 @@ if __name__ == "__main__":
     # ax.yaxis.set_ticklabels(class_labels);
     
 
-    # scp -i /.ssh/capstone_2.pem ~/Capstone-2/data/artists.csv ubuntu@ec2-34-227-223-16.compute-1.amazonaws.com
+    
