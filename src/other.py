@@ -78,7 +78,7 @@ for i in class_names:
 images = np.array(list(itertools.chain.from_iterable(imgs)))[misclass]
 wrong_class = test_labels[misclass]
 
-fig, axs = plt.subplots(8,9, fig_size=(12,12))
+fig, axs = plt.subplots(8,9, figsize=(12,12))
 for i, ax in enumerate(axs.flatten()):
     file = class_names[wrong_class[i]]
     path_img = os.path.join(home, test_loc, file, images[i])
