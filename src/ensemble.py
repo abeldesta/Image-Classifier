@@ -12,6 +12,7 @@ from sklearn.model_selection import KFold
 from numpy.random import seed
 from sklearn.model_selection import GridSearchCV
 import os
+import itertools
 seed(1217)
 
 def evaluate(model, test_features, test_labels):
@@ -120,6 +121,7 @@ if __name__ == "__main__":
     print('Mean Recall: {0}'.format(scores[2]))
     print('Mean F1 Score: {0}'.format(scores[3]))
     y_pred = rf_model.predict(test_feats)
+    pred_prob = rf_model.predict_proba(test_feats)
     acc = accuracy_score(test_labels, y_pred)
     p = precision_score(test_labels, y_pred, average='macro')
     r = recall_score(test_labels, y_pred, average = 'macro')
@@ -141,6 +143,7 @@ if __name__ == "__main__":
     print('Mean Gradient Boosting Recall: {0}'.format(scores_gdbc[2]))
     print('Mean Gradient Boosting F1 Score: {0}'.format(scores[3]))
     y_pred_gdbc = gdbc_model.predict(test_feats)
+    pred_prob_gbdc = rf_model.predict_proba(test_feats)
     acc = accuracy_score(test_labels, y_pred_gdbc)
     p = precision_score(test_labels, y_pred_gdbc, average='macro')
     r = recall_score(test_labels, y_pred_gdbc, average = 'macro')
@@ -162,6 +165,7 @@ if __name__ == "__main__":
     print('Mean Adaboosting Recall: {0}'.format(scores_abc[2]))
     print('Mean Adaboosting F1 Score: {0}'.format(scores[3]))
     y_pred_abc = abc_model.predict(test_feats)
+    pred_prob_abc = abc_model.predict_proba(test_feats)
     acc = accuracy_score(test_labels, y_pred_abc)
     p = precision_score(test_labels, y_pred_abc, average='macro')
     r = recall_score(test_labels, y_pred_abc, average = 'macro')
@@ -184,4 +188,7 @@ if __name__ == "__main__":
         files = os.listdir()
         imgs.append(files)
         os.chdir(home)
+
+    images = list(itertools.chain.from_iterable(imgs))
+
 
