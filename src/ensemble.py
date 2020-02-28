@@ -135,7 +135,7 @@ if __name__ == "__main__":
     print('Holdout Recall: {0}'.format(r))
     print('Holdout F1 Score: {0}'.format(f_score))
     cm = confusion_matrix(test_labels, y_pred)
-    print('Confusion Matrix: {}'.format(cm))
+    print('Confusion Matrix: \n {}'.format(cm))
 
     with open('models/randomforest.pkl', 'wb') as f:
         pickle.dump(rf_model, f)
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     print('Holdout Gradient Boosting Recall: {0}'.format(r))
     print('Holdout Gradient Boosting F1 Score: {0}'.format(f_score))
     cm_gdbc = confusion_matrix(test_labels, y_pred_gdbc)
-    print('Confusion Matrix: {}'.format(cm))
+    print('Confusion Matrix: \n {}'.format(cm))
 
     with open('models/gradientboost.pkl', 'wb') as f:
         pickle.dump(gdbc_model, f)
@@ -186,7 +186,7 @@ if __name__ == "__main__":
     print('Holdout Adaboosting Recall: {0}'.format(r))
     print('Holdout Adaboosting F1 Score: {0}'.format(f_score))
     cm_abc = confusion_matrix(test_labels, y_pred_abc)
-    print('Confusion Matrix: {}'.format(cm))
+    print('Confusion Matrix: \n {}'.format(cm))
 
     predictions = np.array(test_labels == y_pred_abc)
     misclass_ada = np.where(predictions == False)[0]
