@@ -44,7 +44,7 @@ print('Holdout Precision: {0}'.format(p))
 print('Holdout Recall: {0}'.format(r))
 print('Holdout F1 Score: {0}'.format(f_score))
 cm = confusion_matrix(test_labels, y_pred)
-print('Confusion Matrix: {}'.format(cm))
+print('Confusion Matrix: \n {}'.format(cm))
 predictions = np.array(test_labels == y_pred)
 misclass = np.where(predictions == False)[0]
 
@@ -61,9 +61,30 @@ print('Holdout Gradient Boosting Precision: {0}'.format(p))
 print('Holdout Gradient Boosting Recall: {0}'.format(r))
 print('Holdout Gradient Boosting F1 Score: {0}'.format(f_score))
 cm_gdbc = confusion_matrix(test_labels, y_pred_gdbc)
-print('Confusion Matrix: {}'.format(cm))
+print('Confusion Matrix: \n {}'.format(cm))
 
 
 predictions = np.array(test_labels == y_pred_gdbc)
 misclass_gdbc = np.where(predictions == False)[0]
 
+home = os.getcwd()
+imgs = []
+for i in class_names:
+    os.chdir(os.path.abspath(test_loc + '/' + i))
+    files = os.listdir()
+    imgs.append(files)
+    os.chdir(home)
+
+images = np.array(list(itertools.chain.from_iterable(imgs)))[misclass]
+wrong_class = test_labels[misclass]
+
+fig, axs = plt.subplots(8,8)
+for i, ax in enumerate(axs.flatten()):
+    file = class_names[wrong_class[i]]
+    path_img = os.path.join(home, test_loc, file, images[i])
+    img = skimage.io.imread(path_img)
+    ax.imshow(img)
+    ax.set_title(file)
+    ax.set_xlabel(images[i])
+plt.savefig('img/misclassified.png')
+plt.tight_layout()
