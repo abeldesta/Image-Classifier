@@ -12,22 +12,21 @@ from numpy.random import seed
 import os
 import itertools
 from transfer_model import TransferModel
-from ensemble import train_df, train_labels, test_labels, test_feats
 
 
 train_loc = 'data/Train'
 holdout_loc = 'data/Holdout'
 test_loc = 'data/Test'
-# transfer = TransferModel('transfer', (250,250,3), 3, 10)
-# transfer.fit(train_loc,test_loc,holdout_loc)
+transfer = TransferModel('transfer', (250,250,3), 3, 10)
+transfer.fit(train_loc,test_loc,holdout_loc)
 
-# train_labels, train_feats = transfer.train_labels.reshape(-1,1), transfer.train_features 
-# test_labels, test_feats = transfer.test_labels, transfer.test_features
-# holdout_labels, holdout_feats = transfer.holdout_labels.reshape(-1,1), transfer.holdout_features
-# class_names = transfer.class_names
+train_labels, train_feats = transfer.train_labels.reshape(-1,1), transfer.train_features 
+test_labels, test_feats = transfer.test_labels, transfer.test_features
+holdout_labels, holdout_feats = transfer.holdout_labels.reshape(-1,1), transfer.holdout_features
+class_names = transfer.class_names
 
-# train_df = np.vstack([train_feats, holdout_feats])
-# train_labels = np.vstack([train_labels, holdout_labels]).reshape(-1,)
+train_df = np.vstack([train_feats, holdout_feats])
+train_labels = np.vstack([train_labels, holdout_labels]).reshape(-1,)
 
 rf_model = pickle.load(open('models/randomforest.pkl', 'rb'))
 gdbc_model = pickle.load(open('models/gradientboost.pkl', 'rb'))
