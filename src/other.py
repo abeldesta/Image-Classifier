@@ -11,7 +11,8 @@ from sklearn.model_selection import KFold
 from numpy.random import seed
 import os
 import itertools
-from transfer_model import TransferModel, train_df, train_labels, test_labels, test_feats
+from transfer_model import TransferModel
+from ensemble import train_df, train_labels, test_labels, test_feats
 
 
 train_loc = 'data/Train'
