@@ -75,7 +75,7 @@ for i in class_names:
     imgs.append(files)
     os.chdir(home)
 
-images = np.array(list(itertools.chain.from_iterable(imgs)))[misclass]
+images = [i[0] for i in imgs]
 wrong_class = test_labels[misclass]
 
 fig, axs = plt.subplots(8,8, figsize=(14,14))
@@ -99,3 +99,5 @@ for i, ax in enumerate(axs.flatten()):
         ax.set_xlabel('PP')
 plt.savefig('img/misclassified.png')
 plt.tight_layout()
+
+
