@@ -78,13 +78,13 @@ for i in class_names:
 images = np.array(list(itertools.chain.from_iterable(imgs)))[misclass]
 wrong_class = test_labels[misclass]
 
-fig, axs = plt.subplots(8,8, figsize=(12,12))
+fig, axs = plt.subplots(8,8, figsize=(14,14))
 for i, ax in enumerate(axs.flatten()):
     file = class_names[wrong_class[i]]
     path_img = os.path.join(home, test_loc, file, images[i])
     img = skimage.io.imread(path_img)
     ax.imshow(img)
-    ax.set_ylabel(file)
+    ax.set_title(file)
     ax.set_xlabel(images[i])
 plt.savefig('img/misclassified.png')
 plt.tight_layout()
