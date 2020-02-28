@@ -12,6 +12,7 @@ from numpy.random import seed
 import os
 import itertools
 from transfer_model import TransferModel
+from eda import bar_chart
 
 
 train_loc = 'data/Train'
@@ -64,7 +65,7 @@ cm_gdbc = confusion_matrix(test_labels, y_pred_gdbc)
 print('Confusion Matrix: \n {}'.format(cm))
 
 
-predictions = np.array(test_labels == y_pred_gdbc)
+predictions_gdbc = np.array(test_labels == y_pred_gdbc)
 misclass_gdbc = np.where(predictions == False)[0]
 
 home = os.getcwd()
@@ -75,29 +76,39 @@ for i in class_names:
     imgs.append(files)
     os.chdir(home)
 
-images = [i[0] for i in imgs]
+images = np.array(list(itertools.chain.from_iterable(imgs)))[misclass]
 wrong_class = test_labels[misclass]
+wrong_pred = y_pred[misclass]
+img_class = pd.DataFrame(np.vstack((images, wrong_class)).T, columns = ['image', 'pred_class', 'actual_class'])
+plot_img = img_class.loc[[24,25,58],].reset_index(drop=True)
+plot_probs = pred_prob[misclass][[24,25,58]]
+labels = ['Degas', 'Picasso', 'Van Gogh']
 
-fig, axs = plt.subplots(8,8, figsize=(14,14))
+
+
+
+
+fig, axs = plt.subplots(1,3)
 for i, ax in enumerate(axs.flatten()):
-    file = class_names[wrong_class[i]]
-    path_img = os.path.join(home, test_loc, file, images[i])
+    file = class_names[int(plot_img.loc[i,2])]
+    path_img = os.path.join(home, test_loc, file, plot_img.loc[i,0])
     img = skimage.io.imread(path_img)
     ax.imshow(img)
-    if 'Edgar' in file:
-        ax.set_ylabel('ED')
-    elif 'Vincent' in file:
-        ax.set_ylabel('VVG')
-    else: 
-        ax.set_ylabel('PP')
-
-    if 'Edgar' in images[i]:
-        ax.set_xlabel('ED')
-    elif 'Vincent' in images[i]:
-        ax.set_xlabel('VVG')
-    else: 
-        ax.set_xlabel('PP')
-plt.savefig('img/misclassified.png')
+    ax.axis('off')
+    ax.set_title(labels[int(plot_img.loc[i,2])]) 
+    
+plt.savefig('img/misclassified_imgs.png', bbox_inches='tight')
 plt.tight_layout()
 
+fig, axs = plt.subplots(1,3)
+for i, ax in enumerate(axs.flatten()):
+    xtickLocations = np.arange(len(labels))
+    data = plot_probs[i]
+    ax.bar(xtickLocations, data , width = .5)
+    ax.set_xticks(xtickLocations)
+    ax.axis('off')
+    for i, p in enumerate(data):
+        ax.annotate(f'{p*100:0.1f}%', (p + 0.005, i))
+plt.savefig('img/misclassified_probs.png', bbox_inches='tight')
+plt.tight_layout()
 
