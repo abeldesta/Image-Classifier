@@ -15,6 +15,7 @@ from numpy.random import seed
 from sklearn.model_selection import GridSearchCV
 import os
 import itertools
+import pickle
 plt.style.use('ggplot')
 seed(1217)
 
@@ -136,6 +137,9 @@ if __name__ == "__main__":
     cm = confusion_matrix(test_labels, y_pred)
     print('Confusion Matrix: {}'.format(cm))
 
+    with open('models/randomforest.pkl', 'wb') as f:
+        pickle.dump(rf_model, f)
+
     predictions = np.array(test_labels == y_pred)
     misclass = np.where(predictions == False)[0]
 
@@ -157,6 +161,10 @@ if __name__ == "__main__":
     print('Holdout Gradient Boosting F1 Score: {0}'.format(f_score))
     cm_gdbc = confusion_matrix(test_labels, y_pred_gdbc)
     print('Confusion Matrix: {}'.format(cm))
+
+    with open('models/gradientboost.pkl', 'wb') as f:
+        pickle.dump(gdbc_model, f)
+
 
     predictions = np.array(test_labels == y_pred_gdbc)
     misclass_gdbc = np.where(predictions == False)[0]
@@ -192,7 +200,7 @@ if __name__ == "__main__":
         imgs.append(files)
         os.chdir(home)
 
-    images = np.array(list(itertools.chain.from_iterable(imgs)))
+    images = np.array(list(itertools.chain.from_iterable(imgs)))[misclass]
     wrong_class = test_labels[misclass]
 
     fig, axs = plt.subplots(8,8)
