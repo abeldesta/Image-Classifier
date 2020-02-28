@@ -84,7 +84,18 @@ for i, ax in enumerate(axs.flatten()):
     path_img = os.path.join(home, test_loc, file, images[i])
     img = skimage.io.imread(path_img)
     ax.imshow(img)
-    ax.set_title(file)
-    ax.set_xlabel(images[i])
+    if 'Edgar' in file:
+        ax.set_ylabel('ED')
+    elif 'Vincent' in file:
+        ax.set_ylabel('VVG')
+    else: 
+        ax.set_ylabel('PP')
+
+    if 'Edgar' in images[i]:
+        ax.set_xlabel('ED')
+    elif 'Vincent' in images[i]:
+        ax.set_xlabel('VVG')
+    else: 
+        ax.set_xlabel('PP')
 plt.savefig('img/misclassified.png')
 plt.tight_layout()
