@@ -26,7 +26,7 @@ def bar_chart(labels, data, fig_name, xlabel = None, ylabel = None, title = None
     #plt.xticks(rotation= 85)
     plt.tight_layout()
     for i, p in enumerate(data):
-        ax.annotate(f'{p*100:0.1f}%', (i, p))
+        ax.annotate(f'{p*100:0.1f}%', (i - 0.005, p + 0.005))
     plt.savefig('img/{0}'.format(fig_name))
 
 train_loc = 'data/Train'
