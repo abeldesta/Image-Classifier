@@ -90,12 +90,12 @@ labels = ['Degas', 'Picasso', 'Van Gogh']
 
 fig, axs = plt.subplots(1,3)
 for i, ax in enumerate(axs.flatten()):
-    file = class_names[int(plot_img.loc[i,2])]
-    path_img = os.path.join(home, test_loc, file, plot_img.loc[i,0])
+    file = class_names[int(plot_img.iloc[i,2])]
+    path_img = os.path.join(home, test_loc, file, plot_img.iloc[i,0])
     img = skimage.io.imread(path_img)
     ax.imshow(img)
     ax.axis('off')
-    ax.set_title(labels[int(plot_img.loc[i,2])]) 
+    ax.set_title(labels[int(plot_img.iloc[i,2])]) 
     
 plt.savefig('img/misclassified_imgs.png', bbox_inches='tight')
 plt.tight_layout()
