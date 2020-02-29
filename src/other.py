@@ -100,14 +100,15 @@ for i, ax in enumerate(axs.flatten()):
 plt.savefig('img/misclassified_imgs.png', bbox_inches='tight')
 plt.tight_layout()
 
-fig, axs = plt.subplots(1,3, figsize =(3,3))
+fig, axs = plt.subplots(1,3)
 for i, ax in enumerate(axs.flatten()):
     xtickLocations = np.arange(len(labels))
     data = plot_probs[i]
     ax.bar(xtickLocations, data, 0.5)
-    ax.set_yticks(xtickLocations)
+    ax.set_xticks(xtickLocations)
+    ax.set_xticklabels(labels)
     for i, p in enumerate(data):
-        ax.annotate(f'{p*100:0.1f}%', (p + 0.005, i))
+        ax.annotate(f'{p*100:0.1f}%', (i, p + 0.005))
 plt.savefig('img/misclassified_probs.png')
-plt.tight_layout()
+
 
