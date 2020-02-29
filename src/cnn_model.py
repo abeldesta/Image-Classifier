@@ -118,13 +118,23 @@ class SimpleCNN:
                             input_shape=self.input_shape, name = 'conv_layer6'))
 
         model.add(Activation('relu'))
+        model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer2'))
+
+        model.add(Conv2D(self.nb_filters*2, (kernel_size[0], kernel_size[1]),
+                            padding='valid', 
+                            input_shape=self.input_shape, name = 'conv_layer5'))
+        model.add(Conv2D(self.nb_filters*2, (kernel_size[0], kernel_size[1]),
+                            padding='valid', 
+                            input_shape=self.input_shape, name = 'conv_layer6'))
+
+        model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer4'))
-        model.add(Dropout(0.5))
+        model.add(Dropout(0.6))
         model.add(Flatten())
         print('Model flattened out to ', model.output_shape)
         model.add(Dense(128)) 
         model.add(Activation('relu'))
-        model.add(Dropout(0.6))
+        model.add(Dropout(0.7))
         model.add(Dense(self.nb_classes))
         model.add(Activation('softmax'))
         opt = Adam(lr = .0001)
@@ -219,7 +229,7 @@ if __name__ == "__main__":
     test_loc = os.path.abspath('data/Test/')
     holdout_loc = os.path.abspath('data/Holdout/')
 
-    cnn = SimpleCNN(nb_classes = nb_classes, modelname = 'simpleCNN', nb_epoch=50)
+    cnn = SimpleCNN(nb_classes = nb_classes, modelname = 'simpleCNN', nb_epoch=30)
     cnn.fit(train_loc, test_loc, holdout_loc)
 
 
