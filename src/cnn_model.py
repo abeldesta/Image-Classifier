@@ -122,10 +122,10 @@ class SimpleCNN:
 
         model.add(Conv2D(self.nb_filters*2, (kernel_size[0], kernel_size[1]),
                             padding='valid', 
-                            input_shape=self.input_shape, name = 'conv_layer5'))
+                            input_shape=self.input_shape, name = 'conv_layer7'))
         model.add(Conv2D(self.nb_filters*2, (kernel_size[0], kernel_size[1]),
                             padding='valid', 
-                            input_shape=self.input_shape, name = 'conv_layer6'))
+                            input_shape=self.input_shape, name = 'conv_layer8'))
 
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer4'))
