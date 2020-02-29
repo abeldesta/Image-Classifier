@@ -95,18 +95,28 @@ class SimpleCNN:
         model.add(Conv2D(self.nb_filters, (self.kernel_size[0], self.kernel_size[1]),
                             padding='valid', 
                             input_shape=self.input_shape, name = 'conv_layer1'))
+        model.add(Conv2D(self.nb_filters, (kernel_size[0], kernel_size[1]),
+                            padding='valid', 
+                            input_shape=self.input_shape, name = 'conv_layer2'))
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer1'))
 
         model.add(Conv2D(self.nb_filters, (self.kernel_size[0], self.kernel_size[1]),
                             padding='valid', 
-                            input_shape=self.input_shape, name = 'conv_layer2'))
+                            input_shape=self.input_shape, name = 'conv_layer3'))
+        model.add(Conv2D(self.nb_filters, (kernel_size[0], kernel_size[1]),
+                            padding='valid', 
+                            input_shape=self.input_shape, name = 'conv_layer4'))
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer2'))
 
         model.add(Conv2D(self.nb_filters*2, (kernel_size[0], kernel_size[1]),
                             padding='valid', 
-                            input_shape=self.input_shape, name = 'conv_layer4'))
+                            input_shape=self.input_shape, name = 'conv_layer5'))
+        model.add(Conv2D(self.nb_filters*2, (kernel_size[0], kernel_size[1]),
+                            padding='valid', 
+                            input_shape=self.input_shape, name = 'conv_layer6'))
+
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer4'))
         model.add(Dropout(0.5))
