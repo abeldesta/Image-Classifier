@@ -107,7 +107,7 @@ for i, ax in enumerate(axs.flatten()):
     ax.bar(xtickLocations, data, 0.5)
     ax.set_xticks(xtickLocations)
     ax.set_xticklabels(labels)
-    ax.axis('off')
+    ax.get_yaxis().set_visible(False)
     for i, p in enumerate(data):
         ax.annotate(f'{p*100:0.1f}%', (i, p + 0.005))
 plt.savefig('img/misclassified_probs.png')
