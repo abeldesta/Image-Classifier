@@ -100,7 +100,7 @@ for i, ax in enumerate(axs.flatten()):
 plt.savefig('img/misclassified_imgs.png', bbox_inches='tight')
 plt.tight_layout()
 
-fig, axs = plt.subplots(1,3, fig_size =(3,3))
+fig, axs = plt.subplots(1,3, figsize =(3,3))
 for i, ax in enumerate(axs.flatten()):
     xtickLocations = np.arange(len(labels))
     data = plot_probs[i]
