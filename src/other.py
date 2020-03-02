@@ -110,24 +110,20 @@ for i, ax in enumerate(axs.flatten()):
     ax.imshow(img)
     ax.axis('off')
     ax.set_title(labels[int(plot_img.iloc[i,2])]) 
-    
+    ax.set_xlabel(labels[int(plot_img.iloc[i,1])])
+
 plt.savefig('img/misclassified_imgs.png', bbox_inches='tight')
 plt.tight_layout()
 
+sns.set(font_scale=2.5)
+fig, ax = plt.subplots(figsize=(15,15))
+ax= plt.subplot()
+sns.heatmap(cm_gdbc, annot=True, ax = ax, fmt='g')
 
-# for i in np.arange(len(labels)):
-#     fig, ax = plt.subplots(1,1)
-#     xtickLocations = np.arange(len(labels))
-#     data = plot_probs[i]
-#     ax.bar(xtickLocations, data, 0.5)
-#     ax.set_xticks(xtickLocations)
-#     ax.set_xticklabels(labels)
-#     ax.get_yaxis().set_visible(False)
-#     plt.xticks(rotation= 85)
-#     for i, p in enumerate(data):
-#         ax.annotate(f'{p*100:0.1f}%', (i - .5, p))
-#     plt.savefig('img/misclassified_probs{}.png'.format(i))
-
-bar_chart(labels, plot_probs[0], 'misclassified_probs1')
-bar_chart(labels, plot_probs[1], 'misclassified_probs2')
-bar_chart(labels, plot_probs[2], 'misclassified_probs3')
+# labels, title and ticks
+ax.set_xlabel('Predicted labels')
+ax.set_ylabel('True labels')
+ax.set_title('Confusion Matrix')
+ax.xaxis.set_ticklabels(labels)
+ax.yaxis.set_ticklabels(labels)
+plt.savefig('img/confuse_GDBC.png')
