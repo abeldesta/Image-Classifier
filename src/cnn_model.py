@@ -126,7 +126,7 @@ class SimpleCNN:
         print('Model flattened out to ', model.output_shape)
         model.add(Dense(128)) 
         model.add(Activation('relu'))
-        model.add(Dropout(0.7))
+        model.add(Dropout(0.8))
         model.add(Dense(self.nb_classes))
         model.add(Activation('softmax'))
         opt = Adam(lr = .0001)
@@ -264,21 +264,21 @@ if __name__ == "__main__":
     plt.legend()
     plt.savefig('img/CNN_loss_other.png')
 
-
+    labels = ['Degas', 'Picasso', 'Van Gogh']
     y_preds = np.argmax(y_pred, axis = 1)
     cm = confusion_matrix(cnn.holdout_datagen.classes, y_preds)
     print(cm)
     sns.set(font_scale=2.5)
     fig, ax = plt.subplots(figsize=(15,15))
     ax= plt.subplot()
-    sns.heatmap(cm, annot=True, ax = ax, fmt='g');
-    plt.savefig('img/confuse.png')
-    # # labels, title and ticks
-    # ax.set_xlabel('Predicted labels');
-    # ax.set_ylabel('True labels'); 
-    # ax.set_title('Confusion Matrix'); 
-    # ax.xaxis.set_ticklabels(class_labels); 
-    # ax.yaxis.set_ticklabels(class_labels);
+    sns.heatmap(cm, annot=True, ax = ax, fmt='g')
     
+    # # labels, title and ticks
+    ax.set_xlabel('Predicted labels')
+    ax.set_ylabel('True labels')
+    ax.set_title('Confusion Matrix')
+    ax.xaxis.set_ticklabels(labels)
+    ax.yaxis.set_ticklabels(labels)
+    plt.savefig('img/confuse.png')
 
     
