@@ -97,7 +97,7 @@ class TransferModel:
                         include_top=False,
                         input_shape=input_size)
         self.model = self.add_model_head(base_model, n_categories)
-        opt = Adam(learning_rate = .01)
+        opt = Adam(learning_rate = .0001)
         self.model.compile(loss='categorical_crossentropy',
                     optimizer=opt,
                     metrics=['accuracy', Precision(), Recall()])
@@ -197,4 +197,4 @@ def main():
     
 
 if __name__ == "__main__":
-    pass
+    main()

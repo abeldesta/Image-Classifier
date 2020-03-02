@@ -160,8 +160,6 @@ class ImagePipeline(object):
             if i == self.num_images:
                 break
 
-shape = (100, 100, 3)
-
 
 if __name__ == "__main__":
     main()

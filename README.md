@@ -83,11 +83,32 @@ For my model, I decided to classify three artists to start. I picked the three a
 
 
 ## CNN 
-<p align="center">
-    <img src="img/cnn_model_dark.png" width ='500'/>
-<p/>
+| Layers | Output Shape | # Parameter |
+|--------|--------------|-------------|
+| Convolution Layer | 98 x 98 x 32 | 896 |
+| Convolution Layer | 96 x 96 x 32 | 9248 |
+| Max Pool | 48 x 48 x 32 | 0 |
+| Convolution Layer | 46 x 46 x 64 | 18496 |
+| Convolution Layer | 44 x 44 x 64 | 36928 |
+| Max Pool | 22 x 22 x 64 | 0 |
+| Convolution Layer | 20 x 20 x 96| 55392 |
+| Convolution Layer | 18 x 18 x 96| 83040 |
+| Max Pool | 9 x 9 x 96 | 0 |
+| Flatten | 7776 | 0 |
+| Dense | 128 | 995456 |
+| 60% Dropout | 128 | 0 |
+| Dense | 3 | 387 |
 
-**Figure 3. My final convolution neural network model.**
+* Input Image resolution: 250 x 250 x 3
+* Trained on 1842 images
+* Total Parameters: 1,199,843
+
+# Transfer Learning 
+
+After learning about leveraging knowledge from a model, used to solve a problem unrelated or related to another, to solve a different problem, which is called Transfer Learning. I wanted to determine if a transfer learning model could outperform by CNN built from stratch. I decided to go with a feature extraction approach using Keras' Xception model. 
+
+So, I removed the head of the model and used Xception's pretrained weight to featurize my images into a array. Then, I would be able to take those featurized 1D arrays and train a Random Forest and Gradient Boosted model to determine which model is better.
+
 
 
 # Results 

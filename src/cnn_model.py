@@ -126,7 +126,7 @@ class SimpleCNN:
         print('Model flattened out to ', model.output_shape)
         model.add(Dense(128)) 
         model.add(Activation('relu'))
-        model.add(Dropout(0.8))
+        model.add(Dropout(0.6))
         model.add(Dense(self.nb_classes))
         model.add(Activation('softmax'))
         opt = Adam(lr = .0001)
