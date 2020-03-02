@@ -159,10 +159,10 @@ class SimpleCNN:
                     mode='auto', period=1)
 
         self.hist = self.model.fit_generator(self.train_datagen,
-                        steps_per_epoch=None,
+                        steps_per_epoch=20,
                         epochs=self.nb_epoch, verbose=1,  
                         validation_data=self.validation_datagen,
-                        validation_steps=None,
+                        validation_steps=5,
                         validation_freq=1,
                         callbacks = [checkpoint],
                         class_weight=None,
@@ -262,10 +262,10 @@ if __name__ == "__main__":
     ax.set_title('Model Loss')
     plt.legend()
     plt.savefig('img/CNN_loss_other.png')
+    preds = np.argmax(y_pred)
 
 
-
-    cm = confusion_matrix(cnn.holdout_datagen.classes, y_pred)
+    cm = confusion_matrix(cnn.holdout_datagen.classes, preds)
     print(cm)
     # sns.set(font_scale=2.5)
     # fig, ax = plt.subplots(figsize=(15,15))
