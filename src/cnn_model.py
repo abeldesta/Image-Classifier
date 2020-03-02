@@ -11,6 +11,7 @@ from tensorflow.keras.optimizers import Adam, RMSprop
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications import Xception
 from sklearn.metrics import confusion_matrix
+import seaborn as sns
 from transfer_model import main
 import matplotlib.pyplot as plt 
 from glob import glob
@@ -112,6 +113,15 @@ class SimpleCNN:
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer2'))
 
+        model.add(Conv2D(self.nb_filters*3, self.kernel_size,
+                            padding='valid', 
+                            input_shape=self.input_shape, name = 'conv_layer5'))
+        model.add(Activation('relu'))
+        model.add(Conv2D(self.nb_filters*3, self.kernel_size,
+                            padding='valid', 
+                            input_shape=self.input_shape, name = 'conv_layer6'))
+        model.add(Activation('relu'))
+        model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer4'))
         model.add(Flatten())
         print('Model flattened out to ', model.output_shape)
         model.add(Dense(128)) 
@@ -253,16 +263,16 @@ if __name__ == "__main__":
     ax.set_title('Model Loss')
     plt.legend()
     plt.savefig('img/CNN_loss_other.png')
-    preds = np.argmax(y_pred)
 
 
-    cm = confusion_matrix(cnn.holdout_datagen.classes, preds)
+    y_preds = np.argmax(y_pred, axis = 1)
+    cm = confusion_matrix(cnn.holdout_datagen.classes, y_preds)
     print(cm)
-    # sns.set(font_scale=2.5)
-    # fig, ax = plt.subplots(figsize=(15,15))
-    # ax= plt.subplot()
-    # sns.heatmap(cm, annot=True, ax = ax, fmt='g');
-
+    sns.set(font_scale=2.5)
+    fig, ax = plt.subplots(figsize=(15,15))
+    ax= plt.subplot()
+    sns.heatmap(cm, annot=True, ax = ax, fmt='g');
+    plt.savefig('img/confuse.png')
     # # labels, title and ticks
     # ax.set_xlabel('Predicted labels');
     # ax.set_ylabel('True labels'); 

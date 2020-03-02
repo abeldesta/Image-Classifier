@@ -13,7 +13,7 @@ np.random.seed(1337)  # for reproducibility
 home = os.getcwd()
 
 train_loc = 'data/Train/'
-artist = ['balanced_Edgar_Degas', 'balanced_Pablo_Picasso', 'balanced_Vincent_van_Gogh']
+artist = ['balanced_Edgar_Degas', 'balanced_Paul_Gauguin', 'balanced_Vincent_van_Gogh']
 train_dict = {}
 for i in artist:
     os.chdir(os.path.abspath(train_loc + i))
