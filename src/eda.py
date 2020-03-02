@@ -27,7 +27,7 @@ if __name__ == "__main__":
     width = 0.3
 
     bar_chart(labels, counts, 'paintings_2', 'Artist', 'Image Count', 
-                    'Number of Paintings Per Artist')
+                    'Number of Paintings Per Artist with 120 > Images')
 
     nation = artists.nationality.value_counts()
     labels = nation.index 

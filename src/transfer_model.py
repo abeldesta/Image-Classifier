@@ -123,7 +123,7 @@ class TransferModel:
 
     def print_model_layers(self, indices=0):
         """
-        prints model layers and whether or not they are trainable
+        Prints model layers and whether or not they are trainable
 
         Args:
             model (keras classifier model): model to describe
@@ -164,7 +164,7 @@ class TransferModel:
 
     def evaluate_model(self, model, holdout_gen):
         """
-        evaluates model on holdout data
+        Evaluates model on holdout data
         Args:
             model (keras classifier model): model to evaluate
             holdout_folder (str): path of holdout data

@@ -180,11 +180,6 @@ if __name__ == "__main__":
                                         export_path)
         test_resize.image_folder(test_path)
         test_resize.save_folder('data/Test', i)
-        # test_resize.save_folder('data/Keras_Images', i)
-        # test_resize.image_augmentation()
-        # test_resize.delete_move_folder('data/Keras_Images' , 
-        #                                 'data/Test/resize_{0}/generated_imgs'.format(i), 
-        #                                 'data/Keras_Images/resize_{0}'.format(i))
         #Training Images
         train_path = 'data/Train/{0}/'.format(i)
         train_resize = ImagePipeline(train_dict[i], 
@@ -208,9 +203,4 @@ if __name__ == "__main__":
                                             export_path)
         holdout_resize.image_folder(holdout_path)
         holdout_resize.save_folder('data/Holdout', i)
-        # holdout_resize.save_folder('data/Keras_Images', i)
-        # holdout_resize.image_augmentation()
-        # holdout_resize.delete_move_folder('data/Keras_Images', 
-                                            # 'data/Holdout/resize_{0}/generated_imgs'.format(i), 
-                                            # 'data/Keras_Images/resize_{0}'.format(i))
 

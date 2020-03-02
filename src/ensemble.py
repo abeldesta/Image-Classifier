@@ -3,16 +3,16 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.tree import DecisionTreeClassifier
 from transfer_model import TransferModel
+from sklearn.metrics import precision_score, accuracy_score
+from sklearn.metrics import confusion_matrix, f1_score, recall_score
+from sklearn.model_selection import KFold
+from sklearn.model_selection import GridSearchCV
 import pandas as pd 
 import numpy as np
 import skimage.io
 import skimage.transform
 import matplotlib.pyplot as plt
-from sklearn.metrics import precision_score, accuracy_score
-from sklearn.metrics import confusion_matrix, f1_score, recall_score
-from sklearn.model_selection import KFold
 from numpy.random import seed
-from sklearn.model_selection import GridSearchCV
 import os
 import itertools
 import pickle
@@ -52,6 +52,19 @@ rf = RandomForestClassifier(n_estimators=300,
 
 
 def cross_val(X_train, y_train, k, model):
+    '''
+    Function for KFolds cross validation
+
+    Args:
+        X_train (2D array): Training Data
+        y_train (arrray): Training Labels
+        k (int): Number of folds
+        model: Model to perform cross validation
+
+    Return:
+        list: Accuracy, Precision, Recall and F1 score
+        model: Fitted Model
+    '''
     kf = KFold(n_splits=k, shuffle = True, random_state=0)
     accs = []
     prec = []
@@ -78,8 +91,6 @@ param_grid = {
     'n_estimators': [100, 200, 300, 1000]
 }
 
-# grid_search = GridSearchCV(estimator = rf, param_grid = param_grid, 
-                        #   cv = 3, n_jobs = -1, verbose = 2)
 
 if __name__ == "__main__":
     train_loc = 'data/Train'
@@ -95,14 +106,6 @@ if __name__ == "__main__":
 
     train_df = np.vstack([train_feats, holdout_feats])
     train_labels = np.vstack([train_labels, holdout_labels]).reshape(-1,)
-
-    # base_model = RandomForestClassifier(n_estimators = 100, random_state = 42)
-    # base_model.fit(train_df, train_labels)
-    # base_accuracy = evaluate(base_model, holdout_feats, holdout_labels)
-
-    # grid_search.fit(train_df, train_labels)
-    # best_grid = grid_search.best_estimator_
-    # grid_accuracy = evaluate(best_grid, holdout_feats, holdout_labels)
 
     gdbc = GradientBoostingClassifier(learning_rate=0.1,
                                   loss='deviance',

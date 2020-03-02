@@ -179,7 +179,7 @@ class SimpleCNN:
     
     def evaluate_model(self, model, holdout_gen):
         """
-        evaluates model on holdout data
+        Evaluates model on holdout data
         Args:
             model (keras classifier model): model to evaluate
             holdout_folder (str): path of holdout data
