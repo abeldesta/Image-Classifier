@@ -92,35 +92,35 @@ class SimpleCNN:
 
         model = Sequential() 
 
-        model.add(Conv2D(self.nb_filters*2, (self.kernel_size[0], self.kernel_size[1]),
+        model.add(Conv2D(self.nb_filters, self.kernel_size,
                             padding='valid', 
                             input_shape=self.input_shape, name = 'conv_layer1'))
-        model.add(Conv2D(self.nb_filters, (kernel_size[0], kernel_size[1]),
+        model.add(Activation('relu'))
+        model.add(Conv2D(self.nb_filters, self.kernel_size,
                             padding='valid', 
                             input_shape=self.input_shape, name = 'conv_layer2'))
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=pool_size, name = 'pool_layer1'))
 
-        model.add(Conv2D(self.nb_filters*2, (self.kernel_size[0], self.kernel_size[1]),
+        model.add(Conv2D(self.nb_filters*2, self.kernel_size,
                             padding='valid', 
                             input_shape=self.input_shape, name = 'conv_layer3'))
-        model.add(Conv2D(self.nb_filters, (kernel_size[0], kernel_size[1]),
+        model.add(Activation('relu'))
+        model.add(Conv2D(self.nb_filters*2, self.kernel_size,
                             padding='valid', 
                             input_shape=self.input_shape, name = 'conv_layer4'))
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer2'))
 
-        model.add(Conv2D(self.nb_filters*2, (kernel_size[0], kernel_size[1]),
+        model.add(Conv2D(self.nb_filters*3, self.kernel_size,
                             padding='valid', 
                             input_shape=self.input_shape, name = 'conv_layer5'))
-        model.add(Conv2D(self.nb_filters, (kernel_size[0], kernel_size[1]),
+        model.add(Activation('relu'))
+        model.add(Conv2D(self.nb_filters*3, self.kernel_size,
                             padding='valid', 
                             input_shape=self.input_shape, name = 'conv_layer6'))
-
-        
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer4'))
-        model.add(Dropout(0.6))
         model.add(Flatten())
         print('Model flattened out to ', model.output_shape)
         model.add(Dense(128)) 
@@ -239,34 +239,34 @@ if __name__ == "__main__":
 
     # ##PLOTTING RESULTS
 
-    # acc = cnn.hist.history['acc']
-    # val_acc = cnn.hist.history['val_acc']
-    # loss = cnn.hist.history['loss']
-    # val_loss = cnn.hist.history['val_loss']
-    # epochs = np.arange(1, nb_epoch+1)
+    acc = cnn.hist.history['acc']
+    val_acc = cnn.hist.history['val_acc']
+    loss = cnn.hist.history['loss']
+    val_loss = cnn.hist.history['val_loss']
+    epochs = np.arange(1, nb_epoch+1)
 
-    # fig, ax = plt.subplots(1,1)
-    # ax.plot(epochs, acc, label = 'Training Acc')
-    # ax.plot(epochs, val_acc, label = 'Test Acc')
-    # ax.set_xlabel('Epochs')
-    # ax.set_ylabel('Accuracy')
-    # ax.set_title('Model Accuracy')
-    # plt.legend()
-    # plt.savefig('img/CNN_acc.png')
+    fig, ax = plt.subplots(1,1)
+    ax.plot(epochs, acc, label = 'Training Acc')
+    ax.plot(epochs, val_acc, label = 'Test Acc')
+    ax.set_xlabel('Epochs')
+    ax.set_ylabel('Accuracy')
+    ax.set_title('Model Accuracy')
+    plt.legend()
+    plt.savefig('img/CNN_acc_other.png')
 
-    # fig, ax = plt.subplots(1,1)
-    # ax.plot(epochs, loss, label = 'Training Loss')
-    # ax.plot(epochs, val_loss, label = 'Test Loss')
-    # ax.set_xlabel('Epochs')
-    # ax.set_ylabel('Loss')
-    # ax.set_title('Model Loss')
-    # plt.legend()
-    # plt.savefig('img/CNN_loss.png')
+    fig, ax = plt.subplots(1,1)
+    ax.plot(epochs, loss, label = 'Training Loss')
+    ax.plot(epochs, val_loss, label = 'Test Loss')
+    ax.set_xlabel('Epochs')
+    ax.set_ylabel('Loss')
+    ax.set_title('Model Loss')
+    plt.legend()
+    plt.savefig('img/CNN_loss_other.png')
 
 
 
-    # cm = confusion_matrix(cnn.holdout_datagen.classes, y_pred)
-    # print(cm)
+    cm = confusion_matrix(cnn.holdout_datagen.classes, y_pred)
+    print(cm)
     # sns.set(font_scale=2.5)
     # fig, ax = plt.subplots(figsize=(15,15))
     # ax= plt.subplot()
