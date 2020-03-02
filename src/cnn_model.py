@@ -112,15 +112,6 @@ class SimpleCNN:
         model.add(Activation('relu'))
         model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer2'))
 
-        model.add(Conv2D(self.nb_filters*3, self.kernel_size,
-                            padding='valid', 
-                            input_shape=self.input_shape, name = 'conv_layer5'))
-        model.add(Activation('relu'))
-        model.add(Conv2D(self.nb_filters*3, self.kernel_size,
-                            padding='valid', 
-                            input_shape=self.input_shape, name = 'conv_layer6'))
-        model.add(Activation('relu'))
-        model.add(MaxPooling2D(pool_size=self.pool_size, name = 'pool_layer4'))
         model.add(Flatten())
         print('Model flattened out to ', model.output_shape)
         model.add(Dense(128)) 
