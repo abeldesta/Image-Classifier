@@ -13,7 +13,7 @@ import os
 import itertools
 from transfer_model import TransferModel
 import seaborn as sns
-
+from tensorflow.keras.models import load_model
 
 train_loc = 'data/Train'
 holdout_loc = 'data/Holdout'
@@ -104,7 +104,7 @@ plt.tight_layout()
 sns.set(font_scale=2.5)
 fig, ax = plt.subplots(figsize=(15,15))
 ax= plt.subplot()
-sns.heatmap(cm_gdbc, annot=True, ax = ax, fmt='g')
+sns.heatmap(cm_gdbc, annot=True, annot_kws={"size": 20}, ax = ax, fmt='g')
 
 # labels, title and ticks
 ax.set_xlabel('Predicted labels')
@@ -113,3 +113,25 @@ ax.set_title('TL Confusion Matrix')
 ax.xaxis.set_ticklabels(labels)
 ax.yaxis.set_ticklabels(labels)
 plt.savefig('img/confuse_GDBC.png')
+
+
+model1 = load_model('models/3layerCNN.hdf5')
+y_pred = model1.predict_generator(transfer.holdout_datagen,
+                                    workers = 1,
+                                    use_multiprocessing = True,
+                                    verbose = 1)
+
+
+model = load_model('models/SimpleCNN.hdf5')
+y_pred = model.predict_generator(transfer.holdout_datagen,
+                                    workers = 1,
+                                    use_multiprocessing = True,
+                                    verbose = 1)
+
+metrics = model.evaluate_generator(transfer.holdout_datagen,
+                                    use_multiprocessing=True,
+                                    verbose=1)
+print('Model Score: {0}'.format(metrics[0]))
+print('Holdout Accuracy Score: {0}'.format(metrics[1]))
+print('Holdout Precision Score: {0}'.format(metrics[2]))
+print('Holdout Recall Score: {0}'.format(metrics[3]))
