@@ -282,7 +282,7 @@ if __name__ == "__main__":
     plt.savefig('img/confuse.png')
 
     model1 = load_model('models/3layerCNN.hdf5')
-    y_pred = model.predict_generator(cnn.holdout_datagen,
+    y_pred = model1.predict_generator(cnn.holdout_datagen,
                                         workers = 1,
                                         use_multiprocessing = True,
                                         verbose = 1)
@@ -297,7 +297,7 @@ if __name__ == "__main__":
     # # labels, title and ticks
     ax.set_xlabel('Predicted labels')
     ax.set_ylabel('True labels')
-    ax.set_title('Confusion Matrix')
+    ax.set_title('CNN Confusion Matrix')
     ax.xaxis.set_ticklabels(labels)
     ax.yaxis.set_ticklabels(labels)
     plt.savefig('img/confuse_OG.png')
