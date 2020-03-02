@@ -12,22 +12,8 @@ from numpy.random import seed
 import os
 import itertools
 from transfer_model import TransferModel
-from eda import bar_chart
+import seaborn as sns
 
-def bar_chart(labels, data, fig_name, xlabel = None, ylabel = None, title = None):
-    fig, ax = plt.subplots(1,1)
-    xtickLocations = np.arange(len(labels))
-    ax.bar(xtickLocations, data, width = .5)
-    ax.set_xticks(xtickLocations)
-    ax.set_xticklabels(labels)
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    #plt.xticks(rotation= 85)
-    plt.tight_layout()
-    for i, p in enumerate(data):
-        ax.annotate(f'{p*100:0.1f}%', (i - 0.07, p + 0.005))
-    plt.savefig('img/{0}'.format(fig_name))
 
 train_loc = 'data/Train'
 holdout_loc = 'data/Holdout'
