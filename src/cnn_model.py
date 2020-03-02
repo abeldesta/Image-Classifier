@@ -150,10 +150,10 @@ class SimpleCNN:
                     mode='auto', period=1)
 
         self.hist = self.model.fit_generator(self.train_datagen,
-                        steps_per_epoch=20,
+                        steps_per_epoch=None,
                         epochs=self.nb_epoch, verbose=1,  
                         validation_data=self.validation_datagen,
-                        validation_steps=5,
+                        validation_steps=None,
                         validation_freq=1,
                         callbacks = [checkpoint],
                         class_weight=None,
