@@ -281,4 +281,23 @@ if __name__ == "__main__":
     ax.yaxis.set_ticklabels(labels)
     plt.savefig('img/confuse.png')
 
+    model1 = load_model('models/3layerCNN.hdf5')
+    y_pred = model.predict_generator(cnn.holdout_datagen,
+                                        workers = 1,
+                                        use_multiprocessing = True,
+                                        verbose = 1)
+    y_preds = np.argmax(y_pred, axis = 1)
+    cm = confusion_matrix(cnn.holdout_datagen.classes, y_preds)
+    print(cm)
+    sns.set(font_scale=2.5)
+    fig, ax = plt.subplots(figsize=(15,15))
+    ax= plt.subplot()
+    sns.heatmap(cm, annot=True, ax = ax, fmt='g')
     
+    # # labels, title and ticks
+    ax.set_xlabel('Predicted labels')
+    ax.set_ylabel('True labels')
+    ax.set_title('Confusion Matrix')
+    ax.xaxis.set_ticklabels(labels)
+    ax.yaxis.set_ticklabels(labels)
+    plt.savefig('img/confuse_OG.png')
