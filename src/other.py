@@ -114,24 +114,3 @@ ax.xaxis.set_ticklabels(labels)
 ax.yaxis.set_ticklabels(labels)
 plt.savefig('img/confuse_GDBC.png')
 
-
-model1 = load_model('models/3layerCNN.hdf5')
-y_pred = model1.predict_generator(transfer.holdout_datagen,
-                                    workers = 1,
-                                    use_multiprocessing = True,
-                                    verbose = 1)
-
-
-model = load_model('models/SimpleCNN.hdf5')
-y_pred = model.predict_generator(transfer.holdout_datagen,
-                                    workers = 1,
-                                    use_multiprocessing = True,
-                                    verbose = 1)
-
-metrics = model.evaluate_generator(transfer.holdout_datagen,
-                                    use_multiprocessing=True,
-                                    verbose=1)
-print('Model Score: {0}'.format(metrics[0]))
-print('Holdout Accuracy Score: {0}'.format(metrics[1]))
-print('Holdout Precision Score: {0}'.format(metrics[2]))
-print('Holdout Recall Score: {0}'.format(metrics[3]))
