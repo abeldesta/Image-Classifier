@@ -271,7 +271,7 @@ if __name__ == "__main__":
     sns.set(font_scale=2.5)
     fig, ax = plt.subplots(figsize=(15,15))
     ax= plt.subplot()
-    sns.heatmap(cm, annot=True, ax = ax, fmt='g')
+    sns.heatmap(cm, annot=True, annot_kws={"size": 20}, ax = ax, fmt='g')
     
     # # labels, title and ticks
     ax.set_xlabel('Predicted labels')
@@ -292,7 +292,7 @@ if __name__ == "__main__":
     sns.set(font_scale=2.5)
     fig, ax = plt.subplots(figsize=(15,15))
     ax= plt.subplot()
-    sns.heatmap(cm, annot=True, ax = ax, fmt='g')
+    sns.heatmap(cm, annot=True, annot_kws={"size": 20}, ax = ax, fmt='g')
     
     # # labels, title and ticks
     ax.set_xlabel('Predicted labels')
