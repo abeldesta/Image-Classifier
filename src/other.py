@@ -109,7 +109,7 @@ sns.heatmap(cm_gdbc, annot=True, ax = ax, fmt='g')
 # labels, title and ticks
 ax.set_xlabel('Predicted labels')
 ax.set_ylabel('True labels')
-ax.set_title('Confusion Matrix')
+ax.set_title('Confusion TL Matrix')
 ax.xaxis.set_ticklabels(labels)
 ax.yaxis.set_ticklabels(labels)
 plt.savefig('img/confuse_GDBC.png')
