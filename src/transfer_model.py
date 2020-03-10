@@ -4,7 +4,7 @@ from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from tensorflow.keras.applications.xception import preprocess_input
 from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img,
+from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from tensorflow.keras.metrics import Precision, Recall
 from tensorflow.keras.optimizers import Adam
