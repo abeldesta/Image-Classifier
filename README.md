@@ -109,13 +109,8 @@ After learning about Transfer Learning which leverages knowledge from a model, u
 
 So, I removed the head of the model and used Xception's pretrained weight to featurize my images into a array. Then, I would be able to take those featurized 1D arrays and train a Random Forest and Gradient Boosted model to determine which model is better.
 
-| Holdout metrics | My CNN | TL |
-| Accuracy | 70% | 74% |
-| Precision | 72% | 75% |
-| Recall | 69% | 74% |
-
 # Results 
-### Initial Results
+### Initial CNN Results
 <p align="center">
     <img src="img/OG_CNN_acc.png" width ='400'/>
     <img src="img/OG_CNN_loss.png" width ='400'/>
@@ -131,7 +126,7 @@ In my inital results, I ran the images on a 4 convolution layer model with no dr
 
 In this model, you see the results are much better than my first model. This iteration od my model 3 convolution layers with low dropout. This interation of my model was only able to get up to 70 percent accuracy on the training set and 65 percent accuracy on the test. 
 
-### Final model 
+### Final CNN model 
 
 <p align="center">
     <img src="img/CNN_acc_other.png" width ='400'/>
@@ -140,13 +135,18 @@ In this model, you see the results are much better than my first model. This ite
 
 My final model is mostly the same as the previous, 3 convolution layer, but this time I increased the dropout from .3 to .8 and doubled the number of filters in the last convolution layer. I trained the model for 50 epochs. If you look at the model accuracy and loss at the 10th epoch, the training accuracy and test accuracy are 76 and 74 percent, respectively. From that perspective the model performed better but not by as much as I expected and we start to see that the model overfit to the training set as the epochs increase.
 
-| Holdout Metric | Score | 
-|-----------|-----|
-| Model Score | 0.544|
-| Accuracy Score | 0.789|
-| Precision Score | 0.823|
-| Recall Score | 0.824|
+| Holdout metrics | My CNN | TL |
+|-----------------|--------|----|
+| Accuracy | 70% | 74% |
+| Precision | 72% | 75% |
+| Recall | 69% | 74% |
 
+
+
+<p align="center">
+    <img src="img/confuse_OG.png" width ='400'/>
+    <img src="img/confuse_GDBC.png" width ='400'/>
+<p/>
 
 ## Future Work
 
