@@ -4,7 +4,8 @@ from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from tensorflow.keras.applications.xception import preprocess_input
 from tensorflow.keras.callbacks import ModelCheckpoint
-from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+from tensorflow.keras.preprocessing.image import ImageDataGenerator, array_to_img,
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from tensorflow.keras.metrics import Precision, Recall
 from tensorflow.keras.optimizers import Adam
 import os
@@ -67,7 +68,8 @@ class TransferModel:
 
     def add_model_head(self, base_model, n_categories):
         """
-        Takes a base model and adds a pooling and a softmax output based on the number of categories
+        Takes a base model and adds a pooling and a softmax output based on the 
+        number of categories
 
         Args:
             base_model (keras Sequential model): model to attach head to
@@ -133,7 +135,9 @@ class TransferModel:
             """
 
         for i, layer in enumerate(self.model.layers[indices:]):
-            print("Layer {} | Name: {} | Trainable: {}".format(i+indices, layer.name, layer.trainable))
+            print("Layer {} | Name: {} | Trainable: {}".format(i+indices, 
+                                                            layer.name, 
+                                                            layer.trainable))
 
 
     def fit(self, train_loc, validation_loc, holdout_loc):
