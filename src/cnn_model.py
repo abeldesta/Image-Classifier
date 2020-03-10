@@ -17,7 +17,7 @@ from transfer_model import main
 import matplotlib.pyplot as plt 
 from glob import glob
 import numpy as np
-import seaborn as sns 
+import seaborn as sns
 import os
 from numpy.random import seed
 seed(1217)
