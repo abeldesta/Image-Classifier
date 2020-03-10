@@ -115,12 +115,12 @@ ax.yaxis.set_ticklabels(labels)
 plt.savefig('img/confuse_GDBC.png')
 
 model1 = load_model('models/3layerCNN.hdf5')
-y_pred = model1.predict_generator(cnn.holdout_datagen,
+y_pred = model1.predict_generator(transfer.holdout_datagen,
                                     workers = 1,
                                     use_multiprocessing = True,
                                     verbose = 1)
 y_preds = np.argmax(y_pred, axis = 1)
-cm = confusion_matrix(cnn.holdout_datagen.classes, y_preds)
+cm = confusion_matrix(transfer.holdout_datagen.classes, y_preds)
 print(cm)
 sns.set(font_scale=2.5)
 fig, ax = plt.subplots(figsize=(15,15))
