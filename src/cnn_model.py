@@ -253,7 +253,7 @@ if __name__ == "__main__":
     ax.set_ylabel('Accuracy')
     ax.set_title('Model Accuracy')
     plt.legend()
-    plt.savefig('img/CNN_acc_other.png')
+    plt.savefig('img/CNN_acc_other1.png')
 
     fig, ax = plt.subplots(1,1)
     ax.plot(epochs, loss, label = 'Training Loss')
@@ -262,7 +262,7 @@ if __name__ == "__main__":
     ax.set_ylabel('Loss')
     ax.set_title('Model Loss')
     plt.legend()
-    plt.savefig('img/CNN_loss_other.png')
+    plt.savefig('img/CNN_loss_other1.png')
 
     labels = ['Degas', 'Picasso', 'Van Gogh']
     y_preds = np.argmax(y_pred, axis = 1)
