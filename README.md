@@ -69,9 +69,9 @@ The number of paintings from each artist varied greatly. Which might come from a
 
 ## Pipeline 
 
-The problems dealt with the in the pipline were resizing becasue the images varied in pixel size and shape. So the pipeline would take in a folder of an artists images and resize all the image to the desired shape, which in this case was 100 x 100 x 3. Then to increase number of images the cnn would train on it would take those images and create 10 augmented images per image. 
+An issue I had to fix in the pipline was resizing because the images varied in pixel size and shape. So the pipeline would take in a folder of an artists images and resize all the image to the desired shape, which in this case was 100 x 100 x 3. Then to increase number of images the cnn would train on it would take those images and create 10 augmented images per image. 
 
-For my model, I decided to classify three artists to start. I picked the three artist with the most images in the dataset, Vincent Van Gogh, Edagr Degas, and Pablo Picasso. 
+For my model, I decided to classify three artists to start. I picked three artists with the most images in the dataset, Vincent Van Gogh, Edagr Degas, and Pablo Picasso. 
 
 ### Pipeline Flow
 
