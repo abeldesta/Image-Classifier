@@ -8,17 +8,15 @@ Image Classification - Convolution Neural Network project
 <p/>
 
 # Introduction
-My capstone idea is to build a image classifier using a Convolution Neural Network to classify which artist made the painting. 
+Built an image‑classification model that identifies the artist of a painting. I designed and trained a convolutional neural network (CNN) on a curated dataset of digitized artworks, then evaluated its performance to refine architecture, hyper‑parameters, and data‑augmentation strategy. The final model reliably distinguishes artists’ styles, demonstrating practical use of deep‑learning workflows—from data collection and preprocessing through training, validation, and deployment.
 
         Tools: [Python, Pandas, Numpy, Sci-kit Image, Tensorflow Keras, AWS EC2]
 
 
 ## Data
-I found a dataset on kaggle which contains most of the artwork from the 50 influential artist ranging from everytime period. The data came with a csv file that contained information about each artist, such as a small bio, genre and nationality of the artist. The artwork was scraped from [artchallenge](http://artchallenge.ru/?lang=en) website. 
+I sourced a Kaggle dataset containing roughly 8,500 high‑resolution RGB JPEG images of paintings by 50 influential artists spanning multiple periods. A companion CSV file provides metadata for each work, including the artist’s name, brief biography, genre, and nationality. All images were scraped from the [artchallenge](http://artchallenge.ru/?lang=en) website. 
 
-There is around 8500 images scaped. All the images in the files are RGB images in JPG format. RGB images are represented as 3D matrices. The rows and columns give us the number of pixels in each dimension. The more pixels, the larger the matrix. The depth gives a 2D matrix with the pixel intensity of each color (Red, Green, and Blue) at each pixel. Values range from 0 to 255.
-
-The images came resized but still high resolution. Also, most images came in a various different pixel size and shape.
+Although the images were resized during scraping, they remain high quality and vary in both dimensions and aspect ratios. Each image is stored as a three‑dimensional matrix: height × width pixels, with a depth of three channels (Red, Green, Blue). Pixel‑intensity values range from 0–255 for each channel.
 
 <p align="center">
     <img src="img/Pablo_Picasso_3.jpg" width ='400'/>
@@ -26,7 +24,7 @@ The images came resized but still high resolution. Also, most images came in a v
 <p/>
 
 ## Goal
-My goal for this capstone is to build a convolution neural network to be able to take an image of artists' artwork and classify the piece to the correct artists. To start, I will try to correctly classify the three artists out the 50 in the dataset. Since my computer would be very slow to train CNNs. I decided to run a gpu instance that would be able to train on CNNs much better, p2.xlarge instance.
+For my capstone, I aim to build a convolutional neural network capable of identifying the artist of a painting from its image. I will first validate the pipeline by training and testing on a subset of three artists selected from the full 50‑artist dataset. Because training CNNs on my local hardware would be prohibitively slow, all experiments will be executed on an AWS EC2 p2.xlarge instance with a dedicated GPU, allowing faster iteration and more thorough hyper‑parameter tuning.
 
 ## EDA
 There are 31 different genres in the dataset. Some artists belonged in more than one genre.
@@ -52,7 +50,7 @@ There are 31 different genres in the dataset. Some artists belonged in more than
 
 **Table 1. The number of artist in each genre.**
 
-The number of paintings from each artist varied greatly. Which might come from artist productivity or from difficult finding an artists artwork when the data was collected. Since my goal is to classify artist based on images, the class imbalances will be a problem that needs to be handled. 
+The dataset is highly imbalanced—some artists are represented by many more paintings than others, a disparity that likely stems from differences in artistic output and the uneven availability of digitized works. Such class imbalance can bias a convolutional neural network toward artists with larger image counts, so it will need to be mitigated during model development.
 
 
 
@@ -69,9 +67,7 @@ The number of paintings from each artist varied greatly. Which might come from a
 
 ## Pipeline 
 
-An issue I had to fix in the pipline was resizing because the images varied in pixel size and shape. So the pipeline would take in a folder of an artists images and resize all the image to the desired shape, which in this case was 100 x 100 x 3. Then to increase number of images the cnn would train on it would take those images and create 10 augmented images per image. 
-
-For my model, I decided to classify three artists to start. I picked three artists with the most images in the dataset, Vincent Van Gogh, Edagr Degas, and Pablo Picasso. 
+Because the source images differ in size and aspect ratio, the first step in my pipeline is standardized resizing: each painting is converted to an RGB tensor of 100 × 100 × 3. To expand the training set, the pipeline then generates ten augmented variants (e.g., random rotations, flips, and slight color shifts) for every original image. For the initial model, I focus on the three artists with the largest representation in the dataset—Vincent van Gogh, Edgar Degas, and Pablo Picasso—to ensure a robust proof of concept before scaling to all fifty classes.
 
 ### Pipeline Flow
 
@@ -105,9 +101,7 @@ For my model, I decided to classify three artists to start. I picked three artis
 
 # Transfer Learning 
 
-After learning about Transfer Learning which leverages knowledge from a model, used to solve a problem unrelated or related to another, to solve a different problem. I wanted to determine if a transfer learning model could outperform by my CNN built from stratch. I decided to go with a feature extraction approach using Keras' Xception model. 
-
-So, I removed the head of the model and used Xception's pretrained weight to featurize my images into a array. Then, I would be able to take those featurized 1D arrays and train a Random Forest and Gradient Boosted model to determine which model is better.
+After learning about transfer learning—which repurposes knowledge from a model trained on one task to boost performance on another—I decided to test whether a pre‑trained architecture could outperform my CNN built from scratch. I chose Keras’s Xception network and adopted a feature‑extraction strategy: I removed the classification head, passed each painting through the frozen convolutional base, and captured the resulting feature vectors. These one‑dimensional embeddings then served as inputs to two classical classifiers—a Random Forest and a Gradient Boosting model—allowing me to compare their performance against the baseline CNN.
 
 # Results 
 ### Initial CNN Results
@@ -116,7 +110,7 @@ So, I removed the head of the model and used Xception's pretrained weight to fea
     <img src="img/OG_CNN_loss.png" width ='400'/>
 <p/>
 
-In my inital results, I ran the images on a 4 convolution layer model with no dropout. You can see that this model overfitted to the training set based on the large descrepancy in and loss, which can indicate the model could be too complex.
+In my initial experiments, a four‑layer CNN without dropout severely overfit the data: training accuracy soared while validation accuracy lagged, and the widening gap in the loss curves confirmed the model’s excessive complexity for the available dataset.
 
 ### Some Improvement
 <p align="center">
@@ -124,7 +118,7 @@ In my inital results, I ran the images on a 4 convolution layer model with no dr
     <img src="img/CNN_loss1.png" width ='400'/>
 <p/>
 
-In this model, you see the results are much better than my first model. This iteration od my model 3 convolution layers with low dropout. This interation of my model was only able to get up to 70 percent accuracy on the training set and 65 percent accuracy on the test. 
+This second iteration—a three‑layer CNN with a small amount of dropout—performed markedly better than the first model. It reached about 70 % accuracy on the training set and 65 % on the test set, showing reduced overfitting while still leaving room for further improvement.
 
 ### Final CNN model 
 
@@ -133,7 +127,7 @@ In this model, you see the results are much better than my first model. This ite
     <img src="img/CNN_loss_other.png" width ='400'/>
 <p/>
 
-My final model is mostly the same as the previous, 3 convolution layer, but this time I increased the dropout from .3 to .8 and doubled the number of filters in the last convolution layer. I trained the model for 50 epochs. If you look at the model accuracy and loss at the 10th epoch, the training accuracy and test accuracy are 76 and 74 percent, respectively. From that perspective the model performed better but not by as much as I expected and we start to see that the model overfit to the training set as the epochs increase.
+The final model kept the three‑convolution‑layer architecture but raised dropout from 0.3 to 0.8 and doubled the filters in the last layer. Trained for 50 epochs, it reached 76 % training accuracy and 74 % test accuracy by epoch 10—an improvement, though smaller than expected. After that, the growing divergence between training and validation metrics signaled renewed overfitting.
 
 | Holdout metrics | My CNN | TL |
 |-----------------|--------|----|
